@@ -22,7 +22,7 @@ class ContentMixin(models.Model):
         u'Краткое описание', max_length=200, blank=True)
     description =RichTextUploadingField(verbose_name='Текст')
     category = models.ForeignKey(
-        Category, verbose_name='Категория', on_delete=models.CASCADE)
+        Category, verbose_name='Категория', on_delete=models.CASCADE, blank=True)
     created_date = models.DateTimeField(u'Дата создания', default=timezone.now)
     
     class Meta:
