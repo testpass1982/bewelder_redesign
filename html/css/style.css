@@ -1,0 +1,125 @@
+body {
+    background: url("../img/main-bg.gif") repeat-x #6089c2;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.header {
+    max-width: 1000px;
+    height: 180px;
+    color: #fff;
+    padding: 50px 0 0 0;
+}
+
+.header .container {
+    padding: 0;
+}
+
+.logo-text, .logo-text-2 {
+    font-weight: bold;
+}
+
+.logo-text {
+    font-size: 48px;
+    line-height: 48px;
+    padding-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.logo-text-2 {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.lk {
+    font-size: 13px;
+    text-shadow: 1px 1px #0C2A57;
+}
+
+.lk a {
+    color: inherit;
+}
+
+.btn {
+    background: linear-gradient(to top, #d7691e 30%, #fdef5e 80%);
+    border: 1px solid #d7691e;
+    padding: 8px 20px;
+    font-weight: bold;
+    color: #fff
+}
+
+.btn:hover {
+    color: #fff;
+    box-shadow: 0 0 5px 3px rgba(174,237,255, 0.9)
+}
+
+.btn-header {
+    font-size: 16px;
+    line-height: 23px;
+    font-weight: normal;
+    border: 2px solid #0055ce;
+    padding: 10px 15px;
+    margin: 5px 5px 20px 5px;
+}
+
+.content {
+    max-width: 1000px;
+    height: 500px;
+    background: #fff;
+    border-top: solid 5px #d7691e;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #353e4d;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 35px;
+}
+
+h2 {
+    font-size: 16px;
+    margin: 35px 0 15px 0;
+}
+
+.addvac {
+    padding: 20px;
+    margin: 10px;
+}
+
+h3 {
+    font-size: 13px;
+    height: 48px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #999;
+    background: linear-gradient(to bottom, #d8d8d8, #fff 70%);
+}
+
+.table .col-3 {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.table .col-9 {
+    font-size: 13px;
+}
+
+.table .row {
+    margin-bottom: 15px;
+}
+
+ul {
+    font-size: 12px;
+}
+
+li {
+    font-size: 0.9em;
+    line-height: 1.2em;
+    margin-bottom: 8px;
+}
