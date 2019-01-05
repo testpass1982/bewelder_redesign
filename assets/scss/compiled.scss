@@ -1,0 +1,8 @@
+$blue-test: blue;
+
+.test {
+    color: $blue-test;
+    &:hover{
+        color: black;
+    }
+}
