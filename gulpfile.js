@@ -21,19 +21,19 @@ gulp.task('browser-sync', ['runserver'], function() {
 
 gulp.task('runserver', function() {
     // var cmd = 'cd ..';
-    var proc = exec('cd .. ; python manage.py runserver')
+    var proc = exec('python manage.py runserver')
   })
 
 gulp.task('sass', function(){
-    return gulp.src('scss/*.scss')
+    return gulp.src('assets/scss/*.scss')
         .pipe(wait(500))
         .pipe(sass())
-        .pipe(gulp.dest('../static/css/'))
+        .pipe(gulp.dest('static/css/'))
         .pipe(bs.reload({stream: true}));
 });
 
 gulp.task('watch', ['browser-sync', 'sass'], function() {
-    gulp.watch("scss/*.scss", ['sass']);
-    gulp.watch("../static/js/*.js").on('change', bs.reload);
-    gulp.watch("../**/templates/**/*.html").on('change', bs.reload);
+    gulp.watch("assets/scss/*.scss", ['sass']);
+    gulp.watch("static/js/*.js").on('change', bs.reload);
+    gulp.watch("**/templates/**/*.html").on('change', bs.reload);
 })
