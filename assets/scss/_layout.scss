@@ -1,0 +1,6 @@
+@import '_variables.scss';
+.cont-width-block {
+    max-width: $content-width;
+    width: 100%;
+    margin: auto;
+}
