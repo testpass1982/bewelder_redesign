@@ -1,4 +1,41 @@
 .cont-width-block {
   max-width: 1300px;
   width: 100%;
-  margin: auto; }
+  margin: auto;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+.top-header-logo {
+  display: flex; }
+  @media screen and (max-width: 768px) {
+    .top-header-logo {
+      justify-content: center;
+      padding-bottom: 20px; } }
+
+.top-header-region-select-text {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+  text-align: center; }
+  @media screen and (max-width: 576px) {
+    .top-header-region-select-text {
+      padding: 10px 0px; } }
+
+@media screen and (max-width: 768) {
+  .top-header-input-container {
+    margin-bottom: 30px; } }
+
+.top-header-search-input {
+  width: 100%;
+  height: 35px;
+  border-radius: 3px;
+  border: 1px solid #e8e8e8;
+  padding-left: 10px;
+  padding-right: 35px;
+  background-image: url(/static/img/search_icon.png);
+  background-repeat: no-repeat;
+  background-position: 98% center; }
+  @media screen and (max-width: 768px) {
+    .top-header-search-input {
+      padding: 10px 10px;
+      margin-bottom: 20px; } }
