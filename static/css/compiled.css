@@ -1,0 +1,9 @@
+.test {
+  color: blue; }
+  .test:hover {
+    color: black;
+    background-color: red; }
+  @media screen and (max-width: 600px) {
+    .test {
+      width: 80%;
+      color: black; } }

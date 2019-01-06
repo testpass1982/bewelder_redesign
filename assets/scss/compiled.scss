@@ -1,0 +1,16 @@
+@import '_variables.scss';
+
+
+.test {
+    color: $blue-test;
+    &:hover{
+        color: $black-test;
+        background-color: $red-test;
+        // line-height: 40px;
+        // border: solid 3px green;
+    }
+    @media screen and (max-width: 600px) {
+        width: 80%;
+        color: $black-test;
+    }
+}
