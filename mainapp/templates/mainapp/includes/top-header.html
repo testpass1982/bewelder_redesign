@@ -1,13 +1,31 @@
 {% load static %}
 <div class="cont-width-block">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="top-header-logo"><img src="{% static 'img/BEWELDER_RU_logo.png' %}" alt="bewelder_logo"></div>
+    <div class="row align-items-center py-5">
+        <div class="col-sm-6 col-md-4 col-xl-3">
+            <div class="top-header-logo pb-3"><img src="{% static 'img/BEWELDER_RU_logo.png' %}" alt="bewelder_logo"></div>
         </div>
-        <div class="col-lg-1">Работа в Москве</div>
-        <div class="col-lg-2">Поле поиск</div>
-        <div class="col-lg-2">Точный поиск</div>
-        <div class="col-lg-2">Личный кабинет</div>
-        <div class="col-lg-2">Регистрация</div>
+            <div class="col-sm-6 col-md-2 col-xl-2"><div class="top-header-region-select-text">
+                <i class="fa fa-map-marker p-1"></i>Работа в Москве<i class="fa fa-caret-down"></i>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+        
+            <div class="top-header-input-container mx-auto d-flex">
+                <form class="w-100 p">
+                    <input type="text" class="top-header-search-input" placeholder="Поиск в базе...">
+                </form>
+                <div class="btn btn-link">
+                    Точный поиск
+                </div>
+            </div>
+        
+        </div>
+        <div class="col-xs-12 col-sm-6 offset-lg-3 col-lg-3 offset-xl-0 col-xl-2"><div class="btn btn-light w-100">
+            Личный кабинет
+        </div></div>
+        <div class="col-xs-12 col-sm-6 col-lg-3 col-xl-2"><div class="btn btn-primary w-100">
+            Регистрация
+        </div></div>
+        </div>
     </div>
 </div>
