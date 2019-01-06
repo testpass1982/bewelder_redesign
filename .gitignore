@@ -175,4 +175,3 @@ package-lock.json
 
 # PyCharm
 .idea/
-venv/
