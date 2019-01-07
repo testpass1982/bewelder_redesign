@@ -110,3 +110,5 @@ lib-cov
 .vagrant
 .idea
 *.ini
+node_modules/
+package-lock.json
