@@ -20,6 +20,7 @@ class UserRegistrationViewTestCase(TestCase):
 
         resp = self.client.post(reg_url, data, follow=True)
         self.assertEqual(resp.status_code, 200)
+        self.assertRedirects(resp, '/')
         created_user = User.objects.get(email=data['email'])
         self.assertIsNotNone(created_user)
         self.assertEqual(created_user.first_name, 'Иван')
