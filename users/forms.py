@@ -1,19 +1,25 @@
-from django.contrib.auth.forms import UserCreationForm
-from .models import User
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import User
 
 
 class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('email', 'first_name', 'last_name', 'date_of_birth')
         labels = {
-            'password1': 'пароль',
-            'password2': 'повторите пароль',
-            'first_name': 'имя',
-            'last_name': 'фамилия',
-            'date_of_birth': 'дата рождения',
+            'password1': 'Пароль',
+            'password2': 'Повторите пароль',
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+            'date_of_birth': 'Дата рождения',
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
 
     def clean_email(self):
         email = self.cleaned_data['email']
