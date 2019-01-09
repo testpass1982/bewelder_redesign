@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+vagrant up
+ansible-playbook -i ansible/inventory.ini ansible/playbook.yml -l dev

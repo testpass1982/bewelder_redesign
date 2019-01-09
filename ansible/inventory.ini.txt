@@ -1,0 +1,2 @@
+[dev]
+local ansible_host=bewgb.local ansible_user=vagrant ansible_ssh_pass=vagrant
