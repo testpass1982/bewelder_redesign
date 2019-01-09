@@ -1,0 +1,6 @@
+django
+pillow
+gunicorn
+python-memcached
+django-debug-toolbar-template-profiler
+django-ckeditor
