@@ -1,0 +1,64 @@
+- hosts: all
+
+  vars_files:
+  - 'vars.yml'
+
+  gather_facts: no
+
+  tasks:
+
+  - name: Installing apt packages
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+        - python3-pip
+        - nginx
+        - memcached
+      state: latest
+      autoclean: yes
+    become: yes
+    notify:
+      - restart nginx
+
+  - name: Clone repo
+    git:
+      repo: "{{ repository }}"
+      dest: "{{ site_root }}"
+      update: no
+    become: yes
+    tags: repo
+
+  - name: Installing requirements.txt
+    pip:
+      requirements: '{{ requirements }}'
+      executable: "pip3"
+
+  - name: Gunicorn configuration
+    template:
+      src: etc/systemd/system/gunicorn.service
+      dest: /etc/systemd/system/gunicorn.service
+    become: yes
+
+  - name: Nginx configuration
+    template:
+      src: etc/nginx/sites-available/default
+      dest: /etc/nginx/sites-available/default
+    tags: nginx
+    become: yes
+    notify:
+    - restart nginx
+
+  - name: Enable gunicorn
+    systemd:
+      name: gunicorn
+      state: started
+      enabled: yes
+    become: yes
+
+  handlers:
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+    become: yes
