@@ -1,12 +1,96 @@
 {% extends 'mainapp/base.html' %}
 
 {% block content %}
-
-
-<div class="container">
-    <div class="red_text">
-        Bootstrap works, django-template-includes works
+<div class="main-page-search">
+    <div class="bg">
+        <div class="cont-width-block h-100">
+            <div class="row h-100">
+                <div class="col-5">
+                    <table class="h-100">
+                        <tr>
+                            <td class="align-middle">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1>База вакансий сваровочного производства</h1>
+                                    </div>
+                                </div>
+                                <div class="row text-stat">
+                                    <div class="col">
+                                        Вакансий:
+                                        <p>3560</p>
+                                    </div>
+                                    <div class="col">
+                                        Резюме:
+                                        <p>4580</p>
+                                    </div>
+                                    <div class="col">
+                                        Компаний:
+                                        <p>1200</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col"></div>
+                <div class="col-5">
+                    <table class="h-100">
+                        <tr>
+                            <td class="align-middle">
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="button" class="btn btn-secondary button-add">Разместить резюме</button>
+                                    </div>
+                                    <div class="col text-right">
+                                        <button type="button" class="btn btn-secondary button-add">Разместить вакансию</button>
+                                    </div>
+                                </div>
+                                <div class="cont-fast-search my-4">
+                                    <p>Быстрый поиск</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group mb-3">
+                                              <input type="text" class="form-control" placeholder="Должность" aria-label="Должность" aria-describedby="fast-search-position">
+                                              <div class="input-group-append">
+                                                <span class="input-group-text" id="fast-search-position">^</span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-3">
+                                              <input type="text" class="form-control" placeholder="Город" aria-label="Город" aria-describedby="fast-search-city">
+                                              <div class="input-group-append">
+                                                <span class="input-group-text" id="fast-search-city">^</span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group mb-3">
+                                              <input type="text" class="form-control" placeholder="Тип занятости" aria-label="Тип занятости" aria-describedby="fast-search-type">
+                                              <div class="input-group-append">
+                                                <span class="input-group-text" id="fast-search-type">^</span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-3">
+                                              <input type="text" class="form-control" placeholder="Командировки" aria-label="Командировки" aria-describedby="fast-search-travel">
+                                              <div class="input-group-append">
+                                                <span class="input-group-text" id="fast-search-travel">^</span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-warning text-white px-5">Поиск</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
 {% endblock  %}

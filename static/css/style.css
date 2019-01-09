@@ -1,3 +1,56 @@
-.red_text {
-    color: red;
+.main-page-search {
+    width: 1920px;
+    height: 520px;
+    background: url(/static/img/main-page-search-bg.jpg) no-repeat;
+    color: rgb(255, 255, 255);
+}
+
+.main-page-search .bg {
+    background-color: rgba(255, 218, 85, 0.9);
+    width: 100%;
+    height: 100%;
+}
+
+.main-page-search h1 {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 52px;
+}
+
+.main-page-search .text-stat {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 52px;
+}
+
+.main-page-search .text-stat p {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 52px;
+}
+
+.main-page-search .button-add {
+    width: 208px;
+    font-size: 14px;
+}
+
+.main-page-search .cont-fast-search {
+    background-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    padding: 29px 23px;
+}
+
+.main-page-search .cont-fast-search p {
+    color: #8d8d8d;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.main-page-search .cont-fast-search .btn-warning {
+    font-size: 14px;
+}
+
+.main-page-search .cont-fast-search .form-control {
+    font-size: 12px;
 }
