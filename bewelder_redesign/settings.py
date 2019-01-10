@@ -25,7 +25,14 @@ SECRET_KEY = 'vd0l%=zj66k$^ob5zdwwvxmfiiop198scrjbh*16*2^y(h=xra'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['bewgb.ru', 'bewgb.local', '127.0.0.1']
+=======
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = ['bewgb.ru', 'bewgb.local']
+>>>>>>> dev
 
 
 # Application definition
@@ -108,6 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTH_USER_MODEL = 'users.User'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -188,3 +198,9 @@ CKEDITOR_CONFIGS = {
 # DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 # DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 # DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'users:login'
+LOGOUT_URL = 'users:logout'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/'

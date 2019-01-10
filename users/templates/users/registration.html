@@ -1,0 +1,14 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <form action="{% url 'users:registration' %}" method="post" class="my-5">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+    </form>
+</div>
+
+{% endblock  %}
