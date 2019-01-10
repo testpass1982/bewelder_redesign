@@ -10,6 +10,7 @@ class Level(models.Model):
         ('II', '2 уровень'),
         ('III', '3 уровень'),
         ('IV', '4 уровень'),
+        ('не требуется', 'без аттестации НАКС'),
     )
     name = models.CharField(max_length=20, choices=LEVEL_CHOICES, unique=True)
 

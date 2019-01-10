@@ -25,14 +25,10 @@ SECRET_KEY = 'vd0l%=zj66k$^ob5zdwwvxmfiiop198scrjbh*16*2^y(h=xra'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['bewgb.ru', 'bewgb.local', '127.0.0.1']
-=======
 if DEBUG:
     ALLOWED_HOSTS = []
 else:
     ALLOWED_HOSTS = ['bewgb.ru', 'bewgb.local']
->>>>>>> dev
 
 
 # Application definition
