@@ -4,6 +4,7 @@ from .models import Vacancy, Level
 
 def list(request):
     title = 'Список вакансий',
+
     vacancy_list = Vacancy.objects.filter(
         published=True).order_by('created_date')
 
