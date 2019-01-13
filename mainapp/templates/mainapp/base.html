@@ -8,13 +8,17 @@
     <title>Bewelder learning project</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/compiled.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+{% include 'mainapp/includes/top-header.html' %}
     
 {% block content %}
 {% endblock  %}
+
+{% include 'mainapp/includes/footer.html' %}
 
 <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>

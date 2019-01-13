@@ -1,0 +1,2 @@
+server_name: '{{ ansible_host }}'
+requirements: '{{ site_root }}/ansible/requirements.dev.txt'
