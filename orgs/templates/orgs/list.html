@@ -1,0 +1,38 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+
+<div class="cont-width-block">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-left"></i></a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-right"></i></a></li>
+    </ul>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {% for employer in employer_list %}
+            <div class="card-item">
+                {{ employer.short_name }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-4">
+            <div class="contianer">
+                Side-panel will be here...
+            </div>
+        </div>
+    </div>
+
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-left"></i></a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-right"></i></a></li>
+    </ul>
+</div>
+
+{% endblock %}
