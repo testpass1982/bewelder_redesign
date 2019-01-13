@@ -38,6 +38,10 @@ class NewVisitorTest(unittest.TestCase):
         cards = self.browser.find_elements_by_class_name('card-item')
         self.assertTrue(cards)
 
+        # Пользователь видит заголовки вакансий
+        card_headers = self.browser.find_element_by_class_name('card-vacancy-title')
+        self.assertTrue(card_headers)
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
 
