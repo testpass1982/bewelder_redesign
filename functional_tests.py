@@ -22,7 +22,21 @@ class NewVisitorTest(unittest.TestCase):
 
         self.browser.get('http://localhost:8000')
         self.assertIn('Bewelder learning project', self.browser.title)
-        self.fail('Finish the test!')
+        # self.fail('Finish the test!')
+    
+    def test_can_go_to_vacancies_list(self):
+        #Пользователь переходит на страницу вакансий
+        # и видит заголовок "Список вакансий"
+        self.browser.get('http://localhost:8000/vacancies/list')
+        self.assertIn('Список вакансий', self.browser.title)
+
+        # Пользователь видит заголовок h2 "Список вакансий на странице"
+        header_text = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Список вакансий', header_text)
+
+        # Пользователь видит список карточек с классом card-item
+        cards = self.browser.find_elements_by_class_name('card-item')
+        self.assertTrue(cards)
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
