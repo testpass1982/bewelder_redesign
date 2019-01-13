@@ -41,4 +41,4 @@ class Employer(models.Model):
         unique_together = (('name', 'city'), ('short_name', 'city'))
 
     def __str__(self):
-        return self.name
+        return self.short_name
