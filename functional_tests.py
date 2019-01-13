@@ -19,8 +19,8 @@ class NewVisitorTest(unittest.TestCase):
         # в другой консоли мы запускаем на исполнение функциональное
         # тестирование командой python functional_tests.py
         # прежде всего мы проверяем загузку заголовка главной страницы "Bewelder"
-        self.browser.get('http://localhost:8000')
 
+        self.browser.get('http://localhost:8000')
         self.assertIn('Bewelder learning project', self.browser.title)
         self.fail('Finish the test!')
 
