@@ -4,5 +4,5 @@ import orgs.views as orgs
 
 app_name = 'orgs'
 urlpatterns = [
-    path('list', orgs.list, name='list'),
+    path('/', orgs.list, name='list'),
 ]
