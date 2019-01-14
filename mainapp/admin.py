@@ -1,6 +1,5 @@
 from django.contrib import admin
 from users.models import User, UserManager
-from orgs.models import Employer
 from vacancies.models import Category, Vacancy, Level
 # Register your models here.
 
@@ -10,10 +9,6 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Employer)
-class EmployerAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Vacancy)
