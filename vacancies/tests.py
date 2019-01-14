@@ -5,7 +5,7 @@ from django.http import HttpRequest
 from vacancies.views import list
 from vacancies.models import Vacancy
 from django.core.paginator import Paginator
-from orgs.models import Employer
+from orgs.models import Employer, City, Region
 # Create your tests here.
 
 # class SmokeTest(TestCase):
@@ -15,20 +15,37 @@ from orgs.models import Employer
 
 class VacancyModelTest(TestCase):
 
+    def setUp(self):
+        region_test_data = {
+            'name' : 'MO'
+            }
+        mo_region = Region.objects.create(**region_test_data)
+        city_test_data = {
+            'name': 'MOSCOW',
+            'region': mo_region
+            }
+        moscow = City.objects.create(**city_test_data)
+        employer_test_data = {
+            'name': 'LUKOIL',
+            'short_name': 'LUK',
+            'inn': '123456789012',
+            'city': moscow,
+            'phone': '123',
+            'email': 'test_email@test.com'
+            }
+        self.employer = Employer.objects.create(**employer_test_data)
+
     def test_saving_and_retrieving_vacancies(self):
-        employer = Employer()
-        employer.name = 'LUKOIL'
-        employer.save()
         first_vacancy = Vacancy()
         first_vacancy.title = 'Welder TIG'
         first_vacancy.salary_min = 50000 
-        first_vacancy.employer = employer
+        first_vacancy.employer = self.employer
         first_vacancy.save()
 
         second_vacancy = Vacancy()
         second_vacancy.title = "Welder MIG-MAG"
         second_vacancy.salary_min = 60000
-        second_vacancy.employer = employer
+        second_vacancy.employer = self.employer
         second_vacancy.save()
 
         saved_vacancies = Vacancy.objects.all()
@@ -41,12 +58,28 @@ class VacancyModelTest(TestCase):
 
 class VacanciesListTest(TestCase):
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
+        region_test_data = {
+            'name' : 'MO'
+            }
+        mo_region = Region.objects.create(**region_test_data)
+        city_test_data = {
+            'name': 'MOSCOW',
+            'region': mo_region
+            }
+        moscow = City.objects.create(**city_test_data)
+        employer_test_data = {
+            'name': 'LUKOIL',
+            'short_name': 'LUK',
+            'inn': '123456789012',
+            'city': moscow,
+            'phone': '123',
+            'email': 'test_email@test.com'
+            }
+        self.employer = Employer.objects.create(**employer_test_data)
         number_of_vacancies = 15
-        test_employer = Employer.objects.create(name="Test_Employer_Title")
         for i in range(number_of_vacancies):
-            Vacancy.objects.create(title="title", salary_min=50000, employer=test_employer)
+            Vacancy.objects.create(title="title", salary_min=50000, employer=self.employer)
 
     def test_list_url_resolves_to_list_view(self):
         found = resolve('/vacancies/list')
