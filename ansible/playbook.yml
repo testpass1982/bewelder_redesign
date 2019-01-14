@@ -12,12 +12,13 @@
       name: "{{ packages }}"
     vars:
       packages:
+        - git
         - python3-pip
         - nginx
         - memcached
       state: latest
-      autoclean: yes
     become: yes
+    tags: apt
     notify:
       - restart nginx
 
@@ -26,6 +27,7 @@
       repo: "{{ repository }}"
       dest: "{{ site_root }}"
       update: no
+    when: "'prod' in group_names"
     become: yes
     tags: repo
 

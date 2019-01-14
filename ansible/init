@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "192.168.33.10 bewgb.local" | sudo tee -a /etc/hosts
+sudo apt-get install vagrant ansible
+vagrant up
+ansible-playbook -i inventory.ini playbook.yml -l dev
