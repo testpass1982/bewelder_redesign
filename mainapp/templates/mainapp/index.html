@@ -2,88 +2,91 @@
 
 {% block content %}
 <div class="main-page-search w-100">
-    <div class="bg w-100">
+    <div class="bg w-100 py-4">
         <div class="cont-width-block h-100">
-            <div class="row">
-
-                <div class="col-md-7 col-xl-5">
-                    <div class="row">
-                        <div class="col">
-                            <h1>База вакансий сваровочного производства</h1>
-                        </div>
-                    </div>
-                    <div class="row text-stat">
-                        <div class="col">
-                            Вакансий:
-                            <p>3560</p>
-                        </div>
-                        <div class="col">
-                            Резюме:
-                            <p>4580</p>
-                        </div>
-                        <div class="col">
-                            Компаний:
-                            <p>1200</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-5 col-xl-7">
-                    <div class="row">
-                        <div class="col-xl-4"></div>
-                        <div class="col-xl-8">
-                            <div class="row">
-                                <div class="col">
-                                    <button type="button" class="btn btn-secondary button-add my-2">Разместить резюме</button>
-                                </div>
-                                <div class="col text-right">
-                                    <button type="button" class="btn btn-secondary button-add my-2">Разместить вакансию</button>
-                                </div>
-                            </div>
-                            <div class="cont-fast-search my-2">
-                                <p>Быстрый поиск</p>
+            <table class="h-100">
+                <tr>
+                    <td class="align-middle">
+                        <div class="row">
+                            <div class="col-md-7 col-xl-5">
                                 <div class="row">
-                                    <div class="col-6 col-md-12 col-lg-6">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Должность" aria-label="Должность" aria-describedby="fast-search-position">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                    <div class="col">
+                                        <h1>База вакансий сваровочного производства</h1>
+                                    </div>
+                                </div>
+                                <div class="row text-stat">
+                                    <div class="col">
+                                        Вакансий:
+                                        <p><a class="main-page-search-a" href="{% url 'vacancies:list' %}">3560</a></p>
+                                    </div>
+                                    <div class="col">
+                                        Резюме:
+                                        <p>4580</p>
+                                    </div>
+                                    <div class="col">
+                                        Компаний:
+                                        <p>1200</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-xl-7">
+                                <div class="row">
+                                    <div class="col-xl-4"></div>
+                                    <div class="col-xl-8">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-secondary button-add my-2">Разместить резюме</button>
+                                            </div>
+                                            <div class="col text-right">
+                                                <button type="button" class="btn btn-secondary button-add my-2">Разместить вакансию</button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6 col-md-12 col-lg-6">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Город" aria-label="Город" aria-describedby="fast-search-city">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="fast-search-city"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                        <div class="cont-fast-search my-2">
+                                            <p>Быстрый поиск</p>
+                                            <div class="row">
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Должность" aria-label="Должность" aria-describedby="fast-search-position">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Город" aria-label="Город" aria-describedby="fast-search-city">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-city"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Тип занятости" aria-label="Тип занятости" aria-describedby="fast-search-type">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-type"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Командировки" aria-label="Командировки" aria-describedby="fast-search-travel">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-travel"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-12 col-lg-6">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Тип занятости" aria-label="Тип занятости" aria-describedby="fast-search-type">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="fast-search-type"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-12 col-lg-6">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Командировки" aria-label="Командировки" aria-describedby="fast-search-travel">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="fast-search-travel"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-                                            </div>
+                                            <button type="button" class="btn btn-warning text-white px-5">Поиск</button>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-warning text-white px-5">Поиск</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-            </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
-{% endblock  %}
+{% endblock %}
