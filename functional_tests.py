@@ -42,6 +42,15 @@ class NewVisitorTest(unittest.TestCase):
         card_headers = self.browser.find_element_by_class_name('card-vacancy-title')
         self.assertTrue(card_headers)
 
+        #Пользователь заходит на страницу регистрации
+        #Регистрируется
+        #Заходит в ЛК под своим логином и паролем
+        #Нажимает кнопку "Добавить вакансию"
+        #Заполняет форму
+        #Сохраняет форму
+        #Редактирует форму
+        #и т.д.
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
 
