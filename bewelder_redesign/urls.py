@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 import mainapp.views as mainapp  
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('users/', include('users.urls', namespace='users')),
+    path('vacancies/', include('vacancies.urls', namespace='vacancies')),
+    path('orgs/', include('orgs.urls', namespace='orgs')),
     path('', mainapp.main, name='main')
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
