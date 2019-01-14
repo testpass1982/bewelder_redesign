@@ -2,13 +2,8 @@
 {% block content %}
 
 <div class="cont-width-block">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-left"></i></a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-right"></i></a></li>
-    </ul>
+
+    {% include 'orgs/includes/pagination.html' %}
 
     <div class="row">
         <div class="col-lg-8">
@@ -25,13 +20,8 @@
         </div>
     </div>
 
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-left"></i></a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-arrow-right"></i></a></li>
-    </ul>
+    {% include 'orgs/includes/pagination.html' %}
+
 </div>
 
 {% endblock %}
