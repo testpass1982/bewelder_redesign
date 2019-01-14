@@ -1,4 +1,27 @@
 {% extends 'mainapp/base.html' %}
 {% block content %}
-    this is orgs list
-{% endblock  %}
+
+<div class="cont-width-block">
+
+    {% include 'orgs/includes/pagination.html' %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            {% for employer in employer_list %}
+            <div class="card-item">
+                {{ employer.short_name }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-4">
+            <div class="contianer">
+                Side-panel will be here...
+            </div>
+        </div>
+    </div>
+
+    {% include 'orgs/includes/pagination.html' %}
+
+</div>
+
+{% endblock %}
