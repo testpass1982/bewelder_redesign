@@ -1,0 +1,66 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+
+
+<div class="cont-width-block">
+    <h2>Список вакансий</h2>
+    <ul class="pagination">
+        {% if vacancies.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.previous_page_number }}"><i class="fa fa-arrow-left"></i></a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link"> {{ vacancies.number }}</a></li>
+        {% if vacancies.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.next_page_number}}"><i class="fa fa-arrow-right"></i></a></li>
+        {% endif %}
+    </ul>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {% for vacancy in vacancies %}
+            <div class="card-item">
+                <div class="row align-items-center">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card-image">
+                            <img src="{{ vacancy.employer.logo.url }}" alt="{{ vacancy.employer.name }}">
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-lg-5">
+                        <div class="card-vacancy-title">
+                            {{ vacancy.title }}
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-lg-3">
+                        <div class="card-salary">
+                            от {{ vacancy.salary_min }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-4">
+            <div class="contianer">
+                Side-panel will be here...
+            </div>
+        </div>
+    </div>
+
+       <ul class="pagination">
+        {% if vacancies.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.previous_page_number }}"><i class="fa fa-arrow-left"></i></a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link"> {{ vacancies.number }}</a></li>
+        {% if vacancies.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.next_page_number}}"><i class="fa fa-arrow-right"></i></a></li>
+        {% endif %}
+    </ul>
+
+</div>
+
+
+
+
+
+{% endblock %}

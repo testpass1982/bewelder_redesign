@@ -1,0 +1,45 @@
+@import '_variables.scss';
+
+.card-item {
+    width: 100%;
+    border: 1px solid $light-grey;
+    border-radius: 3px;
+    padding: 21px 27px;
+    margin-bottom: 27px;
+    &:hover {
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.06);
+    }
+}
+
+.card-publication-date {
+    color: $dark-grey;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 27px;
+}
+
+.card-vacancy-title, .card-salary {
+    padding: 16px 0px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 27px;
+}
+
+.card-employer-name {
+    color: $dark-grey;
+    font-size: 14px;
+    font-weight: bolder;
+    line-height: 27px;
+}
+
+.card-city-name, .card-job-type {
+    border-top: 1px solid $light-grey;
+    color: $dark-grey;
+    font-size: 12px;
+    line-height: 27px;
+}
+
+.card-number-of-views {
+    color: $barely-seen-grey;
+}
