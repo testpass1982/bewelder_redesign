@@ -30,8 +30,8 @@ class Employer(models.Model):
     short_name = models.CharField(max_length=255)
     inn = models.CharField(max_length=12)
     city = models.ForeignKey(City, on_delete=models.PROTECT)
-    logo = models.ImageField()
-    site = models.CharField(max_length=255)
+    logo = models.ImageField(blank=True, null=True)
+    site = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=11)
     email = models.EmailField(max_length=255)
 
