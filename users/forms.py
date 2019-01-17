@@ -15,6 +15,9 @@ class UserRegistrationForm(UserCreationForm):
             'last_name': 'Фамилия',
             'date_of_birth': 'Дата рождения',
         }
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'})
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
