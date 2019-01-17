@@ -1,4 +1,6 @@
 {% extends 'mainapp/base.html' %}
+{% load css_extras %}
+
 
 {% block content %}
 
@@ -6,7 +8,27 @@
 <div class="container">
     <form action="{% url 'users:registration' %}" method="post" class="my-5">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                    {% if field.field.required %}*{% endif %}
+                </label>
+                {% if field.errors %}
+                    {{ field|css_class:"form-control is-invalid" }}
+                    <div class="invalid-feedback">
+                        {{ field.errors }}
+                    </div>
+                {% else %}
+                    {{ field|css_class:"form-control" }}
+                {% endif %}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">
+                        {{ field.help_text|safe }}
+                    </small>
+                {% endif %}
+            </div>
+        {% endfor %}
         <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
     </form>
 </div>

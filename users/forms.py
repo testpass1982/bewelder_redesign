@@ -19,11 +19,6 @@ class UserRegistrationForm(UserCreationForm):
             'date_of_birth': forms.DateInput(attrs={'type': 'date'})
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['class'] = 'form-control'
-
     def clean_email(self):
         email = self.cleaned_data['email']
         qs = User.objects.filter(email__iexact=email)
