@@ -122,3 +122,29 @@ class UserUpdateViewTestCase(TestCase):
             resp,
             '{}?next={}'.format(reverse('users:login'), reverse('users:profile_update'))
         )
+
+class ChangePasswordViewTestCase(TestCase):
+
+    def test_password_change(self):
+        username = 'user@foo.bar'
+        password = 'password'
+        user = User.objects.create_user(username, password)
+        self.client.login(username=username, password=password)
+        resp = self.client.get(reverse('users:password_change'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'users/password_change.html')
+
+    def test_password_change_unauthorized(self):
+        resp = self.client.get(reverse('users:password_change'))
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(
+            resp,
+            '{}?next={}'.format(reverse('users:login'), reverse('users:password_change'))
+        )
+
+        resp = self.client.post(reverse('users:password_change'), {})
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(
+            resp,
+            '{}?next={}'.format(reverse('users:login'), reverse('users:password_change'))
+        )
