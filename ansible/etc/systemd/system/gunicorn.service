@@ -6,7 +6,7 @@ After=network.target
 User={{ ansible_user }}
 Group={{ ansible_user }}
 WorkingDirectory={{ site_root }}
-ExecStart=/home/{{ ansible_user }}/.local/bin/gunicorn --workers 3 --bind unix:/tmp/gunicorn.sock bewelder_redesign.wsgi
+ExecStart={{ gunicorn_bin }} --workers 3 --bind unix:/tmp/gunicorn.sock bewelder_redesign.wsgi
 
 [Install]
 WantedBy=multi-user.target

@@ -15,11 +15,9 @@ class UserRegistrationForm(UserCreationForm):
             'last_name': 'Фамилия',
             'date_of_birth': 'Дата рождения',
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['class'] = 'form-control'
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'})
+        }
 
     def clean_email(self):
         email = self.cleaned_data['email']

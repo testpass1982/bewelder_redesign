@@ -1,6 +1,20 @@
 from django.contrib import admin
-from .models import Vacancy, Resume, Category
+from users.models import User, UserManager
+from vacancies.models import Category, Vacancy, Level
 # Register your models here.
-admin.site.register(Category)
-admin.site.register(Vacancy)
-admin.site.register(Resume)
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Vacancy)
+class VacancyAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Level)
+class LevelAdmin(admin.ModelAdmin):
+    pass
