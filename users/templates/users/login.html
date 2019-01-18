@@ -6,7 +6,7 @@
 <div class="container">
     <form action="" method="post" class="my-5">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% include 'includes/bootstrap_form.html' %}
         <button type="submit" class="btn btn-primary">Войти</button>
     </form>
 </div>
