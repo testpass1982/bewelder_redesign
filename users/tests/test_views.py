@@ -1,7 +1,7 @@
 from django.test import TestCase
+from django.urls import reverse
 
 from users.models import User
-from django.urls import reverse
 
 
 class UserRegistrationViewTestCase(TestCase):
@@ -62,8 +62,9 @@ class UserLoginViewTestCase(TestCase):
             'password': 'password',
         }, follow=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertContains(resp, 'Пожалуйста, введите правильные email и пароль. Оба поля могут быть чувствительны к регистру.')
-        
+        self.assertContains(
+            resp, 'Пожалуйста, введите правильные email и пароль. Оба поля могут быть чувствительны к регистру.')
+
         resp = self.client.post(reverse('users:login'), {
             'username': 'user123@foo.bar',
             'password': 'password',
@@ -77,3 +78,47 @@ class UserLogoutViewTestCase(TestCase):
         resp = self.client.get(reverse('users:logout'))
         self.assertEqual(resp.status_code, 302)
         self.assertRedirects(resp, '/')
+
+
+class UserUpdateViewTestCase(TestCase):
+
+    def test_profile_update(self):
+        username = 'user@foo.bar'
+        password = 'password'
+        user = User.objects.create_user(username, password)
+        self.client.login(username=username, password=password)
+        resp = self.client.get(reverse('users:profile_update'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'users/profile_update.html')
+        self.assertEqual(resp.context['user'], user)
+        self.assertEqual(resp.context['user'].first_name, '')
+
+        resp = self.client.post(
+            reverse('users:profile_update'),
+            {
+                'email': 'new@mail.foo',
+                'first_name': 'foo',
+                'last_name': 'bar',
+            }
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, '/')
+        user.refresh_from_db()
+        self.assertEqual(user.email, 'new@mail.foo')
+        self.assertEqual(user.first_name, 'foo')
+        self.assertEqual(user.last_name, 'bar')
+
+    def test_profile_update_unauthorized(self):
+        resp = self.client.get(reverse('users:profile_update'))
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(
+            resp,
+            '{}?next={}'.format(reverse('users:login'), reverse('users:profile_update'))
+        )
+
+        resp = self.client.post(reverse('users:profile_update'), {})
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(
+            resp,
+            '{}?next={}'.format(reverse('users:login'), reverse('users:profile_update'))
+        )
