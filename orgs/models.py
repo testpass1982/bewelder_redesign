@@ -25,6 +25,19 @@ class City(models.Model):
         return self.name
 
 
+class EmployerManager(models.Manager):
+    def create(self, *args, **kwargs):
+        """
+        Check arguments and if 'short_name' is not defined create it.
+        """
+        if 'name' not in kwargs:
+            raise Exception('Employer\'s argument "name" is not defined')
+        if 'short_name' not in kwargs:
+            kwargs['short_name'] = kwargs['name']
+
+        return super(EmployerManager, self).create(*args, **kwargs)
+
+
 class Employer(models.Model):
     name = models.CharField(max_length=255)
     short_name = models.CharField(max_length=255)
@@ -34,6 +47,8 @@ class Employer(models.Model):
     site = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=11)
     email = models.EmailField(max_length=255)
+    # Custom Manager
+    objects = EmployerManager()
 
     class Meta:
         verbose_name = 'работодатель'
