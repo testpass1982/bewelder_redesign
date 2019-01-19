@@ -1,5 +1,9 @@
 from django.test import TestCase
+from django.urls import reverse
 from orgs.models import Employer, City, Region
+
+
+EMPLOYERS_PER_PAGE = 5
 
 
 class EmployerModelTest(TestCase):
@@ -28,3 +32,7 @@ class EmployerModelTest(TestCase):
                 emp_ = Employer.objects.get(name=emp_name, city__name=city_name)
                 self.assertEqual(emp_.name, emp_name)
                 self.assertEqual(emp_.city.name, city_name)
+
+    def test_view_accessible_by_name(self):
+        response = self.client.get(reverse('orgs:list'))
+        self.assertEqual(response.status_code, 200)
