@@ -32,7 +32,7 @@ class EmployerManager(models.Manager):
         """
         if 'name' not in kwargs:
             raise Exception('Employer\'s argument "name" is not defined')
-        if 'short_name' not in kwargs:
+        if ('short_name' not in kwargs) or (kwargs['short_name'] == ''):
             kwargs['short_name'] = kwargs['name']
 
         return super(EmployerManager, self).create(*args, **kwargs)
