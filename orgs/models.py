@@ -22,7 +22,7 @@ class City(models.Model):
         unique_together = ('name', 'region')
 
     def __str__(self):
-        return self.name
+        return '{city} ({region})'.format(city=self.name, region=self.region.name)
 
 
 class EmployerManager(models.Manager):
