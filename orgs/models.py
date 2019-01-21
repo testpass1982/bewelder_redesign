@@ -57,3 +57,7 @@ class Employer(models.Model):
 
     def __str__(self):
         return '{employer} ({city})'.format(employer=self.short_name, city=self.city.name)
+
+    def get_vacancy_count(self):
+        from vacancies.models import Vacancy
+        return Vacancy.objects.filter(employer=self.id).count()
