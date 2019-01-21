@@ -1,5 +1,5 @@
-from orgs.models import Employer
 from django.views import generic
+from orgs.models import Employer
 
 
 EMPLOYERS_PER_PAGE = 5
