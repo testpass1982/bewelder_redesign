@@ -10,10 +10,13 @@ class Resume(models.Model):
     experience = models.PositiveIntegerField('Стаж', null=True, blank=True)
     about = models.TextField('О себе', null=True, blank=True)
     city = models.CharField('Место работы (город)', max_length=100, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'резюме'
         verbose_name_plural = 'резюме'
+        ordering = ['-created']
 
     def __str__(self):
         return 'Резюме: {} {}'.format(self.position.lower(), self.user.get_full_name())
