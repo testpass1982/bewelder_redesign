@@ -33,5 +33,25 @@
     <p>Нет резюме</p>
     {% endfor %}
 
+
+    {% if is_paginated %}
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="{% url 'resumes:resume_list' %}?page={{ page_obj.previous_page_number }}"><i
+                    class="fa fa-arrow-left"></i></a></li>
+        {% endif %}
+        {% for page in page_obj.paginator.page_range %}
+        {% if page == page_obj.number %}
+        <li class="page-item"><a class="page-link text-dark" href="{% url 'resumes:resume_list' %}?page={{ page }}">{{ page }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="{% url 'resumes:resume_list' %}?page={{ page }}">{{ page }}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'resumes:resume_list' %}?page={{ page_obj.next_page_number }}"><i
+                    class="fa fa-arrow-right"></i></a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
 </div>
 {% endblock %}
