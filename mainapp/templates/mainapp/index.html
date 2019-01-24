@@ -89,4 +89,23 @@
         </div>
     </div>
 </div>
+
+{% if resumes %}
+<div class="container h-100 my-5">
+    <div class="row justify-content-center">
+        <div class="col">
+            <h3>Новые резюме</h3>
+            {% for resume in resumes %}
+            {% include 'components/resume_short.html' %}
+            {% endfor %}
+            <a href="{% url 'resumes:resume_list' %}" class="btn
+            btn-secondary mx-5 px-5">Просмотреть все резюме</a>
+            
+        </div>
+    </div>
+    
+</div>
+{% endif %}
+
+
 {% endblock %}
