@@ -19,7 +19,7 @@
             {{ resume.about|linebreaks|truncatewords:10 }}
         </p>
         {% endif %}
-        <a href="{% url 'resumes:resume_detail' pk=resume.id %}" class="btn btn-primary">Подробнее</a>
+        <a href="{% url 'resumes:resume_detail' pk=resume.id %}" class="card-link">Подробнее...</a>
 
     </div>
 </div>
