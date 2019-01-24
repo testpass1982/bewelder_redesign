@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 
 class Resume(models.Model):
@@ -43,3 +44,6 @@ class Resume(models.Model):
             return '{} года'.format(self.experience)
         
         return '{} лет'.format(self.experience)
+
+    def get_absolute_url(self):
+        return reverse('resumes:resume_detail', kwargs={'pk':self.id})
