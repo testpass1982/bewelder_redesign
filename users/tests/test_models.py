@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from users.models import User, UserManager
+from resumes.models import Resume
 
 
 class UserManagerTestCase(TestCase):
@@ -41,3 +42,13 @@ class UserTestCase(TestCase):
     def test_user_get_short_name(self):
         user = User(email='foo@bar.com', first_name='Иван', last_name='Иванов')
         self.assertEqual(user.get_short_name(), 'Иван И.')
+
+    def test_user_is_seeker(self):
+        user = User.objects.create_user('foo@bar.com', 'password')
+        self.assertFalse(user.is_seeker)
+
+        resume = Resume.objects.create(user=user, position='welder')
+        self.assertTrue(user.is_seeker)
+
+        resume.delete()
+        self.assertFalse(user.is_seeker)

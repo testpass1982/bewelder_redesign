@@ -1,0 +1,8 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    {% include 'components/resume_full.html' %}
+    <input type=button value="Назад" onClick="javascript:history.go(-1);" class="btn btn-primary">
+</div>
+{% endblock %}

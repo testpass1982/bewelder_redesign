@@ -25,7 +25,8 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
     path('vacancies/', include('vacancies.urls', namespace='vacancies')),
     path('orgs/', include('orgs.urls', namespace='orgs')),
-    path('', mainapp.main, name='main')
+    path('resumes/', include('resumes.urls', namespace='resumes')),
+    path('', include('mainapp.urls', namespace='mainapp'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

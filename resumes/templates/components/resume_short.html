@@ -1,0 +1,25 @@
+<div class="card my-3">
+    <div class="card-header">{{ resume.position }}</div>
+    <div class="card-body">
+        <h5 class="card-title">
+            {{ resume.user.get_full_name|title }}
+        </h5>
+        {% if resume.salary %}
+        <div class="card-subtitle mb-2 text-muted">
+            Зарплата: {{ resume.salary }}
+        </div>
+        {% endif %}
+        {% if resume.city %}
+        <div class="card-subtitle mb-2 text-muted">
+            Место работы: {{ resume.city }}
+        </div>
+        {% endif %}
+        {% if resume.about %}
+        <p class="card-text">
+            {{ resume.about|linebreaks|truncatewords:10 }}
+        </p>
+        {% endif %}
+        <a href="{% url 'resumes:resume_detail' pk=resume.id %}" class="card-link">Подробнее...</a>
+
+    </div>
+</div>
