@@ -102,7 +102,7 @@ class UserUpdateViewTestCase(TestCase):
             }
         )
         self.assertEqual(resp.status_code, 302)
-        self.assertRedirects(resp, '/')
+        self.assertRedirects(resp, reverse('mainapp:settings'))
         user.refresh_from_db()
         self.assertEqual(user.email, 'new@mail.foo')
         self.assertEqual(user.first_name, 'foo')
