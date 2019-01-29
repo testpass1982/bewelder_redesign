@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="col">
                                         Резюме:
-                                        <p>4580</p>
+                                        <p>{{ resumes_count }}</p>
                                     </div>
                                     <div class="col">
                                         Компаний:
@@ -35,7 +35,7 @@
                                     <div class="col-xl-8">
                                         <div class="row">
                                             <div class="col">
-                                                <button type="button" class="btn btn-secondary button-add my-2">Разместить резюме</button>
+                                                <a href="{% url 'resumes:resume_create' %}" class="btn btn-secondary button-add my-2">Разместить резюме</a>
                                             </div>
                                             <div class="col text-right">
                                                 <button type="button" class="btn btn-secondary button-add my-2">Разместить вакансию</button>
