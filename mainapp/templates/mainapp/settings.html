@@ -24,8 +24,8 @@
         <h4>Ваше резюме</h4>
         <hr>
         {% include 'components/resume_full.html' %}
-        <a href="{% url 'resumes:resume_update' %}" class="btn
-        btn-outline-success">Обновить резюме</a>
+        <a href="{% url 'resumes:resume_update' %}" class="btn btn-outline-success">Обновить резюме</a>
+        <a href="{% url 'resumes:resume_delete' %}" class="btn btn-outline-danger">Удалить резюме</a>
     </div>
     {% else %}
     <div class="my-5">
