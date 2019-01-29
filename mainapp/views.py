@@ -14,7 +14,9 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['resumes'] = Resume.objects.all()[:5]
+        resumes = Resume.objects.all()
+        context['resumes'] = resumes[:5]
+        context['resumes_count'] = resumes.count()
         return context
 
 
