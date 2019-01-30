@@ -8,7 +8,7 @@ from django.db import models
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, first_name='', last_name='',
                     date_of_birth=None, is_active=True, is_staff=False, is_superuser=False,
-                    is_seeker=False, is_employer=False):
+                    is_employer=False):
         """ Create and save user. """
         if not email:
             raise ValueError('User must have an email address')
@@ -20,7 +20,6 @@ class UserManager(BaseUserManager):
             is_active = is_active,
             is_staff = is_staff,
             is_superuser = is_superuser,
-            is_seeker = is_seeker,
             is_employer = is_employer,
         )
         user.set_password(password)
@@ -56,7 +55,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
 
     is_employer = models.BooleanField(default=False)
-    is_seeker = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
@@ -67,6 +65,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+
+    @property
+    def is_seeker(self):
+        return hasattr(self, 'resume') and bool(self.resume.id)
 
     def clean(self):
         super().clean()

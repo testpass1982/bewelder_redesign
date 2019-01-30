@@ -22,7 +22,20 @@ class City(models.Model):
         unique_together = ('name', 'region')
 
     def __str__(self):
-        return self.name
+        return '{city} ({region})'.format(city=self.name, region=self.region.name)
+
+
+class EmployerManager(models.Manager):
+    def create(self, *args, **kwargs):
+        """
+        Check arguments and if 'short_name' is not defined create it.
+        """
+        if 'name' not in kwargs:
+            raise Exception('Employer\'s argument "name" is not defined')
+        if ('short_name' not in kwargs) or (kwargs['short_name'] == ''):
+            kwargs['short_name'] = kwargs['name']
+
+        return super(EmployerManager, self).create(*args, **kwargs)
 
 
 class Employer(models.Model):
@@ -34,6 +47,8 @@ class Employer(models.Model):
     site = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=11)
     email = models.EmailField(max_length=255)
+    # Custom Manager
+    objects = EmployerManager()
 
     class Meta:
         verbose_name = 'работодатель'
@@ -41,4 +56,8 @@ class Employer(models.Model):
         unique_together = (('name', 'city'), ('short_name', 'city'))
 
     def __str__(self):
-        return self.short_name
+        return '{employer} ({city})'.format(employer=self.short_name, city=self.city.name)
+
+    def get_vacancy_count(self):
+        from vacancies.models import Vacancy
+        return Vacancy.objects.filter(employer=self.id).count()
