@@ -1,4 +1,5 @@
 {% extends 'mainapp/base.html' %}
+{% load static %}
 {% block content %}
 
 <div class="cont-width-block">
@@ -12,7 +13,12 @@
                 <div class="row align-items-center">
                     <div class="col-md-6 col-lg-4">
                         <div class="card-image">
-                            <img src="{{ employer.logo }}" alt="{{ employer.short_name }}">
+                            <img src={% if employer.logo %}
+                                       "{{ employer.logo.url }}"
+                                     {% else %}
+                                       "{% static 'img/nofoto.png' %}"
+                                     {% endif %}"
+                                 alt="{{ employer.short_name }}">
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-5">
