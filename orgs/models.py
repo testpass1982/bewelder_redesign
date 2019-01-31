@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Region(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField('Регион', max_length=255, unique=True)
 
     class Meta:
         verbose_name = 'регион'
@@ -13,8 +13,8 @@ class Region(models.Model):
 
 
 class City(models.Model):
-    name = models.CharField(max_length=255)
-    region = models.ForeignKey(Region, on_delete=models.PROTECT)
+    name = models.CharField('Город', max_length=255)
+    region = models.ForeignKey(Region, verbose_name='Регион', on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'город'
@@ -39,14 +39,14 @@ class EmployerManager(models.Manager):
 
 
 class Employer(models.Model):
-    name = models.CharField(max_length=255)
-    short_name = models.CharField(max_length=255)
-    inn = models.CharField(max_length=12)
-    city = models.ForeignKey(City, on_delete=models.PROTECT)
-    logo = models.ImageField(blank=True, null=True)
-    site = models.CharField(max_length=255, blank=True)
-    phone = models.CharField(max_length=11)
-    email = models.EmailField(max_length=255)
+    name = models.CharField('Полное название', max_length=255)
+    short_name = models.CharField('Сокращенное название', max_length=255)
+    inn = models.CharField('ИНН', max_length=12)
+    city = models.ForeignKey(City, verbose_name='Город', on_delete=models.PROTECT)
+    logo = models.ImageField('Логотип', blank=True, null=True)
+    site = models.CharField('Сайт', max_length=255, blank=True)
+    phone = models.CharField('Телефон', max_length=11)
+    email = models.EmailField('Эл. почта', max_length=255)
     # Custom Manager
     objects = EmployerManager()
 
@@ -59,5 +59,9 @@ class Employer(models.Model):
         return '{employer} ({city})'.format(employer=self.short_name, city=self.city.name)
 
     def get_vacancy_count(self):
+        """
+        Found and count number of vacations per current Employer.
+        :return: Number of vacations.
+        """
         from vacancies.models import Vacancy
         return Vacancy.objects.filter(employer=self.id).count()
