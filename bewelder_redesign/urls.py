@@ -26,6 +26,7 @@ urlpatterns = [
     path('vacancies/', include('vacancies.urls', namespace='vacancies')),
     path('orgs/', include('orgs.urls', namespace='orgs')),
     path('resumes/', include('resumes.urls', namespace='resumes')),
+    path('search/', include('haystack.urls')),
     path('', include('mainapp.urls', namespace='mainapp'))
 ]
 if settings.DEBUG:
