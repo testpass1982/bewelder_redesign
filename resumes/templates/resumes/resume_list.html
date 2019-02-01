@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container my-5">
     <h3 class="mb-5">Резюме</h3>
+    {% include 'components/resume_search_form.html' %}
     {% for resume in resumes %}
         {% include 'components/resume_short.html' %}
     {% empty %}

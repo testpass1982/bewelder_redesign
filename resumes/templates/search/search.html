@@ -10,7 +10,7 @@
     </form>
 
     {% if query %}
-        <h3>Результаты</h3>
+        <h3>Результаты поиска</h3>
 
         {% for result in page.object_list %}
             {% with result.object as resume %}
@@ -21,13 +21,13 @@
         {% endfor %}
 
         {% if page.has_previous or page.has_next %}
-            <div>
+            <div class="my-5">
                 {% if page.has_previous %}
-                    <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">&laquo; Предыдущие</a>
+                    <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}{% if request.GET.models %}&amp;models={{request.GET.models}}{% endif %}">&laquo; Предыдущие</a>
                 {% endif %}
                 &#9679;
                 {% if page.has_next %}
-                    <a href="?q={{ query }}&amp;page={{ page.next_page_number }}">Следующие &raquo;</a>
+                    <a href="?q={{ query }}&amp;page={{ page.next_page_number }}{% if request.GET.models %}&amp;models={{request.GET.models}}{% endif %}">Следующие &raquo;</a>
                 {% endif %}
             </div>
         {% endif %}
