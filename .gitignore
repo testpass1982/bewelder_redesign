@@ -116,3 +116,4 @@ package-lock.json
 venv
 geckodriver.log
 /static
+whoosh_index/
