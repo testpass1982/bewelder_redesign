@@ -1,20 +1,22 @@
 import os
 
 from django.conf import settings
+from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
-from haystack.utils.loading import ConnectionHandler, UnifiedIndex
 from haystack import connections
+from haystack.utils.loading import ConnectionHandler, UnifiedIndex
 from mixer.backend.django import mixer
 from resumes.models import Resume
 from resumes.search_indexes import ResumeIndex
+from users.models import User
 
 TEST_INDEX = {
     'default': {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(settings.BASE_DIR, 'whoosh_test_index'),
+        'STORAGE': 'ram',
     },
 }
 
@@ -22,23 +24,12 @@ TEST_INDEX = {
 @override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX)
 class ResumeSearchTestCase(TestCase):
     def setUp(self):
-        super().setUp()
-
         mixer.cycle(5).blend(Resume, position='сварщик')
         mixer.cycle(3).blend(Resume, position='инженер')
 
-        self.old_unified_index = connections['default']._index
-        self.ui = UnifiedIndex()
-        self.resume_index = ResumeIndex()
-        self.ui.build(indexes=[self.resume_index])
-
-        backend = connections['default'].get_backend()
-        backend.clear()
-        backend.update(self.resume_index, Resume.objects.all())
-
-    def tearDown(self):
-        connections['default']._index = self.old_unified_index
-        return super().tearDown()
+        connections.reload('default')
+        call_command('rebuild_index', interactive=False, verbosity=0)
+        super().setUp()
 
     def test_search_view(self):
         resp = self.client.get(reverse('haystack_search'))
