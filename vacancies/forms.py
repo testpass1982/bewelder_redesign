@@ -12,4 +12,4 @@ class VacancyForm(forms.ModelForm):
 
     class Meta:
         model = Vacancy
-        exclude = ('category',)
+        exclude = ('employer', 'category', 'created_date')
