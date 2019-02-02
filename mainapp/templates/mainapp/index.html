@@ -38,7 +38,8 @@
                                                 <a href="{% url 'resumes:resume_create' %}" class="btn btn-secondary button-add my-2">Разместить резюме</a>
                                             </div>
                                             <div class="col text-right">
-                                                <button type="button" class="btn btn-secondary button-add my-2">Разместить вакансию</button>
+                                                <a href="{% url 'vacancies:vacancy_create' %}" class="btn btn-secondary button-add my-2">Разместить вакансию</a>
+                                                {% comment %} <button type="button" class="btn btn-secondary button-add my-2">Разместить вакансию</button> {% endcomment %}
                                             </div>
                                         </div>
                                         <div class="cont-fast-search my-2">

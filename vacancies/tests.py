@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import resolve, reverse
 from django.http import HttpRequest
-from vacancies.views import list
+from vacancies.views import vacancies_list
 from vacancies.models import Vacancy
 from django.core.paginator import Paginator
 from orgs.models import Employer, City, Region
@@ -82,13 +82,14 @@ class VacanciesListTest(TestCase):
             Vacancy.objects.create(title="title", salary_min=50000, employer=self.employer)
 
     def test_list_url_resolves_to_list_view(self):
-        found = resolve('/vacancies/list')
-        self.assertEqual(found.func, list)
+        found = resolve('/vacancies/list/')
+        self.assertEqual(found.func, vacancies_list)
 
     def test_list_page_returns_correct_html(self):
-        response = self.client.get('/vacancies/list')
+        response = self.client.get('/vacancies/list/')
+        self.assertTrue(response.status_code, '200')
         html = response.content.decode('utf8')
-        self.assertTrue(html.startswith('\n<!DOCTYPE html>\n<html lang="en">'))
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertIn('<title>Список вакансий</title>', html)
         self.assertTrue(html.strip().endswith('</html>'))
         self.assertTemplateUsed(response, 'vacancies/list.html')
@@ -101,3 +102,10 @@ class VacanciesListTest(TestCase):
         paginator = Paginator(Vacancy.objects.all(), 10)
         self.assertEqual(paginator.count, 15)
         self.assertEqual(paginator.num_pages, 2)
+
+class VacancyAddTest(TestCase):
+
+    def test_load_form_correctly(self):
+        response = self.client.get(reverse('vacancies:vacancy_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed('add-new-vacancy.html')
