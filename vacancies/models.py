@@ -26,7 +26,7 @@ class Level(models.Model):
 
 class Vacancy(models.Model):
     """base class for vacancy model"""
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
     title = models.CharField(u"Название", max_length=80)
     employer = models.ForeignKey(Employer, default=None, on_delete=models.CASCADE)
     salary_min = models.IntegerField(u'Зарплата от', blank=True)
