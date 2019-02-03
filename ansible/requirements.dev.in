@@ -4,3 +4,7 @@ gunicorn
 python-memcached
 django-debug-toolbar-template-profiler
 django-ckeditor
+django-haystack
+mixer
+psycopg2-binary
+whoosh
