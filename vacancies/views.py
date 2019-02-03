@@ -31,8 +31,6 @@ def add_new_vacancy(request):
     # TODO: need to make a form to choice or add employer with region and city
     if request.method == 'POST':
         form = VacancyForm(request.POST)
-        print('FORM', form.errors)
-        print(request.POST)
 
         if form.is_valid():
             vacancy = form.save(commit=False)
