@@ -3,3 +3,6 @@ django-ckeditor
 pillow
 gunicorn
 python-memcached
+mixer
+psycopg2-binary
+whoosh
