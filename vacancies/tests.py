@@ -3,11 +3,13 @@ from django.test import Client
 from django.urls import resolve, reverse
 from django.http import HttpRequest
 from vacancies.views import vacancies_list
-from vacancies.models import Vacancy
+from vacancies.models import Vacancy, Level
 from django.core.paginator import Paginator
 from orgs.models import Employer, City, Region
 from users.models import User
 from http import HTTPStatus
+from vacancies.forms import VacancyForm
+from django.shortcuts import get_object_or_404
 
 # Create your tests here.
 
@@ -127,6 +129,25 @@ class VacanciesListTest(TestCase):
 
 class VacancyFormAddTest(TestCase):
 
+    def setUp(self):
+        self.user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        self.user = User.objects.create(**self.user_test_data)
+        self.level = Level.objects.create(name='I')
+
+        self.vacancy_test_data = {
+            'title': 'WELDER',
+            'salary_min': '100',
+            'salary_max': '200',
+            'naks_att_level': [self.level.id],
+            'short_description': 'WELDER NEEDED',
+            'description': '<p>WELDER NEEDED</p>\r\n'
+        }
+
     def test_load_form_correctly(self):
         response = self.client.get(reverse('vacancies:vacancy_create'))
         status_codes = (
@@ -139,3 +160,40 @@ class VacancyFormAddTest(TestCase):
         )
         self.assertIn(response.status_code, status_codes)
         self.assertTemplateUsed('add-new-vacancy.html')
+
+    def test_valid_data(self):
+        form = VacancyForm(self.vacancy_test_data)
+        self.assertTrue(form.is_valid())
+    
+    def test_missing_form_fields(self):
+        incorrect_form_data = {}
+        form = VacancyForm(incorrect_form_data)
+        errors = form.errors.as_data()
+        self.assertEqual(len(errors), 3)
+        self.assertEqual(errors['title'][0].code, 'required')
+        self.assertEqual(errors['short_description'][0].code, 'required')
+        self.assertEqual(errors['naks_att_level'][0].code, 'required')
+    
+    def test_passing_string_to_salary_fields(self):
+        incorrect_salary = self.vacancy_test_data
+        incorrect_salary['salary_min'] = 'one hundred thousands'
+        incorrect_salary['salary_max'] = 'two hundred thousands'
+        form = VacancyForm(self.vacancy_test_data)
+        self.assertFalse(form.is_valid())
+
+    def test_save_correct_form_to_database_and_redirect_to_settings(self):
+        response = self.client.get('/vacancies/new/')
+        self.assertRedirects(response, '/users/login/?next=/vacancies/new/')
+        self.client.login(username='foo@bar.com', possword='testpass')
+        
+        # response.client.login(
+        #     email=self.user_test_data['email'], 
+        #     password=self.user_test_data['password'])
+        # self.assertRedirects(response, '/settings/')
+        # correct_form_data = self.vacancy_test_data
+        # correct_form_data['title'] = 'test vacancy'
+        # response.client.post('/vacancies/new/', data=correct_form_data)
+        # self.assertRedirects(response, '/settings/')
+        
+
+

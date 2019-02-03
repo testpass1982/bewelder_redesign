@@ -33,8 +33,8 @@ class Vacancy(models.Model):
     salary_max = models.IntegerField(u'Зарплата до', blank=True, null=True)
     naks_att_level = models.ManyToManyField(Level, verbose_name="Уровень аттестации НАКС") 
     short_description = models.CharField(
-        u'Краткое описание вакансии', max_length=200, blank=True)
-    description = RichTextUploadingField(verbose_name='Описание вакансии') 
+        u'Краткое описание вакансии', max_length=200)
+    description = RichTextUploadingField(blank=True, verbose_name='Описание вакансии') 
     category = models.ForeignKey(
         Category, verbose_name='Категория', on_delete=models.CASCADE, blank=True, null=True)
     created_date = models.DateTimeField(u'Дата создания', default=timezone.now)

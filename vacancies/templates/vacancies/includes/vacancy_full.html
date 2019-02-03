@@ -2,6 +2,7 @@
 <h3>{{ vacancy.employer|title }}</h3>
 {% endif %}
 <p>
+    Название вакансии: <strong>{{ vacancy.title }}</strong><br>
     Краткое описание: {{ vacancy.short_description }}<br>
 
     {% if vacancy.salary_min %}
