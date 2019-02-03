@@ -28,10 +28,10 @@ class Vacancy(models.Model):
     """base class for vacancy model"""
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
     title = models.CharField(u"Название", max_length=80)
-    employer = models.ForeignKey(Employer, default=None, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, blank=True, null=True, on_delete=models.CASCADE)
     salary_min = models.IntegerField(u'Зарплата от', blank=True)
     salary_max = models.IntegerField(u'Зарплата до', blank=True, null=True)
-    naks_att_level = models.ManyToManyField(Level) 
+    naks_att_level = models.ManyToManyField(Level, verbose_name="Уровень аттестации НАКС") 
     short_description = models.CharField(
         u'Краткое описание вакансии', max_length=200, blank=True)
     description = RichTextUploadingField(verbose_name='Описание вакансии') 

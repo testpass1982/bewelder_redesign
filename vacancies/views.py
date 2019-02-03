@@ -6,6 +6,9 @@ from django.urls import reverse
 from orgs.models import Employer
 from .models import Vacancy, Level
 from .forms import VacancyForm
+# from orgs.forms import EmployerForm, RegionForm, CityForm
+from django.contrib.auth.decorators import login_required
+# from django.forms.formsets import formset_factory
 # Create your views here.
 
 def vacancies_list(request):
@@ -22,16 +25,16 @@ def vacancies_list(request):
     }
     return render(request, 'vacancies/list.html', content)
 
+@login_required
 def add_new_vacancy(request):
     title = 'Добавление вакансии'
+    # TODO: need to make a form to choice or add employer with region and city
     if request.method == 'POST':
-        # print(request.POST)
         form = VacancyForm(request.POST)
 
         if form.is_valid():
             vacancy = form.save(commit=False)
             vacancy.user = request.user
-            vacancy.employer = Employer.objects.get(pk=1)
             form.save()
             return HttpResponseRedirect(reverse('mainapp:settings'))
     else:
@@ -43,10 +46,10 @@ def add_new_vacancy(request):
     }
     return render(request, 'vacancies/add-new-vacancy.html', content)
 
-def update_vacancy(request):
+def update_vacancy(request, pk):
     pass
 
-def delete_vacancy(request):
+def delete_vacancy(request, pk):
     pass
 
 

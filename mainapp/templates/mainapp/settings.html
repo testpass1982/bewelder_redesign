@@ -34,23 +34,20 @@
     {% endif %}
     {% endwith %}
 
-    {% with vacancies=user.vacancies %}
     {% if vacancies %}
     <div class="my-5">
         <h4>Ваши вакансии</h4>
         <hr>
         {% for vacancy in vacancies %}
-        {% include 'components/resume_full.html' %}
-        <a href="{% url 'vacancies:vacancy_update' %}" class="btn btn-outline-success">Обновить вакансию</a>
-        <a href="{% url 'vacancies:vacancy_delete' %}" class="btn btn-outline-danger">Удалить вакансию</a>
+        {% include 'vacancies/includes/vacancy_full.html'%}
+        <a href="{% url 'vacancies:vacancy_update' vacancy.pk %}" class="btn btn-outline-success">Обновить вакансию</a>
+        <a href="{% url 'vacancies:vacancy_delete' vacancy.pk %}" class="btn btn-outline-danger">Удалить вакансию</a>
         {% endfor %}
     </div>
-    {% else %}
+    {% endif %}
     <div class="my-5">
         <a href="{% url 'vacancies:vacancy_create' %}" class="btn btn-success btn-lg btn-block">Создать вакансию</a>
     </div>
-    {% endif %}
-    {% endwith %}
 </div>
 
 {% endblock %}

@@ -7,6 +7,8 @@ from vacancies.models import Vacancy
 from django.core.paginator import Paginator
 from orgs.models import Employer, City, Region
 from users.models import User
+from http import HTTPStatus
+
 # Create your tests here.
 
 # class SmokeTest(TestCase):
@@ -127,5 +129,13 @@ class VacancyFormAddTest(TestCase):
 
     def test_load_form_correctly(self):
         response = self.client.get(reverse('vacancies:vacancy_create'))
-        self.assertEqual(response.status_code, 200)
+        status_codes = (
+            HTTPStatus.ACCEPTED,
+            HTTPStatus.MOVED_PERMANENTLY,
+            HTTPStatus.FOUND,
+            HTTPStatus.SEE_OTHER,
+            HTTPStatus.TEMPORARY_REDIRECT,
+            HTTPStatus.PERMANENT_REDIRECT,
+        )
+        self.assertIn(response.status_code, status_codes)
         self.assertTemplateUsed('add-new-vacancy.html')
