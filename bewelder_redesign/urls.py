@@ -23,9 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('users/', include('users.urls', namespace='users')),
-    path('vacancies/', include('vacancies.urls', namespace='vacancies')),
     path('orgs/', include('orgs.urls', namespace='orgs')),
     path('resumes/', include('resumes.urls', namespace='resumes')),
+    path('vacancies/', include('vacancies.urls', namespace='vacancies')),
     path('search/', include('haystack.urls')),
     path('', include('mainapp.urls', namespace='mainapp'))
 ]
