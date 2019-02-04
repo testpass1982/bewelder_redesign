@@ -64,11 +64,18 @@
       password: '{{ db_pass }}'
       priv: ALL
 
+  - name: Create directories
+    file:
+      path: '{{ site_root }}/whoosh_index'
+      state: directory
+      mode: 0777
+
   - name: Migrations
     command: python3 manage.py "{{ item }}" chdir="{{ site_root }}"
     with_items:
     - 'makemigrations'
     - 'migrate'
+    - 'rebuild_index'
     tags: migrations
 
   - name: Gunicorn configuration
