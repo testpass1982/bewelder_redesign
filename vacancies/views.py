@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
@@ -47,7 +48,21 @@ def add_new_vacancy(request):
     return render(request, 'vacancies/add-new-vacancy.html', content)
 
 def update_vacancy(request, pk):
-    pass
+    vacancy = get_object_or_404(Vacancy, pk=pk)
+    print(vacancy)
+    if request.method == 'POST':
+        form = VacancyForm(request.POST, instance=vacancy)
+        if form.is_valid():
+            vacancy = form.save(commit=False)
+            form.user = request.user
+            vacancy.save()
+            return HttpResponseRedirect(reverse('mainapp:settings'))
+    else:
+        form = VacancyForm(instance=vacancy)
+    content = {
+        'form': form,
+    }
+    return render(request, 'vacancies/update-vacancy.html', content)
 
 def delete_vacancy(request, pk):
     pass

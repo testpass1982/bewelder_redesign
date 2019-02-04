@@ -19,3 +19,11 @@ Running **gulp-compilation** and **browser-sync**:
 1. cd /bewelder_redesign (project root folder with manage.py)
 2. gulp watch
 3. visit http://127.0.0.1:8000 (or link, that shown in console)
+
+**PosgreSQL DB** set up
+search made with [haystack](https://django-haystack.readthedocs.io/en/master/) and [whoosh](https://whoosh.readthedocs.io/en/latest/intro.html)
+1. sudo apt update
+2. sudo apt install libpq-dev postgresql postgresql-contrib
+3. pip install -r requirements.txt
+4. bash postgres_db_create.bash
+5. bash postgres_db_drop.bash

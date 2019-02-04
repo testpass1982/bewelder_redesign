@@ -10,6 +10,8 @@ from users.models import User
 from http import HTTPStatus
 from vacancies.forms import VacancyForm
 from django.shortcuts import get_object_or_404
+from mixer.backend.django import mixer
+import random
 
 # Create your tests here.
 
@@ -188,6 +190,47 @@ class VacancyFormAddTest(TestCase):
         self.client.post('/vacancies/new/', data=self.vacancy_test_data)
         vacancy = Vacancy.objects.first()
         self.assertEqual(vacancy.user, self.user)
-        
+
+class VacancyEditTest(TestCase):
+
+    def setUp(self):
+        mixer.cycle(1).blend(Level)
+        self.levels = Level.objects.all()
+        mixer.cycle(15).blend(Vacancy, naks_att_level__id=mixer.SELECT)
+        self.vacancies = Vacancy.objects.all()
+        self.vacancy = self.vacancies[random.randint(0, 14)]
+        self.vacancy_data = self.vacancy.__dict__
+        # vacancies = [repr(r) for r in Vacancy.objects.all()[:10]]
+    
+    def test_vacancies_are_in_database(self):
+        self.assertEqual(len(self.vacancies), 15)
+
+    def test_get_vacancy_by_id(self):
+        vacancy = Vacancy.objects.get(id=self.vacancies[0].id)
+        self.assertTrue(vacancy)
+        self.assertTrue(isinstance(vacancy.title, str))
+        self.assertTrue(isinstance(vacancy.salary_min, int))
+
+    def test_get_vacancy_by_id(self):
+        url = reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed('update-vacancy.html')
+        self.assertTrue(isinstance(response.context['form'], VacancyForm))
+    
+    def test_vacancy_form_exist(self):
+        url = reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.pk})
+        response = self.client.get(url)
+        self.assertTrue(response.status_code, 200)
+        self.assertTrue(isinstance(response.context['form'], VacancyForm))
+        form = VacancyForm(data=self.vacancy_data)
+        form.save(commit=False)
+        form.user = 
+        new_vacancy = form.save()
+        self.assertTrue(form.is_valid())
+
+
+
+
 
 
