@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'orgs',
     'ckeditor',
     'ckeditor_uploader',
+    'search',
 ]
 
 MIDDLEWARE = [

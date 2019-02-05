@@ -10,7 +10,7 @@ from haystack import connections
 from haystack.utils.loading import ConnectionHandler, UnifiedIndex
 from mixer.backend.django import mixer
 from resumes.models import Resume
-from resumes.search_indexes import ResumeIndex
+from search.search_indexes import ResumeIndex
 from users.models import User
 
 TEST_INDEX = {
