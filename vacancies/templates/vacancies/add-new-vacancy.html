@@ -3,13 +3,16 @@
 {% block content %}
 <div class="cont-width-block">
     <div class="m-5">
-        <h5>Резюме</h5>
+        <h5>Вакансия</h5>
         <h2>{{ user.get_full_name|title }}</h2>
         <form method="post" class="my-3">
             {% csrf_token %}
-            {% include 'includes/bootstrap_form.html' %}
+            {{ form.media }}
+            {{ form.as_p }}
+
             <input type="submit" value="Сохранить" class="btn btn-success">
         </form>
     </div>
 </div>
+
 {% endblock %}

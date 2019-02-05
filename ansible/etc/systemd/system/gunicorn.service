@@ -3,6 +3,9 @@ Description=gunicorn daemon
 After=network.target
 
 [Service]
+{% if 'prod' in group_names %}
+Environment=DJANGO_DEBUG=
+{% endif %}
 User={{ ansible_user }}
 Group={{ ansible_user }}
 WorkingDirectory={{ site_root }}
