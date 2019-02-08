@@ -52,3 +52,23 @@ class ResumeSearchTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(len(resp.context['page'].object_list), 3)
         self.assertEqual(resp.context['page'].object_list[0].content_type(), 'resumes.resume')
+
+    def test_search_complex_query(self):
+        queries = [
+            'сварщик, москва',
+            'сварщики, москва',
+            'москва, сварщик',
+            'москва, сварщики',
+            'сварщик в москве',
+            'сварщики по Москве',
+            'сварщики из москвы',
+        ]
+
+        mixer.cycle(3).blend(Resume, position='сварщик', city='Москва')
+
+        for query in queries:
+            with self.subTest(q=query):
+                resp = self.client.get(self.search_url, {'q': query})
+                self.assertEqual(resp.status_code, 200)
+                self.assertEqual(len(resp.context['page'].object_list), 3)
+                self.assertEqual(resp.context['page'].object_list[0].content_type(), 'resumes.resume')
