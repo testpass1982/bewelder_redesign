@@ -3,6 +3,8 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from mainapp.models import Category
 from orgs.models import Employer
 from django.utils import timezone
+from django.contrib.auth import get_user_model
+
 # Create your models here.
 
 class Level(models.Model):
@@ -24,14 +26,15 @@ class Level(models.Model):
 
 class Vacancy(models.Model):
     """base class for vacancy model"""
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
     title = models.CharField(u"Название", max_length=80)
-    employer = models.ForeignKey(Employer, default=None, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, blank=True, null=True, on_delete=models.CASCADE)
     salary_min = models.IntegerField(u'Зарплата от', blank=True)
     salary_max = models.IntegerField(u'Зарплата до', blank=True, null=True)
-    naks_att_level = models.ManyToManyField(Level) 
+    naks_att_level = models.ManyToManyField(Level, verbose_name="Уровень аттестации НАКС") 
     short_description = models.CharField(
-        u'Краткое описание вакансии', max_length=200, blank=True)
-    description = RichTextUploadingField(verbose_name='Описание вакансии') 
+        u'Краткое описание вакансии', max_length=200)
+    description = RichTextUploadingField(blank=True, verbose_name='Описание вакансии') 
     category = models.ForeignKey(
         Category, verbose_name='Категория', on_delete=models.CASCADE, blank=True, null=True)
     created_date = models.DateTimeField(u'Дата создания', default=timezone.now)

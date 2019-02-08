@@ -1,0 +1,25 @@
+{% if vacancy.employer %}
+<h3>{{ vacancy.employer|title }}</h3>
+{% endif %}
+<p>
+    Название вакансии: <strong>{{ vacancy.title }}</strong><br>
+    Краткое описание: {{ vacancy.short_description }}<br>
+
+    {% if vacancy.salary_min %}
+    Зарплата от:
+    {{ vacancy.salary_min }}<br>
+    {% endif %}
+
+    {% if vacancy.salary_max %}
+    Зарплата до:
+    {{ vacancy.salary_max }}
+    {% endif %}
+
+    {% if vacancy.category %}
+    Категория: {{ vacancy.category }}<br>
+    {% endif %}
+
+    {% if vacancy.employer %}
+    Город: {{ vacancy.employer.city|title }}<br>
+    {% endif %}
+</p>

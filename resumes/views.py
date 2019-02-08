@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
+from django.http import Http404
 
 from resumes.forms import ResumeForm
 from resumes.models import Resume
@@ -39,3 +41,14 @@ class ResumeUpdate(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user.resume
+
+
+class ResumeDelete(LoginRequiredMixin, DeleteView):
+    model = Resume
+    success_url = reverse_lazy('mainapp:settings')
+
+    def get_object(self, queryset=None):
+        user = self.request.user
+        if user.is_anonymous or not user.is_seeker:
+            raise Http404
+        return user.resume
