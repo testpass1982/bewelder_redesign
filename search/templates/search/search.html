@@ -13,9 +13,13 @@
         <h3>Результаты поиска</h3>
 
         {% for result in page.object_list %}
-            {% with result.object as resume %}
-                {% include 'components/resume_short.html' %}
-            {% endwith %}
+            {% if 'resume' in result|lower %}
+                {% with result.object as resume %}
+                    {% include 'components/resume_short.html' %}
+                {% endwith %}
+            {% else %}
+                {{ result }}
+            {% endif %}
         {% empty %}
             <p>Ничего не найдено.</p>
         {% endfor %}
