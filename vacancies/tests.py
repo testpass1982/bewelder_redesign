@@ -251,3 +251,34 @@ class TestVacancyUpdateForm(TestCase):
         self.assertEqual(response.context['form'].initial['title'], 'changed_title')
         self.assertEqual(response.context['form'].initial['salary_max'], 400)
         self.assertTrue(self.level1 in response.context['form'].initial['naks_att_level'])
+
+class TestVacancyDelete(TestCase):
+    def setUp(self):
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        self.user = User.objects.create(**user_test_data)
+        self.levels = mommy.make(Level, _quantity=3)
+        self.vacancies = mommy.make(Vacancy, _quantity=10, 
+                                    make_m2m=True, 
+                                    user=self.user,
+                                    salary_min=300)
+        self.level1 = Level.objects.create(name='I')
+        for vacancy in self.vacancies:
+            vacancy.naks_att_level.add(self.level1)
+        random_choice = random.randint(0, 9)
+        self.vacancy = self.vacancies[random_choice]
+
+    def test_vacancy_created(self):
+        print(model_to_dict(self.vacancies[0]))
+        self.assertTrue(len(self.vacancies), 10)
+        self.assertTrue(self.level1 in self.vacancies[0].naks_att_level.all())
+    
+    def test_vacancy_can_be_deleted(self):
+        self.client.force_login(self.user)
+        url = reverse('vacancies:delete', kwargs={'pk': self.vacancy.pk})
+        response = client.get(url)
+        self.assertTemplateUsed(response, 'vacancies/vacancy_confirm_delete.html')
