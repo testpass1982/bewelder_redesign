@@ -18,11 +18,13 @@ except LookupError:
 class SearchForm(hay_forms.SearchForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        choices = hay_forms.model_choices()
         self.fields["models"] = forms.ChoiceField(
-            choices=hay_forms.model_choices(),
+            choices=choices,
             required=False,
             label='Искать',
             widget=forms.RadioSelect,
+            initial=choices[0][0]
         )
         self.stopwords = set(stopwords.words('russian'))
         self.stemmer = RussianStemmer()
