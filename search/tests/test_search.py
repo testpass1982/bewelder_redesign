@@ -5,6 +5,7 @@ from haystack import connections
 from mixer.backend.django import mixer
 
 from resumes.models import Resume
+from search.forms import SearchForm
 
 
 class ResumeSearchTestCase(TestCase):
@@ -38,12 +39,13 @@ class ResumeSearchTestCase(TestCase):
         self.assertEqual(len(resp.context['page'].object_list), 0)
 
     def test_realtime_update_search_index(self):
-        resp = self.client.get(self.search_url, {'q': 'some position'})
+        position = 'рыбак'
+        resp = self.client.get(self.search_url, {'q': position})
         old_obj_count = len(resp.context['page'].object_list)
 
-        mixer.blend(Resume, position='some position')
+        mixer.blend(Resume, position=position)
 
-        resp = self.client.get(self.search_url, {'q': 'some position'})
+        resp = self.client.get(self.search_url, {'q': position})
         new_obj_count = len(resp.context['page'].object_list)
         self.assertEqual(new_obj_count, old_obj_count + 1)
 
@@ -72,3 +74,16 @@ class ResumeSearchTestCase(TestCase):
                 self.assertEqual(resp.status_code, 200)
                 self.assertEqual(len(resp.context['page'].object_list), 3)
                 self.assertEqual(resp.context['page'].object_list[0].content_type(), 'resumes.resume')
+
+    def test_prepare_query(self):
+        queries = [
+            'сварщики по Москве',
+            'сварщики из москвы',
+            'сварщики, москва'
+        ]
+        expect = 'сварщик москв'
+
+        for query in queries:
+            with self.subTest(query_string=query):
+                result = SearchForm().prepare_query(query)
+                self.assertEqual(result, expect)
