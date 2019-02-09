@@ -213,8 +213,6 @@ class TestVacancyUpdateForm(TestCase):
             vacancy.naks_att_level.add(self.level1)
 
         self.vacancy = self.vacancies[random.randint(0, 9)]
-
-        print(model_to_dict(self.vacancy))
     
     def test_vacancy_created(self):
         vacancies = self.vacancies
@@ -222,10 +220,31 @@ class TestVacancyUpdateForm(TestCase):
         vacancies[0].naks_att_level.add(self.level1)
         self.assertTrue(self.level1 in vacancies[0].naks_att_level.all())
     
-    def test_vacancy_update_form_reachable_by_client(self):
+    def test_vacancy_update_form_reachable_by_id(self):
         self.client.force_login(self.user)
-        response = self.client.get(reverse('vacancies:update_vacancy', kwargs={'pk': self.vacancy.id}))
+        response = self.client.get(reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.id}))
         self.assertTrue(response.status_code, 200)
-        
+        self.assertTrue(isinstance(response.context['form'], VacancyForm))
+        self.assertTrue(response.context['form']['title'].value()==self.vacancy.title)
 
+    def test_vacancy_udpate_form_can_save_data(self):
+        self.client.force_login(self.user)
+        update_url = reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.id})
+        response = self.client.get(update_url)
+        form = response.context['form']
+        data = form.initial
+        print(data)
+        data['title'] = 'changed_title'
+        response = self.client.post(update_url, data)
 
+        response = self.client.get(update_url)
+        self.assertEqual(response.context['form'].initial['title'], 'changed_title')
+
+        # if vacancy_form.is_valid():
+        #     vacancy = vacancy_form.save()
+        #     self.assertEquals(vacancy.title==self.vacancy.title)
+        # else:
+        #     print(vacancy_form.errors)
+        #     self.fail('vacancy_form is not valid')
+        # self.client.post('/vacancies/update/{}'.format(self.vacancy.id), {'title': 'blablabla'})
+        # self.assertTrue(self.vacancy.title=='blablabla')

@@ -8,6 +8,7 @@ from .models import Vacancy, Level
 from .forms import VacancyForm
 # from orgs.forms import EmployerForm, RegionForm, CityForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 # from django.forms.formsets import formset_factory
 # Create your views here.
 
@@ -46,8 +47,15 @@ def add_new_vacancy(request):
     }
     return render(request, 'vacancies/add-new-vacancy.html', content)
 
-def update_vacancy(request, pk):
-    pass
+def vacancy_update(request, pk):
+    # instance = get_object_or_404(Vacancy, id=pk)
+    instance = Vacancy.objects.get(id=pk)
+    form = VacancyForm(request.POST or None, instance=instance)
+    content = {
+        'title': 'Обновление вакансии',
+        'form': form,
+    }
+    return render(request, 'vacancies/update-vacancy.html', content)
 
 def delete_vacancy(request, pk):
     pass
