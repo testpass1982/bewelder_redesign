@@ -22,6 +22,10 @@ class City(models.Model):
         unique_together = ('name', 'region')
 
     def __str__(self):
+        return self.name_with_region
+
+    @property
+    def name_with_region(self):
         return '{city} ({region})'.format(city=self.name, region=self.region.name)
 
 
@@ -59,6 +63,10 @@ class Employer(models.Model):
         ordering = ['-created']
 
     def __str__(self):
+        return self.name_with_city
+
+    @property
+    def name_with_city(self):
         return '{employer} ({city})'.format(employer=self.short_name, city=self.city.name)
 
     def get_vacancy_count(self):
