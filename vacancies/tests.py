@@ -10,6 +10,11 @@ from users.models import User
 from http import HTTPStatus
 from vacancies.forms import VacancyForm
 from django.shortcuts import get_object_or_404
+from mixer.backend.django import mixer
+from model_mommy import mommy
+from django.forms.models import model_to_dict
+
+import random
 
 # Create your tests here.
 
@@ -188,6 +193,39 @@ class VacancyFormAddTest(TestCase):
         self.client.post('/vacancies/new/', data=self.vacancy_test_data)
         vacancy = Vacancy.objects.first()
         self.assertEqual(vacancy.user, self.user)
+
+class TestVacancyUpdateForm(TestCase):
+    def setUp(self):
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        self.user = User.objects.create(**user_test_data)
+        self.levels = mommy.make(Level, _quantity=3)
+        self.vacancies = mommy.make(Vacancy, _quantity=10, 
+                                    make_m2m=True, 
+                                    user=self.user,
+                                    salary_min=300)
+        self.level1 = Level.objects.create(name='I')
+        for vacancy in self.vacancies:
+            vacancy.naks_att_level.add(self.level1)
+
+        self.vacancy = self.vacancies[random.randint(0, 9)]
+
+        print(model_to_dict(self.vacancy))
+    
+    def test_vacancy_created(self):
+        vacancies = self.vacancies
+        self.assertEqual(len(vacancies), 10)
+        vacancies[0].naks_att_level.add(self.level1)
+        self.assertTrue(self.level1 in vacancies[0].naks_att_level.all())
+    
+    def test_vacancy_update_form_reachable_by_client(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('vacancies:update_vacancy', kwargs={'pk': self.vacancy.id}))
+        self.assertTrue(response.status_code, 200)
         
 
 
