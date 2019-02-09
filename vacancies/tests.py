@@ -13,7 +13,6 @@ from django.shortcuts import get_object_or_404
 from mixer.backend.django import mixer
 from model_mommy import mommy
 from django.forms.models import model_to_dict
-
 import random
 
 # Create your tests here.
@@ -273,12 +272,21 @@ class TestVacancyDelete(TestCase):
         self.vacancy = self.vacancies[random_choice]
 
     def test_vacancy_created(self):
-        print(model_to_dict(self.vacancies[0]))
         self.assertTrue(len(self.vacancies), 10)
         self.assertTrue(self.level1 in self.vacancies[0].naks_att_level.all())
     
     def test_vacancy_can_be_deleted(self):
         self.client.force_login(self.user)
-        url = reverse('vacancies:delete', kwargs={'pk': self.vacancy.pk})
-        response = client.get(url)
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': self.vacancy.pk})
+        response = self.client.get(url)
         self.assertTemplateUsed(response, 'vacancies/vacancy_confirm_delete.html')
+        response = self.client.post(url, data={'Confirm': 'Yes'})
+        self.assertRedirects(response, reverse('mainapp:settings'))
+        self.user.refresh_from_db()
+        self.assertTrue(Vacancy.objects.filter(pk=self.vacancy.pk).count()==0)
+    
+    def test_nonexistent_vacancy_cant_be_deleted(self):
+        self.client.force_login(self.user)
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': 1000})
+        response = self.client.post(url, data={'Confirm': 'YES'})
+        self.assertEqual(response.status_code, 404)

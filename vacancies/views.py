@@ -65,8 +65,17 @@ def vacancy_update(request, pk):
     }
     return render(request, 'vacancies/update-vacancy.html', content)
 
-def delete_vacancy(request, pk):
-    pass
+def vacancy_delete(request, pk):
+    vacancy = get_object_or_404(Vacancy, pk=pk)
+    if request.method == "POST":
+        if 'Confirm' in request.POST:
+            vacancy.delete()
+            return HttpResponseRedirect(reverse('mainapp:settings'))
+    content = {
+        'vacancy': vacancy
+    }
+
+    return render(request, 'vacancies/vacancy_confirm_delete.html', content)
 
 
 
