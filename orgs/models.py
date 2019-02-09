@@ -47,6 +47,8 @@ class Employer(models.Model):
     site = models.CharField('Сайт', max_length=255, blank=True)
     phone = models.CharField('Телефон', max_length=11)
     email = models.EmailField('Эл. почта', max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     # Custom Manager
     objects = EmployerManager()
 
@@ -54,6 +56,7 @@ class Employer(models.Model):
         verbose_name = 'работодатель'
         verbose_name_plural = 'работодатели'
         unique_together = (('name', 'city'), ('short_name', 'city'))
+        ordering = ['-created']
 
     def __str__(self):
         return '{employer} ({city})'.format(employer=self.short_name, city=self.city.name)
