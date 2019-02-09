@@ -3,8 +3,8 @@
 {% block content %}
 <div class="cont-width-block">
     <div class="m-5">
-        <h5>Вакансия {{ form.title }}</h5>
-        <h2>{{ user.get_full_name|title }}</h2>
+        <h3>Пользователь: {{ user.get_full_name|title }}</h3>
+        <h3>Вакансия: {{ form.initial.title }}</h3>
         <form method="post" class="my-3">
             {% csrf_token %}
             {{ form.media }}

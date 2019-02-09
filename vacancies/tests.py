@@ -228,23 +228,26 @@ class TestVacancyUpdateForm(TestCase):
         self.assertTrue(response.context['form']['title'].value()==self.vacancy.title)
 
     def test_vacancy_udpate_form_can_save_data(self):
+        #Авторизуемся
         self.client.force_login(self.user)
+        #Получаем ссылку для тестовых данных
         update_url = reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.id})
+        #Переходим по ссылке
         response = self.client.get(update_url)
+        #Берем из формы данные
         form = response.context['form']
         data = form.initial
-        print(data)
+        #Меняем данные
         data['title'] = 'changed_title'
+        data['salary_max'] = 400
+        data['naks_att_level'] = self.level1.id
+        #Делаем пост с измененными данными
         response = self.client.post(update_url, data)
-
+        #Проверяем редирект после отправки данных
+        self.assertRedirects(response, reverse('mainapp:settings'))
+        #Еще раз заходим по ссылке
         response = self.client.get(update_url)
+        #Проверяем, что измененные данные в форме
         self.assertEqual(response.context['form'].initial['title'], 'changed_title')
-
-        # if vacancy_form.is_valid():
-        #     vacancy = vacancy_form.save()
-        #     self.assertEquals(vacancy.title==self.vacancy.title)
-        # else:
-        #     print(vacancy_form.errors)
-        #     self.fail('vacancy_form is not valid')
-        # self.client.post('/vacancies/update/{}'.format(self.vacancy.id), {'title': 'blablabla'})
-        # self.assertTrue(self.vacancy.title=='blablabla')
+        self.assertEqual(response.context['form'].initial['salary_max'], 400)
+        self.assertTrue(self.level1 in response.context['form'].initial['naks_att_level'])

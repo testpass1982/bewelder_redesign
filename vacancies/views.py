@@ -49,8 +49,16 @@ def add_new_vacancy(request):
 
 def vacancy_update(request, pk):
     # instance = get_object_or_404(Vacancy, id=pk)
-    instance = Vacancy.objects.get(id=pk)
+    instance = get_object_or_404(Vacancy, pk=pk)
     form = VacancyForm(request.POST or None, instance=instance)
+    if request.method == 'POST':
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect(reverse('mainapp:settings'))
+        else:
+            print('ERRORS', form.errors.as_data())
     content = {
         'title': 'Обновление вакансии',
         'form': form,
