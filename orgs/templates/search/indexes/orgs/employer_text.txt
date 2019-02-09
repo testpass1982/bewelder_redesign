@@ -1,0 +1,7 @@
+{{ object.name }}
+{{ object.short_name }}
+{{ object.city.name_with_region }}
+{{ object.inn }}
+{{ object.site }}
+{{ object.phone }}
+{{ object.email }}
