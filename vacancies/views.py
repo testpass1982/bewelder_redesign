@@ -8,6 +8,7 @@ from .models import Vacancy, Level
 from .forms import VacancyForm
 # from orgs.forms import EmployerForm, RegionForm, CityForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 # from django.forms.formsets import formset_factory
 # Create your views here.
 
@@ -27,30 +28,58 @@ def vacancies_list(request):
 
 @login_required
 def add_new_vacancy(request):
-    title = 'Добавление вакансии'
-    # TODO: need to make a form to choice or add employer with region and city
-    if request.method == 'POST':
-        form = VacancyForm(request.POST)
+    if request.user.is_authenticated:
+        title = 'Добавление вакансии'
+        # TODO: need to make a form to choice or add employer with region and city
+        if request.method == 'POST':
+            form = VacancyForm(request.POST)
 
-        if form.is_valid():
-            vacancy = form.save(commit=False)
-            vacancy.user = request.user
-            form.save()
-            return HttpResponseRedirect(reverse('mainapp:settings'))
-    else:
-        form = VacancyForm()
+            if form.is_valid():
+                vacancy = form.save(commit=False)
+                vacancy.user = request.user
+                form.save()
+                return HttpResponseRedirect(reverse('mainapp:settings'))
+        else:
+            form = VacancyForm()
 
-    content = {
-        'title' : title,
-        'form': form,
-    }
+        content = {
+            'title' : title,
+            'form': form,
+        }
     return render(request, 'vacancies/add-new-vacancy.html', content)
 
-def update_vacancy(request, pk):
-    pass
+@login_required
+def vacancy_update(request, pk):
+    if request.user.is_authenticated:
+        instance = get_object_or_404(Vacancy, pk=pk, user=request.user)
+        form = VacancyForm(request.POST or None, instance=instance)
+        if request.method == 'POST':
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.user = request.user
+                instance.save()
+                return HttpResponseRedirect(reverse('mainapp:settings'))
+            else:
+                print('ERRORS', form.errors.as_data())
+        content = {
+            'title': 'Обновление вакансии',
+            'form': form,
+        }
+    return render(request, 'vacancies/update-vacancy.html', content)
 
-def delete_vacancy(request, pk):
-    pass
+@login_required
+def vacancy_delete(request, pk):
+    if request.user.is_authenticated:
+        vacancy = get_object_or_404(Vacancy, pk=pk, user=request.user)
+        if request.method == "POST":
+            if 'Confirm' in request.POST:
+                vacancy.delete()
+                return HttpResponseRedirect(reverse('mainapp:settings'))
+        content = {
+            'vacancy': vacancy
+        }
+
+    return render(request, 'vacancies/vacancy_confirm_delete.html', content)
 
 
 

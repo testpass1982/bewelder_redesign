@@ -10,6 +10,10 @@ from users.models import User
 from http import HTTPStatus
 from vacancies.forms import VacancyForm
 from django.shortcuts import get_object_or_404
+from mixer.backend.django import mixer
+from model_mommy import mommy
+from django.forms.models import model_to_dict
+import random
 
 # Create your tests here.
 
@@ -188,6 +192,145 @@ class VacancyFormAddTest(TestCase):
         self.client.post('/vacancies/new/', data=self.vacancy_test_data)
         vacancy = Vacancy.objects.first()
         self.assertEqual(vacancy.user, self.user)
-        
 
+class TestVacancyUpdateForm(TestCase):
+    def setUp(self):
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        another_user_test_data = {
+            'email': 'barbar@foo.com',
+            'first_name': 'igor',
+            'last_name': 'ivanov',
+            'password': 'igor_ivanov'
+            }
+        self.user = User.objects.create(**user_test_data)
+        self.another_user = User.objects.create(**another_user_test_data)
+        self.levels = mommy.make(Level, _quantity=3)
+        self.vacancies = mommy.make(Vacancy, _quantity=10, 
+                                    make_m2m=True, 
+                                    user=self.user,
+                                    salary_min=300)
+        self.level1 = Level.objects.create(name='I')
+        for vacancy in self.vacancies:
+            vacancy.naks_att_level.add(self.level1)
+
+        self.vacancy = self.vacancies[random.randint(0, 9)]
+    
+    def test_vacancy_created(self):
+        vacancies = self.vacancies
+        self.assertEqual(len(vacancies), 10)
+        vacancies[0].naks_att_level.add(self.level1)
+        self.assertTrue(self.level1 in vacancies[0].naks_att_level.all())
+    
+    def test_vacancy_update_form_reachable_by_id(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.id}))
+        self.assertTrue(response.status_code, 200)
+        self.assertTrue(isinstance(response.context['form'], VacancyForm))
+        self.assertTrue(response.context['form']['title'].value()==self.vacancy.title)
+
+    def test_vacancy_udpate_form_can_save_data(self):
+        #Авторизуемся
+        self.client.force_login(self.user)
+        #Получаем ссылку для тестовых данных
+        update_url = reverse('vacancies:vacancy_update', kwargs={'pk': self.vacancy.id})
+        #Переходим по ссылке
+        response = self.client.get(update_url)
+        #Берем из формы данные
+        form = response.context['form']
+        data = form.initial
+        #Меняем данные
+        data['title'] = 'changed_title'
+        data['salary_max'] = 400
+        data['naks_att_level'] = self.level1.id
+        #Делаем пост с измененными данными
+        response = self.client.post(update_url, data)
+        #Проверяем редирект после отправки данных
+        self.assertRedirects(response, reverse('mainapp:settings'))
+        #Еще раз заходим по ссылке
+        response = self.client.get(update_url)
+        #Проверяем, что измененные данные в форме
+        self.assertEqual(response.context['form'].initial['title'], 'changed_title')
+        self.assertEqual(response.context['form'].initial['salary_max'], 400)
+        self.assertTrue(self.level1 in response.context['form'].initial['naks_att_level'])
+
+    def test_user_cant_update_another_user_vacancies(self):
+        self.client.force_login(self.user)
+        user_vacancy = mommy.make(Vacancy, _quantity=1, 
+                                  make_m2m=True,
+                                  user=self.user,
+                                  salary_min=500)
+        self.client.logout()
+        self.client.force_login(self.another_user)
+        update_url = reverse('vacancies:vacancy_update', kwargs={'pk': user_vacancy[0].pk})
+        response = self.client.post(update_url)
+        self.assertTrue(response.status_code, 404)
+
+class TestVacancyDelete(TestCase):
+    def setUp(self):
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        another_user_test_data = {
+            'email': 'barbar@foo.com',
+            'first_name': 'victor',
+            'last_name': 'ivanov',
+            'password': 'victor_ivanov'
+            }
+        self.user = User.objects.create(**user_test_data)
+        self.another_user = User.objects.create(**another_user_test_data)
+        self.levels = mommy.make(Level, _quantity=3)
+        self.vacancies = mommy.make(Vacancy, _quantity=10, 
+                                    make_m2m=True, 
+                                    user=self.user,
+                                    salary_min=300)
+        self.level1 = Level.objects.create(name='I')
+        for vacancy in self.vacancies:
+            vacancy.naks_att_level.add(self.level1)
+        random_choice = random.randint(0, 9)
+        self.vacancy = self.vacancies[random_choice]
+
+    def test_vacancy_created(self):
+        self.assertTrue(len(self.vacancies), 10)
+        self.assertTrue(self.level1 in self.vacancies[0].naks_att_level.all())
+    
+    def test_vacancy_can_be_deleted(self):
+        self.client.force_login(self.user)
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': self.vacancy.pk})
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'vacancies/vacancy_confirm_delete.html')
+        response = self.client.post(url, data={'Confirm': 'Yes'})
+        self.assertRedirects(response, reverse('mainapp:settings'))
+        self.user.refresh_from_db()
+        self.assertTrue(Vacancy.objects.filter(pk=self.vacancy.pk).count()==0)
+    
+    def test_nonexistent_vacancy_cant_be_deleted(self):
+        self.client.force_login(self.user)
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': 1000})
+        response = self.client.post(url, data={'Confirm': 'YES'})
+        self.assertEqual(response.status_code, 404)
+
+    def test_not_authenticated_user_cant_delete_vacancy(self):
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': self.vacancy.pk})
+        response = self.client.post(url, data={'Confirm': 'YES'})
+        self.assertRedirects(response, '/users/login/?next=/vacancies/delete/{}'.format(self.vacancy.pk))
+    
+    def test_user_cant_delete_other_users_vacancies(self):
+        self.client.force_login(self.user)
+        vacancy_user1 = mommy.make(Vacancy, _quantity=1, 
+                                    make_m2m=True, 
+                                    user=self.user,
+                                    salary_min=300)
+        self.client.logout()
+        self.client.login(email=self.another_user.email, password=self.another_user.password)
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': vacancy_user1[0].pk})
+        response = self.client.post(url, data={'Confirm': 'YES'})
+        self.assertTrue(response.status_code, 404)
 

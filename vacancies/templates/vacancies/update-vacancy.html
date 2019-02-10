@@ -1,0 +1,18 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="cont-width-block">
+    <div class="m-5">
+        <h3>Пользователь: {{ user.get_full_name|title }}</h3>
+        <h3>Вакансия: {{ form.initial.title }}</h3>
+        <form method="post" class="my-3">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+
+            <input type="submit" value="Сохранить" class="btn btn-success">
+        </form>
+    </div>
+</div>
+
+{% endblock %}
