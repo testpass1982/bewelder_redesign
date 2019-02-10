@@ -17,4 +17,7 @@ psycopg2-binary==2.7.7
 django-haystack==2.8.1
 Whoosh==2.7.4
 model_mommy==1.6.0
+libsass==0.17.0
+django-compressor==2.2
+django-sass-processor==0.7.2
 nltk==3.4
