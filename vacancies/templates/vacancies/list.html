@@ -19,32 +19,7 @@
     <div class="row">
         <div class="col-lg-8">
             {% for vacancy in vacancies %}
-            <div class="card-item">
-                <div class="row align-items-center">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card-image">
-                            {% if vacancy.employer.logo %}
-                            <img src="{{ vacancy.employer.logo.url }}" alt="{{ vacancy.employer.name }}">
-                            {% else %}
-                            <img src="https://fakeimg.pl/200x100/" alt="NO LOGO">
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-lg-5">
-                        <div class="card-vacancy-title">
-                            {{ vacancy.title }}
-                        </div>
-                        <div class="card-vacancy-short-description">
-                            {{ vacancy.short_description }}
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-lg-3">
-                        <div class="card-salary">
-                            от {{ vacancy.salary_min }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+                {% include 'vacancies/includes/vacancy_card.html' %}
             {% endfor %}
         </div>
         <div class="col-lg-4">
