@@ -1,4 +1,5 @@
 from haystack import indexes
+
 from resumes.models import Resume
 
 
