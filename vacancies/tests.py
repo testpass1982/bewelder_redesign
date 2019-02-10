@@ -201,7 +201,14 @@ class TestVacancyUpdateForm(TestCase):
             'last_name': 'popov',
             'password': 'testpass'
             }
+        another_user_test_data = {
+            'email': 'barbar@foo.com',
+            'first_name': 'igor',
+            'last_name': 'ivanov',
+            'password': 'igor_ivanov'
+            }
         self.user = User.objects.create(**user_test_data)
+        self.another_user = User.objects.create(**another_user_test_data)
         self.levels = mommy.make(Level, _quantity=3)
         self.vacancies = mommy.make(Vacancy, _quantity=10, 
                                     make_m2m=True, 
@@ -251,6 +258,18 @@ class TestVacancyUpdateForm(TestCase):
         self.assertEqual(response.context['form'].initial['salary_max'], 400)
         self.assertTrue(self.level1 in response.context['form'].initial['naks_att_level'])
 
+    def test_user_cant_update_another_user_vacancies(self):
+        self.client.force_login(self.user)
+        user_vacancy = mommy.make(Vacancy, _quantity=1, 
+                                  make_m2m=True,
+                                  user=self.user,
+                                  salary_min=500)
+        self.client.logout()
+        self.client.force_login(self.another_user)
+        update_url = reverse('vacancies:vacancy_update', kwargs={'pk': user_vacancy[0].pk})
+        response = self.client.post(update_url)
+        self.assertTrue(response.status_code, 404)
+
 class TestVacancyDelete(TestCase):
     def setUp(self):
         user_test_data = {
@@ -259,7 +278,14 @@ class TestVacancyDelete(TestCase):
             'last_name': 'popov',
             'password': 'testpass'
             }
+        another_user_test_data = {
+            'email': 'barbar@foo.com',
+            'first_name': 'victor',
+            'last_name': 'ivanov',
+            'password': 'victor_ivanov'
+            }
         self.user = User.objects.create(**user_test_data)
+        self.another_user = User.objects.create(**another_user_test_data)
         self.levels = mommy.make(Level, _quantity=3)
         self.vacancies = mommy.make(Vacancy, _quantity=10, 
                                     make_m2m=True, 
@@ -290,3 +316,21 @@ class TestVacancyDelete(TestCase):
         url = reverse('vacancies:vacancy_delete', kwargs={'pk': 1000})
         response = self.client.post(url, data={'Confirm': 'YES'})
         self.assertEqual(response.status_code, 404)
+
+    def test_not_authenticated_user_cant_delete_vacancy(self):
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': self.vacancy.pk})
+        response = self.client.post(url, data={'Confirm': 'YES'})
+        self.assertRedirects(response, '/users/login/?next=/vacancies/delete/{}'.format(self.vacancy.pk))
+    
+    def test_user_cant_delete_other_users_vacancies(self):
+        self.client.force_login(self.user)
+        vacancy_user1 = mommy.make(Vacancy, _quantity=1, 
+                                    make_m2m=True, 
+                                    user=self.user,
+                                    salary_min=300)
+        self.client.logout()
+        self.client.login(email=self.another_user.email, password=self.another_user.password)
+        url = reverse('vacancies:vacancy_delete', kwargs={'pk': vacancy_user1[0].pk})
+        response = self.client.post(url, data={'Confirm': 'YES'})
+        self.assertTrue(response.status_code, 404)
+
