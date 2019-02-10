@@ -1,0 +1,14 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="cont-width-block">
+    <div class="m-5">
+        <h2>Добавить работодателя</h2>
+        <form method="post" class="my-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Сохранить" class="btn btn-success">
+        </form>
+    </div>
+</div>
+{% endblock %}

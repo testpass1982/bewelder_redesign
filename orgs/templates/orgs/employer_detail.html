@@ -28,7 +28,9 @@
         Эл. почта: <a href="mailto:{{ employer.email }}">{{ employer.email }}</a><br>
     </p>
 
-    <input type=button value="Назад" onClick="javascript:history.go(-1);" class="btn btn-primary">
+    <a href="{% url 'orgs:list' %}">
+        <input type=button value="Все работодатели" class="btn btn-primary">
+    </a>
 
 </div>
 
