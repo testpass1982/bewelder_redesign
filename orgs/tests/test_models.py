@@ -90,3 +90,7 @@ class EmployerModelTest(TestCase):
         second_vacancy.save()
 
         self.assertEqual(2, self.employer_1.get_vacancy_count())
+
+    def test_get_absolute_url(self):
+        result = self.employer_1.get_absolute_url()
+        self.assertEqual(result, '/orgs/{}/'.format(self.employer_1.id))
