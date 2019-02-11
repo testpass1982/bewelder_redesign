@@ -1,5 +1,8 @@
 - hosts: all
 
+  roles:
+  - nginx
+
   vars_files:
   - 'vars.yml'
 
@@ -15,15 +18,12 @@
       packages:
         - git
         - python3-pip
-        - nginx
         - memcached
         - postgresql
         - postgresql-contrib
         - python3-psycopg2
       state: latest
     tags: apt
-    notify:
-      - restart nginx
 
   - name: Clone repo
     git:
@@ -75,7 +75,6 @@
     with_items:
     - 'makemigrations'
     - 'migrate'
-    - 'rebuild_index'
     tags: migrations
 
   - name: Gunicorn configuration
@@ -85,19 +84,7 @@
     notify:
     - restart gunicorn
 
-  - name: Nginx configuration
-    template:
-      src: etc/nginx/sites-available/default
-      dest: /etc/nginx/sites-available/default
-    tags: nginx
-    notify:
-    - restart nginx
-
   handlers:
-  - name: restart nginx
-    service:
-      name: nginx
-      state: restarted
   - name: restart gunicorn
     service:
       name: gunicorn
