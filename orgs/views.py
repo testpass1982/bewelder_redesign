@@ -26,16 +26,13 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
     form_class = EmployerForm
     template_name = 'orgs/employer_create.html'
 
-    def form_valid(self, form):
-        employer = form.save()
-        return redirect('orgs:detail', pk=employer.id)
-
 
 # class EmployerUpdateView(LoginRequiredMixin, UpdateView):
 #     form_class = EmployerForm
 #     template_name = 'orgs/employer_create.html'
 #
 #     def get_object(self):
+
 
 class EmployerUpdateView:
     pass

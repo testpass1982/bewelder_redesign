@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Region(models.Model):
@@ -64,6 +65,9 @@ class Employer(models.Model):
 
     def __str__(self):
         return self.name_with_city
+
+    def get_absolute_url(self):
+        return reverse('orgs:detail', kwargs={'pk': self.id})
 
     @property
     def name_with_city(self):
