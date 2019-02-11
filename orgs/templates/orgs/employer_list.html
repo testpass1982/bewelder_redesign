@@ -4,7 +4,7 @@
 
 <div class="cont-width-block">
 
-    {% include 'orgs/includes/pagination.html' %}
+    {% include 'orgs/includes/employer_pagination.html' %}
 
     <div class="row">
         <div class="col-lg-8">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-3 col-lg-5">
                         <div class="card-vacancy-title">
-                            {{ employer.short_name }}
+                            <a href="{% url 'orgs:detail' employer.id %}">{{ employer.short_name }}</a>
                         </div>
                         {{ employer.city.name }}
                     </div>
@@ -121,7 +121,7 @@
         </div>
     </div>
 
-    {% include 'orgs/includes/pagination.html' %}
+    {% include 'orgs/includes/employer_pagination.html' %}
 
 </div>
 
