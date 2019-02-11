@@ -23,9 +23,15 @@
 
         </div>
         <div class="col-xs-12 col-sm-6 offset-lg-3 col-lg-3 offset-xl-0 col-xl-2">
-            <a href="{% url 'mainapp:settings' %}" class="btn btn-light w-100 my-2">
-                Личный кабинет
-            </a>
+            <div class="d-flex align-items-center">
+                <a href="{% url 'mainapp:settings' %}" class="btn btn-light w-100 my-2">
+                    Личный кабинет
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}" class="btn btn-warning ml-1">
+                <i class="fa fa-sign-out"></i></a>
+                {% endif %}
+            </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-lg-3 col-xl-2">
             <a href="{% url 'users:registration' %}" class="btn btn-primary w-100">

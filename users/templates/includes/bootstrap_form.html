@@ -23,6 +23,19 @@
                 </div>
             {% endfor %}
         </div>
+
+    {% elif 'radio' in field.as_widget %}
+        <div class="form-group">
+            {% for choice in field.field.choices %}
+                <div class="form-check">
+                <label for="id_{{ field.id_for_label }}_{{ forloop.counter }}" class="form-check-label">
+                    <input type="radio" class="form-check-input"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked="checked"{% endif %} name="{{ field.html_name }}" id="id_{{ field.id_for_label }}_{{ forloop.counter }}" value="{{ choice.0 }}" {{ field.field.widget.attrs }}>
+                    {{ choice.1 }}
+                </label>
+                </div>
+            {% endfor %}
+
+        </div>
     {% else %}
         <div class="form-group">
             <label for="{{ field.id_for_label }}">

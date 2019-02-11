@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'orgs',
     'ckeditor',
     'ckeditor_uploader',
+    'sass_processor',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +110,15 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
     },
 }
+if 'test' in sys.argv[1:2]:
+    HAYSTACK_CONNECTIONS = {
+        'default': {
+            'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+            'STORAGE': 'ram',
+        },
+    }
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 5
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
 # Password validation
@@ -150,10 +161,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'assets'
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_AUTO_INCLUDE = False
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
+SASS_OUTPUT_STYLE = 'compact'
+
+SASS_PRECISION = 8
+SASS_ROOT = os.path.join(BASE_DIR, 'assets')
+SASS_PROCESSOR_ROOT = SASS_ROOT
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'assets')
 )
+
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    os.path.join(BASE_DIR, 'assets', 'scss'),
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
