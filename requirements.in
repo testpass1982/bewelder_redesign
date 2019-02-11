@@ -1,8 +1,14 @@
 django
 django-ckeditor
+django-compressor
+django-sass-processor
+django-haystack
 pillow
 gunicorn
 python-memcached
 mixer
 psycopg2-binary
 whoosh
+model_mommy
+libsass
+nltk
