@@ -13,12 +13,12 @@
                 <div class="row align-items-center">
                     <div class="col-md-6 col-lg-4">
                         <div class="card-image">
-                            <img src={% if employer.logo %}
-                                       "{{ employer.logo.url }}"
-                                     {% else %}
-                                       "{% static 'img/nofoto.png' %}"
-                                     {% endif %}"
-                                 alt="{{ employer.short_name }}">
+                            {% if employer.logo %}
+                                <img src="{{ employer.logo.url }}" alt="{{ employer.short_name }}">
+                            {% else %}
+                                <img src="https://fakeimg.pl/200x100/" alt="NO LOGO">
+                            {% endif %}
+
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-5">
@@ -37,87 +37,7 @@
             {% endfor %}
         </div>
         <div class="col-lg-4 side-panel">
-            <div class="vacancy-in-city side-panel-block pt-0">
-                <div class="row">
-                    <div class="col title">
-                        Вакансии <br>
-                        в вашем городе
-                    </div>
-                    <div class="col">
-                        <div class="input-group">
-                            <input type="text" class="form-control city" value="Нижнекамск" aria-label="Город" aria-describedby="side-panel-city">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% for i in 'x'|rjust:'3' %}
-                    <div class="row">
-                        <div class="col">
-                            <div class="grey">
-                                28 ноября
-                            </div>
-                            <div class="my-2">
-                                <div class="vacancy">
-                                    Сварщик РД
-                                </div>
-                                <div class="grey">
-                                    г. Нижнекамск
-                                </div>
-                            </div>
-                            <div>
-                                <div class="salary">
-                                    от 80 000 руб.
-                                </div>
-                                <div class="grey">
-                                    РСУ-20
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="grey">
-                                28 ноября
-                            </div>
-                            <div class="my-2">
-                                <div class="vacancy">
-                                    Электрогазосварщик НГДО ОХНВП
-                                </div>
-                                <div class="grey">
-                                    г. Нижнекамск
-                                </div>
-                            </div>
-                            <div>
-                                <div class="salary">
-                                    от 110 000 руб.
-                                </div>
-                                <div class="grey">
-                                    РСУ-20
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="side-panel-block grey-bg">
-                <h5>Размещайте <br>
-                    вакансии</h5>
-                <div class="text my-3">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga officia porro tempora. Amet at cupiditate ea eveniet ex impedit iusto maiores minima nemo neque nihil odio, possimus, qui, sed suscipit?
-                </div>
-                <button type="button" class="btn btn-vacancy">Разместить вакансию</button>
-            </div>
-            <div class="side-panel-block grey-bg">
-                <h5>Подписка на <br>
-                    рассылку</h5>
-                <div class="text my-3">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga officia porro tempora. Amet at cupiditate ea eveniet ex impedit iusto maiores minima nemo neque nihil odio, possimus, qui, sed suscipit?
-                </div>
-                <div class="subscribe d-flex">
-                    <input type="email" placeholder="Введите вашу почту" class="w-100">
-                    <button type="button" class="btn btn-warning">Подписаться</button>
-                </div>
-            </div>
+            {% include 'orgs/includes/side-panel.html' %}
         </div>
     </div>
 
