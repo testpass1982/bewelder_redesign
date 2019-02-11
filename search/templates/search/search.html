@@ -17,6 +17,10 @@
                 {% with result.object as resume %}
                     {% include 'components/resume_short.html' %}
                 {% endwith %}
+            {% elif 'vacancy' in result|lower %}
+                {% with result.object as vacancy %}
+                    {% include 'vacancies/includes/vacancy_card.html' %}
+                {% endwith %}
             {% else %}
                 {{ result }}
             {% endif %}

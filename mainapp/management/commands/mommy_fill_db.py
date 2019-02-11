@@ -4,6 +4,8 @@ from model_mommy import mommy
 from mixer.backend.django import mixer
 from model_mommy.recipe import Recipe, foreign_key, seq
 from vacancies.models import Vacancy, Level
+from users.models import User
+from resumes.models import Resume
 from orgs.models import Employer, City, Region
 from itertools import cycle
 import random
@@ -34,6 +36,32 @@ cities = ['MOSCOW',
           'UFA',
 ]
 
+position = [
+    'сварщик',
+    'руководитель бригады',
+    'главный сварщик',
+    'контролер сварочных работ',
+    'технолог сварочного производства',
+    'сварщик TIG',
+    'сварщик MIG-MAG'
+]
+
+names = [
+    'Иван',
+    'Сергей',
+    'Владимир',
+    'Владислав',
+    'Евгений',
+    'Александр',
+]
+last_names = [
+    'Иванов',
+    'Попов',
+    'Михайлов',
+    'Столяров',
+    'Пономарев',
+    'Золотарев'
+]
 salaries = [
     100000,
     150000,
@@ -64,7 +92,7 @@ employer = Recipe(
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        
+
         #delete all before begin cooking
         Employer.objects.all().delete()
         City.objects.all().delete()
@@ -86,4 +114,17 @@ class Command(BaseCommand):
         all_levels = Level.objects.all()
         for vacancy in all_vacancies:
             vacancy.naks_att_level.add(random.choice(all_levels))
+            vacancy.published = True
+            vacancy.save()
+
+        # users = mixer.cycle(15).blend(User, 
+        #                       first_name = random.choice(names),
+        #                       last_name = random.choice(last_names))
+        # for user in users:
+        #     mixer.blend(Resume, 
+        #                 position=random.choice(position),
+        #                 user=user,
+        #                 city=random.choice(cities))
+
+        
 
