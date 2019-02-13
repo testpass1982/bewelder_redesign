@@ -3,6 +3,7 @@ django-ckeditor
 django-compressor
 django-sass-processor
 django-haystack
+djangorestframework
 pillow
 gunicorn
 python-memcached

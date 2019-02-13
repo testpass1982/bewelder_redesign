@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'haystack',
+    'rest_framework',
 
     'mainapp',
     'users',
