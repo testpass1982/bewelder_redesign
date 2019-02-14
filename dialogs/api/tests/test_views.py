@@ -42,3 +42,72 @@ class DialogViewAPITestCase(APITestCase):
         created_msg = Message.objects.first()
         self.assertEqual(created_msg.user, creator)
         self.assertEqual(created_msg.text, data['text'])
+
+
+class MessageViewAPITestCase(APITestCase):
+    def setUp(self):
+        self.user_one = mixer.blend(User)
+        self.user_two = mixer.blend(User)
+        self.dialog = mixer.blend(Dialog)
+        Membership.objects.create(
+            user=self.user_one,
+            dialog=self.dialog,
+            is_creator=True,
+        )
+        Membership.objects.create(
+            user=self.user_two,
+            dialog=self.dialog,
+            is_creator=False,
+        )
+        self.message_one = Message.objects.create(
+            user=self.user_one,
+            dialog=self.dialog,
+            text='It is a test message.'
+        )
+        self.message_two = Message.objects.create(
+            user=self.user_two,
+            dialog=self.dialog,
+            text='It is an answer.'
+        )
+        return super().setUp()
+
+    def test_list_messages(self):
+        url = reverse('dialogs_api:message-list', kwargs={'pk': self.dialog.pk})
+        resp = self.client.get(url, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 2)
+        self.assertEqual(
+            resp.data[0]['text'],
+            self.message_one.text
+        )
+        self.assertEqual(
+            resp.data[1]['text'],
+            self.message_two.text
+        )
+
+        url = reverse('dialogs_api:message-list', kwargs={'pk': 9876})
+        resp = self.client.get(url, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_post_message(self):
+        msg = {
+            'text': 'new message'
+        }
+        url = reverse(
+            'dialogs_api:message-post',
+            kwargs={'pk': self.dialog.pk},
+        )
+        resp = self.client.get(url, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        resp = self.client.post(url, data=msg, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_412_PRECONDITION_FAILED)
+
+        self.client.force_login(self.user_one)
+        resp = self.client.post(url, data=msg, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(resp.data['text'], msg['text'])
+        self.assertEqual(
+            Message.objects.filter(dialog=self.dialog).count(),
+            3
+        )

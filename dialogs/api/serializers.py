@@ -60,3 +60,11 @@ class DialogSerializer(serializers.ModelSerializer):
             is_creator=False,
         )
         return dialog
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Message
+        fields = '__all__'
