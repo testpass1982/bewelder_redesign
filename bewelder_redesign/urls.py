@@ -28,6 +28,7 @@ urlpatterns = [
     path('vacancies/', include('vacancies.urls', namespace='vacancies')),
     path('search/', include('search.urls', namespace='search')),
     path('api/messaging/', include('dialogs.api.urls', namespace='dialogs_api')),
+    path('dialogs/', include('dialogs.urls', namespace='dialogs')),
     path('', include('mainapp.urls', namespace='mainapp'))
 ]
 if settings.DEBUG:
