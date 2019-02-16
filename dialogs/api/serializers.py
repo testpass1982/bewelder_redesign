@@ -14,15 +14,39 @@ class UserSerializer(serializers.ModelSerializer):
         fields = 'id', 'name'
 
 
-class DialogSerializer(serializers.ModelSerializer):
+class MessageSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+        read_only_fields = ('dialog',)
+
+
+class DialogListSerializer(serializers.ModelSerializer):
     members = UserSerializer(many=True, read_only=True)
-    creator = serializers.UUIDField(format='hex_verbose', write_only=True)
+
+    class Meta:
+        model = Dialog
+        fields = 'id', 'members', 'vacancy', 'theme'
+
+
+class DialogRetrieveSerializer(serializers.ModelSerializer):
+    members = UserSerializer(many=True, read_only=True)
+    message_set = MessageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Dialog
+        fields = '__all__'
+
+
+class DialogCreateSerializer(serializers.ModelSerializer):
     opponent = serializers.UUIDField(format='hex_verbose', write_only=True)
     text = serializers.CharField(write_only=True)
 
     class Meta:
         model = Dialog
-        fields = 'id', 'creator', 'opponent', 'members', 'vacancy', 'theme', 'text'
+        fields = 'opponent', 'vacancy', 'theme', 'text'
 
     def validate_opponent(self, value):
         """ Check that the user with id=value exists """
@@ -31,17 +55,10 @@ class DialogSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('no user with given id')
         return value
 
-    def validate_creator(self, value):
-        return self.validate_opponent(value)
-
-    def validate(self, data):
-        if data['creator'] == data['opponent']:
-            raise serializers.ValidationError('creator and opponent must be different')
-        return super().validate(data)
-
     def create(self, validated_data):
         UserModel = get_user_model()
-        creator = get_object_or_404(UserModel, pk=validated_data['creator'])
+
+        creator = validated_data['creator']
         opponent = get_object_or_404(UserModel, pk=validated_data['opponent'])
         dialog = Dialog.objects.create(
             vacancy=validated_data['vacancy'],
@@ -59,12 +76,9 @@ class DialogSerializer(serializers.ModelSerializer):
             last_check=None,
             is_creator=False,
         )
+        Message.objects.create(
+            user=creator,
+            dialog=dialog,
+            text=validated_data['text'],
+        )
         return dialog
-
-
-class MessageSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = Message
-        fields = '__all__'

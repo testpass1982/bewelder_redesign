@@ -252,3 +252,13 @@ LOGIN_URL = 'users:login'
 LOGOUT_URL = 'users:logout'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/'
+
+
+####################################
+###  DJANGO-REST-FRAMEWORK        ##
+####################################
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication'
+    ]
+}
