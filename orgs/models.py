@@ -45,7 +45,7 @@ class EmployerManager(models.Manager):
 
 class Employer(models.Model):
     name = models.CharField('Полное название', max_length=255)
-    short_name = models.CharField('Сокращенное название', max_length=255)
+    short_name = models.CharField('Сокращенное название', max_length=255, blank=True)
     inn = models.CharField('ИНН', max_length=12)
     city = models.ForeignKey(City, verbose_name='Город', on_delete=models.PROTECT)
     logo = models.ImageField('Логотип', blank=True, null=True)
