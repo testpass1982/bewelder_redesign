@@ -12,7 +12,7 @@ EMPLOYERS_PER_PAGE = 5
 class EmployerListView(ListView):
     model = Employer
     template_name = 'orgs/employer_list.html'
-    context_object_name = 'employer_list'
+    context_object_name = 'employers'
     paginate_by = EMPLOYERS_PER_PAGE
 
 
