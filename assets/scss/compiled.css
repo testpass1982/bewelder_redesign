@@ -66,4 +66,6 @@
 
 .main-page-search-a:hover { color: white; }
 
+.filter-panel-bg { background-color: rgba(0, 0, 0, 0.03); border: 1px solid transparent; border-radius: 3px; }
+
 /*# sourceMappingURL=compiled.css.map */
