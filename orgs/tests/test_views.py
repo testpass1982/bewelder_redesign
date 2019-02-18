@@ -8,6 +8,7 @@ from orgs.models import Employer, City, Region
 from orgs.views import EMPLOYERS_PER_PAGE
 from orgs.forms import EmployerForm
 
+
 User = get_user_model()
 
 
