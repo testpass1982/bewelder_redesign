@@ -35,7 +35,7 @@ def vacancy_details(request, pk):
         'vacancy': vacancy,
     }
 
-    return render(request, 'vacancies/includes/vacancy_full.html', content)
+    return render(request, 'vacancies/includes/vacancy_details.html', content)
 
 @login_required
 def add_new_vacancy(request):

@@ -1,3 +1,5 @@
+{% extends 'mainapp/base.html' %}
+{% block content %}
 {% if vacancy.employer %}
 <h3>{{ vacancy.employer|title }}</h3>
 {% endif %}
@@ -22,5 +24,7 @@
     {% if vacancy.employer %}
     Город: {{ vacancy.employer.city|title }}<br>
     {% endif %}
+    <input type=button value="Назад" class="btn btn-warning" onClick="javascript:history.go(-1);">
 
 </p>
+{% endblock %}
