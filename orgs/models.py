@@ -1,5 +1,9 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Region(models.Model):
@@ -52,6 +56,7 @@ class Employer(models.Model):
     site = models.CharField('Сайт', max_length=255, blank=True)
     phone = models.CharField('Телефон', max_length=11)
     email = models.EmailField('Эл. почта', max_length=255)
+    #owner = models.ForeignKey(User, verbose_name='Владелец', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     # Custom Manager

@@ -11,6 +11,9 @@ from orgs.forms import EmployerForm
 
 User = get_user_model()
 
+username = 'foo@bar.com'
+password = 'geekbrains'
+
 
 class EmployerListTestCase(TestCase):
     def test_employer_list_pagination(self):
@@ -43,9 +46,7 @@ class EmployerCreateTestCase(TestCase):
         )
 
     def test_create_employer(self):
-        username = 'foo@bar.com'
-        password = 'geekbrains'
-        user = User.objects.create_user(username, password)
+        User.objects.create_user(username, password)
         self.client.login(username=username, password=password)
         response = self.client.get(self.url_create)
         self.assertEqual(response.status_code, 200)
@@ -72,4 +73,75 @@ class EmployerCreateTestCase(TestCase):
         self.assertEqual(
             response.context['employer'].name,
             response.context['employer'].short_name,
+        )
+
+
+class EmployerUpdateTestCase(TestCase):
+    def setUp(self):
+        self.region_1 = Region.objects.create(name='Region 1')
+        self.city_1 = City.objects.create(name='City 1', region=self.region_1)
+        self.employer_data = {
+            'name': 'Employer 1',
+            'inn': '123456789012',
+            'city': self.city_1,
+            'phone': '123',
+            'email': 'test@email.local',
+        }
+        self.employer_1 = Employer.objects.create(**self.employer_data)
+        self.url_update = reverse('orgs:update', kwargs={'pk': self.employer_1.id})
+
+    def test_with_unauthorized(self):
+        url_login = reverse('users:login')
+        self.assertRedirects(
+            self.client.get(self.url_update),
+            '{}?next={}'.format(url_login, self.url_update)
+        )
+
+    def test_update_employer(self):
+        User.objects.create_user(username, password)
+        self.client.login(username=username, password=password)
+        response = self.client.get(self.url_update)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'orgs/employer_form.html')
+        self.assertIsInstance(response.context['form'], EmployerForm)
+
+        self.employer_data['name'] = 'Employer 1 Updated'
+        response = self.client.post(self.url_update, data=self.employer_data, follow=True)
+        # self.assertRedirects(
+        #     response,
+        #     reverse(
+        #         'orgs:detail',
+        #         args=[response.context['employer'].pk]
+        #     )
+        # )
+        self.assertEqual(
+            response.context['employer'].name,
+            response.context['employer'].short_name,
+        )
+        self.assertEqual(
+            response.context['employer'].name,
+            self.employer_data['name']
+        )
+
+
+class EmployerDeleteTestCase(TestCase):
+    def setUp(self):
+        self.region_1 = Region.objects.create(name='Region 1')
+        self.city_1 = City.objects.create(name='City 1', region=self.region_1)
+        self.employer_data = {
+            'name': 'Employer 1',
+            'inn': '123456789012',
+            'city': self.city_1,
+            'phone': '123',
+            'email': 'test@email.local',
+        }
+        self.employer_1 = Employer.objects.create(**self.employer_data)
+        self.url_delete = reverse('orgs:delete', kwargs={'pk': self.employer_1.id})
+
+    def test_with_unauthorized(self):
+        url_login = reverse('users:login')
+        response = self.client.get(self.url_delete)
+        self.assertRedirects(
+            response,
+            '{}?next={}'.format(url_login, self.url_delete)
         )

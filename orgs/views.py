@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -27,17 +27,12 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
     template_name = 'orgs/employer_form.html'
 
 
-# class EmployerUpdateView(LoginRequiredMixin, UpdateView):
-#     form_class = EmployerForm
-#     template_name = 'orgs/employer_form.html'
-#
-    # def get_object(self, queryset=None):
-    #     return self.request.user.employer
+class EmployerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Employer
+    form_class = EmployerForm
+    template_name = 'orgs/employer_form.html'
 
 
-class EmployerUpdateView:
-    pass
-
-
-class EmployerDeleteView:
-    pass
+class EmployerDeleteView(LoginRequiredMixin, DeleteView):
+    model = Employer
+    success_url = reverse_lazy('orgs:list')
