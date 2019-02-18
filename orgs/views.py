@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -12,7 +12,7 @@ EMPLOYERS_PER_PAGE = 5
 class EmployerListView(ListView):
     model = Employer
     template_name = 'orgs/employer_list.html'
-    context_object_name = 'employer_list'
+    context_object_name = 'employers'
     paginate_by = EMPLOYERS_PER_PAGE
 
 
@@ -24,19 +24,15 @@ class EmployerDetailView(DetailView):
 
 class EmployerCreateView(LoginRequiredMixin, CreateView):
     form_class = EmployerForm
-    template_name = 'orgs/employer_create.html'
+    template_name = 'orgs/employer_form.html'
 
 
-# class EmployerUpdateView(LoginRequiredMixin, UpdateView):
-#     form_class = EmployerForm
-#     template_name = 'orgs/employer_create.html'
-#
-#     def get_object(self):
+class EmployerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Employer
+    form_class = EmployerForm
+    template_name = 'orgs/employer_form.html'
 
 
-class EmployerUpdateView:
-    pass
-
-
-class EmployerDeleteView:
-    pass
+class EmployerDeleteView(LoginRequiredMixin, DeleteView):
+    model = Employer
+    success_url = reverse_lazy('orgs:list')

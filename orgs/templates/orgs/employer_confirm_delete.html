@@ -1,0 +1,17 @@
+{% extends 'mainapp/base.html' %}
+
+
+{% block content %}
+
+<div class="container my-5">
+    <h3>Удаление работодателя</h3>
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы уверены, что хотите удалить работодателя</p>
+        <input type=button value="Отмена" onClick="javascript:history.go(-1);" class="btn btn-outline-primary">
+        <input type="submit" value="Удалить" class="btn btn-danger">
+    </form>
+
+</div>
+
+{% endblock %}
