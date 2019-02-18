@@ -49,7 +49,7 @@ class EmployerCreateTestCase(TestCase):
         self.client.login(username=username, password=password)
         response = self.client.get(self.url_create)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'orgs/employer_create.html')
+        self.assertTemplateUsed(response, 'orgs/employer_form.html')
         self.assertIsInstance(response.context['form'], EmployerForm)
 
         region_1 = Region.objects.create(name='Region 1')

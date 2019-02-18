@@ -24,21 +24,15 @@ class EmployerDetailView(DetailView):
 
 class EmployerCreateView(LoginRequiredMixin, CreateView):
     form_class = EmployerForm
-    template_name = 'orgs/employer_create.html'
-
-    # def form_valid(self, form):
-    #     employer = form.save(commit=False)
-    #     if employer.short_name == '':
-    #         employer.short_name = employer.name
-    #     employer.save()
-    #     return redirect('orgs:detail', pk=employer.id)
+    template_name = 'orgs/employer_form.html'
 
 
 # class EmployerUpdateView(LoginRequiredMixin, UpdateView):
 #     form_class = EmployerForm
-#     template_name = 'orgs/employer_create.html'
+#     template_name = 'orgs/employer_form.html'
 #
-#     def get_object(self):
+    # def get_object(self, queryset=None):
+    #     return self.request.user.employer
 
 
 class EmployerUpdateView:
