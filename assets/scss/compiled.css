@@ -66,6 +66,58 @@
 
 .main-page-search-a:hover { color: white; }
 
+
 .filter-panel-bg { background-color: rgba(0, 0, 0, 0.03); border: 1px solid transparent; border-radius: 3px; }
+
+/* WARNING!!! File compiled with SCSS. Do not change this file! All changes will be lost! */
+.main-page-search { background: url(/static/img/main-page-search-bg.jpg); color: white; }
+
+.main-page-search .bg { background-color: rgba(255, 218, 85, 0.85); padding: 50px 0; }
+
+@media screen and (min-width: 768px) { .main-page-search .bg { padding: 108px 0; } }
+
+.main-page-search h1 { font-size: 52px; font-weight: 700; line-height: 52px; }
+
+.main-page-search .text-stat { font-size: 22px; font-weight: 400; line-height: 52px; }
+
+.main-page-search .text-stat p { font-size: 38px; font-weight: 700; line-height: 52px; }
+
+.main-page-search .button-add { min-width: 170px; font-size: 14px; width: 100%; }
+
+.main-page-search .cont-fast-search { background-color: white; border-radius: 3px; padding: 29px 23px; }
+
+.main-page-search .cont-fast-search p { color: #8d8d8d; font-size: 16px; font-weight: 600; line-height: 20px; }
+
+.main-page-search .cont-fast-search .btn-warning { font-size: 14px; }
+
+.main-page-search .cont-fast-search .form-control { font-size: 12px; }
+
+/* WARNING!!! File compiled with SCSS. Do not change this file! All changes will be lost! */
+.side-panel .grey-bg { background-color: #f8f8f8; }
+
+.side-panel .vacancy-in-city .grey { color: #7d7d7d; font-size: 12px; }
+
+.side-panel .vacancy-in-city .title { font-size: 16px; font-weight: 500; }
+
+.side-panel .vacancy-in-city .city { font-size: 14px; color: #888; }
+
+.side-panel .vacancy-in-city .row { padding-bottom: 20px; }
+
+.side-panel .vacancy-in-city .vacancy { font-size: 14px; font-weight: 500; }
+
+.side-panel .vacancy-in-city .salary { font-size: 16px; }
+
+.side-panel .side-panel-block { border-radius: 3px; margin-bottom: 12px; padding: 24px; }
+
+.side-panel .side-panel-block .h5 { font-size: 20px; font-weight: bold; }
+
+.side-panel .side-panel-block .text { color: #414141; font-size: 14px; }
+
+.side-panel .side-panel-block .btn-vacancy { color: #fff; font-size: 14px; line-height: 14px; font-weight: 500; background-color: #4b4e65; padding: 13px 26px; }
+
+.side-panel .side-panel-block .subscribe { font-size: 12px; }
+
+.side-panel .side-panel-block .subscribe button { margin-left: 10px; font-size: inherit; }
+
 
 /*# sourceMappingURL=compiled.css.map */

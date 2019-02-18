@@ -2,6 +2,7 @@
 
   roles:
   - nginx
+  - postgresql
 
   vars_files:
   - 'vars.yml'
@@ -19,9 +20,6 @@
         - git
         - python3-pip
         - memcached
-        - postgresql
-        - postgresql-contrib
-        - python3-psycopg2
       state: latest
     tags: apt
 
@@ -49,20 +47,9 @@
       requirements: '{{ requirements }}'
       executable: "pip3"
       state: forcereinstall
-
-  - name: DB create
-    become_user: postgres
-    postgresql_db:
-      name: '{{ db_name }}'
-      encoding: UTF-8
-
-  - name: DB user create
-    become_user: postgres
-    postgresql_user:
-      db: '{{ db_name }}'
-      name: '{{ db_user }}'
-      password: '{{ db_pass }}'
-      priv: ALL
+    tags: 'requirements'
+    notify:
+    - restart gunicorn
 
   - name: Create directories
     file:
