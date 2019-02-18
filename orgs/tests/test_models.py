@@ -5,10 +5,7 @@ from users.models import User
 from vacancies.models import Vacancy
 
 
-EMPLOYERS_PER_PAGE = 5
-
-
-class RegionModelTest(TestCase):
+class RegionModelTestCase(TestCase):
     def setUp(self):
         self.region_1 = Region.objects.create(name='Region 1')
 
@@ -18,7 +15,7 @@ class RegionModelTest(TestCase):
         self.assertEqual(expected, result)
 
 
-class CityModelTest(TestCase):
+class CityModelTestCase(TestCase):
     def setUp(self):
         self.region_1 = Region.objects.create(name='Region 1')
         self.city_1 = City.objects.create(name='City 1', region=self.region_1)
@@ -32,7 +29,7 @@ class CityModelTest(TestCase):
         self.assertEqual(expected, result)
 
 
-class EmployerModelTest(TestCase):
+class EmployerModelTestCase(TestCase):
     def setUp(self):
         self.region_1 = Region.objects.create(name='Region 1')
         self.city_1 = City.objects.create(name='City 1', region=self.region_1)

@@ -8,6 +8,14 @@ class EmployerForm(forms.ModelForm):
         model = Employer
         fields = '__all__'
 
+    def clean(self):
+        cleaned_data = super(EmployerForm, self).clean()
+
+        if cleaned_data['short_name'] == '':
+            cleaned_data['short_name'] = cleaned_data['name']
+
+        return cleaned_data
+
 
 class RegionForm(forms.ModelForm):
     class Meta:

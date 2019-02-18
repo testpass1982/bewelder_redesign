@@ -1,0 +1,62 @@
+/*
+ * WARNING!!!
+ * File compiled with SCSS.
+ * Do not change this file! All changes will be lost!
+ */
+.side-panel {
+    .grey-bg {
+        background-color: #f8f8f8;
+    }
+    .vacancy-in-city {
+        .grey {
+            color: #7d7d7d;
+            font-size: 12px;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .city {
+            font-size: 14px;
+            color: #888;
+        }
+        .row {
+            padding-bottom: 20px;
+        }
+        .vacancy {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .salary {
+            font-size: 16px;
+        }
+    }
+    .side-panel-block {
+        border-radius: 3px;
+        margin-bottom: 12px;
+        padding: 24px;
+        .h5 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .text {
+            color: #414141;
+            font-size: 14px;
+        }
+        .btn-vacancy {
+            color: #fff;
+            font-size: 14px;
+            line-height: 14px;
+            font-weight: 500;
+            background-color: #4b4e65;
+            padding: 13px 26px;
+        }
+        .subscribe {
+            font-size: 12px;
+            button {
+                margin-left: 10px;
+                font-size: inherit;
+            }
+        }
+    }
+}
