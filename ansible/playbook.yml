@@ -47,6 +47,9 @@
       requirements: '{{ requirements }}'
       executable: "pip3"
       state: forcereinstall
+    tags: 'requirements'
+    notify:
+    - restart gunicorn
 
   - name: Create directories
     file:
