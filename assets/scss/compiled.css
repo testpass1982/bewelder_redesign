@@ -66,6 +66,9 @@
 
 .main-page-search-a:hover { color: white; }
 
+
+.filter-panel-bg { background-color: rgba(0, 0, 0, 0.03); border: 1px solid transparent; border-radius: 3px; }
+
 /* WARNING!!! File compiled with SCSS. Do not change this file! All changes will be lost! */
 .main-page-search { background: url(/static/img/main-page-search-bg.jpg); color: white; }
 
@@ -115,5 +118,6 @@
 .side-panel .side-panel-block .subscribe { font-size: 12px; }
 
 .side-panel .side-panel-block .subscribe button { margin-left: 10px; font-size: inherit; }
+
 
 /*# sourceMappingURL=compiled.css.map */

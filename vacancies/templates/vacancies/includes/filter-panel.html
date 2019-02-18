@@ -1,0 +1,69 @@
+
+<div class="container filter-panel-bg p-3">
+  <h4>Фильтр вакансий</h4>
+  <p >Выберите вакансии по параметрам</p>
+
+  <form method="post">
+      <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="BusinessTripRequired">
+        <label class="form-check-label" for="BusinessTripRequired">
+          С командировками
+        </label>
+      </div>
+      <hr>
+      <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="AttNaksCheck">
+          <label class="form-check-label" for="AttNaksCheck">
+            С аттестацией НАКС
+          </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="Naks1Level">
+          <label class="form-check-label" for="Naks1Level">
+            1 уровень аттестации
+          </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="Naks2Level">
+          <label class="form-check-label" for="Naks2Level">
+            2 уровень аттестации
+          </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="Naks3Level">
+          <label class="form-check-label" for="Naks3Level">
+            3 уровень аттестации
+          </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="Naks4Level">
+          <label class="form-check-label" for="Naks4Level">
+            4 уровень аттестации
+          </label>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="SvidOKCheck">
+          <label class="form-check-label" for="SvidOKCheck">
+            Наличие свидетельства об оценке квалификации
+          </label>
+        </div>
+      </div>
+    <div class="form-row">
+      <div class="form-group col-sm">
+        <label for="salary_min_input">Зарплата от: </label>
+         <input type="text" class="form-control" name="salary_min" id="salary_min_input">
+      </div>
+         <div class="form-group col-sm">
+           <label for="salary_max_input">до: </label>
+           <input type="text" class="form-control" name="salary_max" id="salary_max_input">
+         </div>
+    </div>
+    <div class="form-group">
+      <input type="button" class="btn btn-primary" value="Поиск" name="SearchVacancy">
+    </div>
+  </form>
+</div>
