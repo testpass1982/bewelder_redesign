@@ -9,19 +9,18 @@ export default (state = {}, action) => {
   switch (action.type) {
     case TO_DIALOG_CREATE:
       return {
-        ...state,
         status: status.DIALOG_CREATE,
         opponent_id: action.opponent_id
       };
     case TO_DIALOG_VIEW:
       return {
-        ...state,
+        // ...state,
         status: status.DIALOG_VIEW,
         dialog_id: action.dialog_id
       };
     case TO_DIALOG_LIST:
       return {
-        ...state,
+        // ...state,
         status: status.DIALOG_LIST
       };
     default:

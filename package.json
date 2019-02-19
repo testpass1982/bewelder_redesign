@@ -4,7 +4,7 @@
   "description": "Documentation file will be here...",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build-dialogs": "webpack --config dialogs-wp.config.js --mode production",
     "start-dialogs": "webpack --watch --info-verbosity verbose --config dialogs-wp.config.js --mode development"
   },
@@ -25,6 +25,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "jest": "^24.1.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3"
   },
