@@ -1,6 +1,4 @@
 import React from "react";
-import * as actions from "../actions/viewActions";
-import { connect } from "react-redux";
 import MessageList from "./MessageList";
 
 class DialogView extends React.Component {
@@ -54,11 +52,4 @@ class DialogView extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  dialog_id: state.dialog_id
-});
-
-export default connect(
-  mapStateToProps,
-  actions
-)(DialogView);
+export default DialogView;

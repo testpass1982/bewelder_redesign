@@ -1,6 +1,4 @@
 import React from "react";
-import * as actions from "../actions/viewActions";
-import { connect } from "react-redux";
 
 class DialogCreate extends React.Component {
   state = {
@@ -39,11 +37,4 @@ class DialogCreate extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  opponent_id: state.opponent_id
-});
-
-export default connect(
-  mapStateToProps,
-  actions
-)(DialogCreate);
+export default DialogCreate;

@@ -1,10 +1,9 @@
 import React from "react";
 import Header from "./Header";
-import DialogList from "./DialogList";
 import { DIALOG_CREATE, DIALOG_LIST, DIALOG_VIEW } from "../constants/status";
-import DialogCreate from "./DialogCreate";
-import DialogView from "./DialogView";
-import { connect } from "react-redux";
+import DialogList from "../containers/DialogList";
+import DialogCreate from "../containers/DialogCreate";
+import DialogView from "../containers/DialogView";
 
 class App extends React.Component {
   state = {
@@ -42,8 +41,4 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  status: state.status
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

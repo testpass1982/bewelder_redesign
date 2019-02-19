@@ -1,6 +1,4 @@
 import React from "react";
-import * as actions from "../actions/viewActions";
-import { connect } from "react-redux";
 import DialogListItem from "./DialogListItem";
 
 class DialogList extends React.Component {
@@ -38,7 +36,4 @@ class DialogList extends React.Component {
   }
 }
 
-export default connect(
-  () => ({}),
-  actions
-)(DialogList);
+export default DialogList;
