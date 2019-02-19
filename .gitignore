@@ -117,3 +117,6 @@ venv
 geckodriver.log
 # /static
 whoosh_index/
+
+# SASS_PROCESSOR
+*.css.map
