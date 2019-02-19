@@ -21,6 +21,10 @@
                 {% with result.object as vacancy %}
                     {% include 'vacancies/includes/vacancy_card.html' %}
                 {% endwith %}
+            {% elif 'employer' in result|lower %}
+                {% with result.object as employer %}
+                    {% include 'components/employer_short.html' %}
+                {% endwith %}
             {% else %}
                 {{ result }}
             {% endif %}

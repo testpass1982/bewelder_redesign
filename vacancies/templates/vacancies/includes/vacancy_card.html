@@ -22,6 +22,7 @@
                             от {{ vacancy.salary_min }}
                             до {{ vacancy.salary_max }}
                         </div>
+                        <a href="{% url 'vacancies:vacancy_details' vacancy.pk %}" class="btn btn-warning">Подробнее</a>
                     </div>
                 </div>
             </div>

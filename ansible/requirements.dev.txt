@@ -13,6 +13,7 @@ django-haystack==2.8.1
 django-js-asset==1.2.1    # via django-ckeditor
 django-sass-processor==0.7.2
 django==2.1.5
+djangorestframework==3.9.1
 faker==0.9.1              # via mixer
 gunicorn==19.9.0
 ipaddress==1.0.22         # via faker

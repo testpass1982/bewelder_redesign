@@ -115,5 +115,5 @@ package-lock.json
 .vscode/
 venv
 geckodriver.log
-/static
+# /static
 whoosh_index/

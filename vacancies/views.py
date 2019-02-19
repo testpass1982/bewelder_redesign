@@ -26,6 +26,17 @@ def vacancies_list(request):
     }
     return render(request, 'vacancies/list.html', content)
 
+def vacancy_details(request, pk):
+    vacancy = Vacancy.objects.get(pk=pk)
+    title = vacancy.title
+
+    content = {
+        'title': title,
+        'vacancy': vacancy,
+    }
+
+    return render(request, 'vacancies/includes/vacancy_details.html', content)
+
 @login_required
 def add_new_vacancy(request):
     if request.user.is_authenticated:
