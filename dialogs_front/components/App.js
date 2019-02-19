@@ -11,6 +11,10 @@ class App extends React.Component {
     dialogs: []
   };
 
+  componentWillUnmount() {
+    console.log("dialogs app will unmount");
+  }
+
   render() {
     console.log("render App");
     const status = this.props.status;

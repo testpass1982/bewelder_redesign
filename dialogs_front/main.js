@@ -7,12 +7,20 @@ import reducer from "./reducers";
 
 const el = document.getElementById("dialogs");
 
-if (el) {
-  const store = createStore(reducer);
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    el
-  );
-}
+$("#dialogs-modal").on("show.bs.modal", function() {
+  console.log("start dialogs main");
+  if (el) {
+    const store = createStore(reducer);
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      el
+    );
+  }
+});
+
+$("#dialogs-modal").on("hidden.bs.modal", function() {
+  console.log("close dialgs main");
+  ReactDOM.unmountComponentAtNode(el);
+});
