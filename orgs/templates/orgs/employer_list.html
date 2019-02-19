@@ -2,10 +2,9 @@
 {% load static %}
 {% block content %}
 
-<div class="cont-width-block">
+{% include 'orgs/includes/employer_pagination.html' %}
 
-    {% include 'orgs/includes/employer_pagination.html' %}
-
+<div class="container my-5">
     <div class="row">
         <div class="col-lg-8">
             {% for employer in employers %}
@@ -16,9 +15,8 @@
             {% include 'orgs/includes/side-panel.html' %}
         </div>
     </div>
-
-    {% include 'orgs/includes/employer_pagination.html' %}
-
 </div>
+
+{% include 'orgs/includes/employer_pagination.html' %}
 
 {% endblock %}
