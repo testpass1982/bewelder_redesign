@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from users.models import User
 
@@ -34,7 +35,7 @@ class UserRegistrationViewTestCase(TestCase):
         }
         resp = self.client.post(reverse('users:registration'), data, follow=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertFormError(resp, 'form', 'email', 'Обязательное поле.')
+        self.assertFormError(resp, 'form', 'email', _('This field is required.'))
 
     def test_missing_names(self):
         data = {
@@ -46,8 +47,8 @@ class UserRegistrationViewTestCase(TestCase):
         }
         resp = self.client.post(reverse('users:registration'), data, follow=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertFormError(resp, 'form', 'first_name', 'Обязательное поле.')
-        self.assertFormError(resp, 'form', 'last_name', 'Обязательное поле.')
+        self.assertFormError(resp, 'form', 'first_name', _('This field is required.'))
+        self.assertFormError(resp, 'form', 'last_name', _('This field is required.'))
 
 
 class UserLoginViewTestCase(TestCase):
