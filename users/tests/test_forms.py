@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.translation import gettext as _
 
 from users.forms import UserRegistrationForm
 from users.models import User
@@ -30,8 +31,8 @@ class UserRegistrationTestCase(TestCase):
         }
         form = UserRegistrationForm(data)
         self.assertFalse(form.is_valid())
-        self.assertEqual(form['first_name'].errors, ['Обязательное поле.'])
-        self.assertEqual(form['last_name'].errors, ['Обязательное поле.'])
+        self.assertEqual(form['first_name'].errors, [_('This field is required.')])
+        self.assertEqual(form['last_name'].errors, [_('This field is required.')])
         data['first_name'] = 'Иван'
         data['last_name'] = 'Иванов'
         form = UserRegistrationForm(data)
