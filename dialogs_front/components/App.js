@@ -15,9 +15,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log("render App");
     const status = this.props.status;
-    console.log("status:", status);
     let view;
     switch (status) {
       case DIALOG_CREATE:
