@@ -1,22 +1,11 @@
 import React from "react";
-import MessageList from "./MessageList";
+import MessageList from "../containers/MessageList";
+import api from "../utils/api";
 
 class DialogView extends React.Component {
-  state = {
-    messages: [
-      {
-        id: 1,
-        user: "Adam",
-        text:
-          "Добрый день! Нам требуется работник для работы на работе. Предлагаем зарплату деньгами. Что Вы об этом думаете?"
-      },
-      {
-        id: 2,
-        user: "Eva",
-        text: "Отлично!!! Куда прийти? Вещи брать?"
-      }
-    ]
-  };
+  componentDidMount() {
+    api.dialogs.get(this.props.dialogId).then(this.props.saveDialog);
+  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -34,7 +23,7 @@ class DialogView extends React.Component {
         </button>
         {/* <h4>Dialog view</h4>
         <h5>{this.props.dialog_id}</h5> */}
-        <MessageList messages={this.state.messages} />
+        <MessageList />
         <div>
           <form onSubmit={this.handleSubmit}>
             <div className="input-group">
