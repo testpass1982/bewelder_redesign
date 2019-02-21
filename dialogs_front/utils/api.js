@@ -16,7 +16,7 @@ const dialogs = {
   create: (oppId, vacancyId, theme, text) =>
     requests.post("", { oppId, vacancyId, theme, text }),
   sendMessage: (dialogId, text) =>
-    requests.post(`${dialogsURL}/${dialogId}`, { text })
+    requests.post(`${dialogsURL}/${dialogId}/`, { text })
 };
 
 function init(baseURL = baseMessagingURL) {

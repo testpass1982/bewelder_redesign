@@ -34,3 +34,10 @@ test("saveDialog should create SAVE_DIALOG action", () => {
     dialog: { id: 1, messages: [] }
   });
 });
+
+test("appendMessage should create APPEND_MESSAGE action", () => {
+  expect(actions.appendMessage({ id: 1, text: "foo bar" })).toEqual({
+    type: types.APPEND_MESSAGE,
+    message: { id: 1, text: "foo bar" }
+  });
+});

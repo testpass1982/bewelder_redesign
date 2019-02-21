@@ -30,6 +30,21 @@ export default (state = {}, action) => {
         ...state,
         dialog: action.dialog
       };
+    case types.APPEND_MESSAGE:
+      if (state.status === status.DIALOG_VIEW) {
+        const dialog = {
+          ...state.dialog
+        };
+        if (dialog.message_set) {
+          dialog.message_set = [...state.dialog.message_set, action.message];
+        } else {
+          dialog.message_set = [action.message];
+        }
+        return {
+          ...state,
+          dialog
+        };
+      }
     default:
       return state;
   }

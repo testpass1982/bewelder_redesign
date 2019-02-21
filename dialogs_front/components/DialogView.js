@@ -1,16 +1,12 @@
 import React from "react";
 import MessageList from "../containers/MessageList";
+import MessageForm from "../containers/MessageForm";
 import api from "../utils/api";
 
 class DialogView extends React.Component {
   componentDidMount() {
     api.dialogs.get(this.props.dialog.id).then(this.props.saveDialog);
   }
-
-  handleSubmit = event => {
-    event.preventDefault();
-    console.log("send message");
-  };
 
   render() {
     return (
@@ -24,18 +20,7 @@ class DialogView extends React.Component {
         {/* <h4>Dialog view</h4>
         <h5>{this.props.dialogId}</h5> */}
         <MessageList />
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <div className="input-group">
-              <textarea className="form-control" rows="8" />
-              <div className="input-group-append">
-                <button className="btn btn-success" type="submit">
-                  Отправить
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        <MessageForm />
       </div>
     );
   }

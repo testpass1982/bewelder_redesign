@@ -152,3 +152,84 @@ test("reducer should handle SAVE_DIALOG", () => {
     dialog: { id: 1, messages: [] }
   });
 });
+
+describe("reducer should handle APPEND_MESSAGE", () => {
+  test("do not append a new message if status is not DIALOG_VIEW", () => {
+    expect(
+      reducer(
+        { status: status.DIALOG_LIST },
+        {
+          type: types.APPEND_MESSAGE,
+          message: { id: 23, text: "foo bar" }
+        }
+      )
+    ).toEqual({ status: status.DIALOG_LIST });
+  });
+
+  test("append a new message to dialog message_set", () => {
+    expect(
+      reducer(
+        {
+          status: status.DIALOG_VIEW,
+          dialog: {
+            id: 42
+          }
+        },
+        {
+          type: types.APPEND_MESSAGE,
+          message: { id: 23, text: "foo bar" }
+        }
+      )
+    ).toEqual({
+      status: status.DIALOG_VIEW,
+      dialog: {
+        id: 42,
+        message_set: [{ id: 23, text: "foo bar" }]
+      }
+    });
+
+    expect(
+      reducer(
+        {
+          status: status.DIALOG_VIEW,
+          dialog: {
+            id: 42,
+            message_set: []
+          }
+        },
+        {
+          type: types.APPEND_MESSAGE,
+          message: { id: 23, text: "foo bar" }
+        }
+      )
+    ).toEqual({
+      status: status.DIALOG_VIEW,
+      dialog: {
+        id: 42,
+        message_set: [{ id: 23, text: "foo bar" }]
+      }
+    });
+
+    expect(
+      reducer(
+        {
+          status: status.DIALOG_VIEW,
+          dialog: {
+            id: 42,
+            message_set: [{ id: 23, text: "foo bar" }]
+          }
+        },
+        {
+          type: types.APPEND_MESSAGE,
+          message: { id: 24, text: "bar foo" }
+        }
+      )
+    ).toEqual({
+      status: status.DIALOG_VIEW,
+      dialog: {
+        id: 42,
+        message_set: [{ id: 23, text: "foo bar" }, { id: 24, text: "bar foo" }]
+      }
+    });
+  });
+});

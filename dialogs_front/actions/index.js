@@ -24,3 +24,8 @@ export const saveDialog = dialog => ({
   type: types.SAVE_DIALOG,
   dialog
 });
+
+export const appendMessage = message => ({
+  type: types.APPEND_MESSAGE,
+  message
+});
