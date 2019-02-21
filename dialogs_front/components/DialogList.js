@@ -1,22 +1,18 @@
 import React from "react";
 import DialogListItem from "./DialogListItem";
+import api from "../utils/api";
 
 class DialogList extends React.Component {
-  state = {
-    dialogs: [
-      {
-        id: 1,
-        theme: "Предложение от ГазПрома"
-      },
-      {
-        id: 2,
-        theme: "Не хотите поработать на Новой Земле?"
+  componentDidMount() {
+    api.dialogs.get().then(dialogs => {
+      if (JSON.stringify(dialogs) !== JSON.stringify(this.props.dialogs)) {
+        this.props.saveDialogList(dialogs);
       }
-    ]
-  };
+    });
+  }
 
   render() {
-    const dialogs = this.state.dialogs.map(dialog => (
+    const dialogs = this.props.dialogs.map(dialog => (
       <a
         href="#"
         className="list-group-item list-group-item-action"
