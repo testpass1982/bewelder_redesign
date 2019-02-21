@@ -19,3 +19,8 @@ export const saveDialogList = dialogs => ({
   type: types.SAVE_DIALOG_LIST,
   dialogs
 });
+
+export const saveDialog = dialog => ({
+  type: types.SAVE_DIALOG,
+  dialog
+});

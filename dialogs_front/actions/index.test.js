@@ -27,3 +27,10 @@ test("saveDialogList should create SAVE_DIALOG_LIST action", () => {
     dialogs: [{ id: 1 }, { id: 2 }]
   });
 });
+
+test("saveDialog should create SAVE_DIALOG action", () => {
+  expect(actions.saveDialog({ id: 1, messages: [] })).toEqual({
+    type: types.SAVE_DIALOG,
+    dialog: { id: 1, messages: [] }
+  });
+});

@@ -25,6 +25,11 @@ export default (state = {}, action) => {
         ...state,
         dialogs: action.dialogs
       };
+    case types.SAVE_DIALOG:
+      return {
+        ...state,
+        dialog: action.dialog
+      };
     default:
       return state;
   }

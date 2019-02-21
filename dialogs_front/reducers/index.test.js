@@ -121,3 +121,34 @@ test("reducer should handle SAVE_DIALOG_LIST", () => {
     dialogs: [{ id: 1 }, { id: 2 }]
   });
 });
+
+test("reducer should handle SAVE_DIALOG", () => {
+  expect(
+    reducer(
+      {},
+      {
+        type: types.SAVE_DIALOG,
+        dialog: { id: 1, messages: [] }
+      }
+    )
+  ).toMatchObject({
+    dialog: { id: 1, messages: [] }
+  });
+
+  expect(
+    reducer(
+      {
+        status: status.DIALOG_VIEW,
+        dialog_id: 23
+      },
+      {
+        type: types.SAVE_DIALOG,
+        dialog: { id: 1, messages: [] }
+      }
+    )
+  ).toMatchObject({
+    status: status.DIALOG_VIEW,
+    dialog_id: 23,
+    dialog: { id: 1, messages: [] }
+  });
+});
