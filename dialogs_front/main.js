@@ -4,8 +4,10 @@ import App from "./components/App";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
+import api from "./utils/api";
 
 const el = document.getElementById("dialogs");
+api.init();
 
 $("#dialogs-modal").on("show.bs.modal", function() {
   console.log("start dialogs main");
