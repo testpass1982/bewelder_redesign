@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import * as actions from "../actions";
-import DialogCreate from "../components/DialogCreate";
+import MessageList from "../components/MessageList";
 
 const mapStateToProps = state => ({
-  opponentId: state.opponentId
+  messages: state.dialog.message_set || []
 });
 
 export default connect(
   mapStateToProps,
   actions
-)(DialogCreate);
+)(MessageList);

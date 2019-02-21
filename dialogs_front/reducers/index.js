@@ -7,13 +7,13 @@ export default (state = {}, action) => {
       return {
         ...state,
         status: status.DIALOG_CREATE,
-        opponent_id: action.opponent_id
+        opponentId: action.opponentId
       };
     case types.TO_DIALOG_VIEW:
       return {
         ...state,
         status: status.DIALOG_VIEW,
-        dialog_id: action.dialog_id
+        dialog: { id: action.dialogId }
       };
     case types.TO_DIALOG_LIST:
       return {

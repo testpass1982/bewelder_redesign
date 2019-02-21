@@ -8,28 +8,28 @@ test("reducer should handle TO_DIALOG_CREATE", () => {
       {},
       {
         type: types.TO_DIALOG_CREATE,
-        opponent_id: 42
+        opponentId: 42
       }
     )
   ).toEqual({
     status: status.DIALOG_CREATE,
-    opponent_id: 42
+    opponentId: 42
   });
 
   expect(
     reducer(
       {
         status: status.DIALOG_VIEW,
-        dialog_id: 23
+        dialogId: 23
       },
       {
         type: types.TO_DIALOG_CREATE,
-        opponent_id: 42
+        opponentId: 42
       }
     )
   ).toMatchObject({
     status: status.DIALOG_CREATE,
-    opponent_id: 42
+    opponentId: 42
   });
 });
 
@@ -39,28 +39,28 @@ test("reducer should handle TO_DIALOG_VIEW", () => {
       {},
       {
         type: types.TO_DIALOG_VIEW,
-        dialog_id: 42
+        dialogId: 42
       }
     )
   ).toEqual({
     status: status.DIALOG_VIEW,
-    dialog_id: 42
+    dialog: { id: 42 }
   });
 
   expect(
     reducer(
       {
         status: status.DIALOG_CREATE,
-        opponent_id: 23
+        opponentId: 23
       },
       {
         type: types.TO_DIALOG_VIEW,
-        dialog_id: 42
+        dialogId: 42
       }
     )
   ).toMatchObject({
     status: status.DIALOG_VIEW,
-    dialog_id: 42
+    dialog: { id: 42 }
   });
 });
 
@@ -80,7 +80,7 @@ test("reducer should handle TO_DIALOG_LIST", () => {
     reducer(
       {
         status: status.DIALOG_VIEW,
-        dialog_id: 23
+        dialog: { id: 23 }
       },
       {
         type: types.TO_DIALOG_LIST
@@ -108,7 +108,7 @@ test("reducer should handle SAVE_DIALOG_LIST", () => {
     reducer(
       {
         status: status.DIALOG_VIEW,
-        dialog_id: 23
+        dialog: { id: 23 }
       },
       {
         type: types.SAVE_DIALOG_LIST,
@@ -117,7 +117,7 @@ test("reducer should handle SAVE_DIALOG_LIST", () => {
     )
   ).toMatchObject({
     status: status.DIALOG_VIEW,
-    dialog_id: 23,
+    dialog: { id: 23 },
     dialogs: [{ id: 1 }, { id: 2 }]
   });
 });
@@ -139,7 +139,7 @@ test("reducer should handle SAVE_DIALOG", () => {
     reducer(
       {
         status: status.DIALOG_VIEW,
-        dialog_id: 23
+        dialog: { id: 23 }
       },
       {
         type: types.SAVE_DIALOG,
@@ -148,7 +148,7 @@ test("reducer should handle SAVE_DIALOG", () => {
     )
   ).toMatchObject({
     status: status.DIALOG_VIEW,
-    dialog_id: 23,
+    dialog: { id: 23 },
     dialog: { id: 1, messages: [] }
   });
 });

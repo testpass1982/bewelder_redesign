@@ -13,7 +13,8 @@ $("#dialogs-modal").on("show.bs.modal", function() {
   console.log("start dialogs main");
   if (el) {
     const initStore = {
-      dialogs: []
+      dialogs: [],
+      dialog: {}
     };
     const store = createStore(reducer, initStore);
     ReactDOM.render(

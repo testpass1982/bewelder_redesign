@@ -4,14 +4,14 @@ export const toDialogList = () => ({
   type: types.TO_DIALOG_LIST
 });
 
-export const toDialogView = dialog_id => ({
+export const toDialogView = dialogId => ({
   type: types.TO_DIALOG_VIEW,
-  dialog_id
+  dialogId
 });
 
-export const toDialogCreate = opponent_id => ({
+export const toDialogCreate = opponentId => ({
   type: types.TO_DIALOG_CREATE,
-  opponent_id
+  opponentId
   // TODO: vacancy_id
 });
 

@@ -10,14 +10,14 @@ test("toDialogList should create TO_DIALOG_LIST action", () => {
 test("toDialogView should create TO_DIALOG_VIEW action", () => {
   expect(actions.toDialogView(42)).toEqual({
     type: types.TO_DIALOG_VIEW,
-    dialog_id: 42
+    dialogId: 42
   });
 });
 
 test("toDialogCreate should create TO_DIALOG_CREATE action", () => {
   expect(actions.toDialogCreate(23)).toEqual({
     type: types.TO_DIALOG_CREATE,
-    opponent_id: 23
+    opponentId: 23
   });
 });
 

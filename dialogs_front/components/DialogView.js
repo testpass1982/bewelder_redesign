@@ -4,7 +4,7 @@ import api from "../utils/api";
 
 class DialogView extends React.Component {
   componentDidMount() {
-    api.dialogs.get(this.props.dialogId).then(this.props.saveDialog);
+    api.dialogs.get(this.props.dialog.id).then(this.props.saveDialog);
   }
 
   handleSubmit = event => {
@@ -22,7 +22,7 @@ class DialogView extends React.Component {
           К списку сообщений
         </button>
         {/* <h4>Dialog view</h4>
-        <h5>{this.props.dialog_id}</h5> */}
+        <h5>{this.props.dialogId}</h5> */}
         <MessageList />
         <div>
           <form onSubmit={this.handleSubmit}>
