@@ -14,7 +14,12 @@ const requests = {
 const dialogs = {
   get: id => requests.get(dialogsURL + (id ? `/${id}` : "")),
   create: (oppId, vacancyId, theme, text) =>
-    requests.post("", { oppId, vacancyId, theme, text }),
+    requests.post(dialogsURL + "/", {
+      opponent: oppId,
+      vacancy: vacancyId,
+      theme,
+      text
+    }),
   sendMessage: (dialogId, text) =>
     requests.post(`${dialogsURL}/${dialogId}/`, { text })
 };

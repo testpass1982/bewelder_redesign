@@ -47,6 +47,10 @@ class DialogView(mixins.ListModelMixin,
             theme: str,
             text: str
         }
+        output schema
+        {
+            id: int  # возвращает id созданного диалога
+        }
         """
 
         data = request.data
@@ -57,9 +61,9 @@ class DialogView(mixins.ListModelMixin,
 
         dialog = serializer.save(creator=request.user)
 
-        dialog_details = self.action_serializers['retrieve'](dialog)
+        # dialog_details = self.action_serializers['retrieve'](dialog)
 
-        return Response(dialog_details.data, status=status.HTTP_201_CREATED)
+        return Response({'id': dialog.id}, status=status.HTTP_201_CREATED)
 
     def create_msg(self, request, pk=None):
         """

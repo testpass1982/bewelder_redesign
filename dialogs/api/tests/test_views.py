@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from mixer.backend.django import mixer
 from rest_framework import status
 from rest_framework.reverse import reverse
@@ -45,7 +46,9 @@ class DialogViewAPITestCase(APITestCase):
         self.client.force_login(creator)
         resp = self.client.post(self.url, data=data, format='json')
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(resp.data.get('theme'), data['theme'])
+        created_dialog = Dialog.objects.get(members=creator)
+        self.assertDictEqual(resp.data, {'id': created_dialog.pk})
+        # self.assertEqual(resp.data.get('theme'), data['theme'])
         created_msg = Message.objects.first()
         self.assertEqual(created_msg.user, creator)
         self.assertEqual(created_msg.text, data['text'])

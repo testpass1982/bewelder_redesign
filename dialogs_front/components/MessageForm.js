@@ -29,6 +29,7 @@ class MessageForm extends React.Component {
             rows="8"
             value={this.state.messageText}
             onChange={this.handleChange}
+            required
           />
           <div className="input-group-append">
             <button className="btn btn-success" type="submit">
