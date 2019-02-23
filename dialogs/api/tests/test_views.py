@@ -11,24 +11,21 @@ User = get_user_model()
 
 
 class DialogViewAPITestCase(APITestCase):
-    url = reverse('dialogs_api:dialog_list')
 
     def setUp(self):
         self.dialog = mixer.blend(Dialog)
         self.creator, self.opponent = mixer.cycle(2).blend(User)
         mixer.blend(Membership, dialog=self.dialog, user=self.creator, is_creator=True)
         mixer.blend(Membership, dialog=self.dialog, user=self.opponent)
-
-    def test_dialogs_list_url_exists(self):
-        resp = self.client.get(self.url, format='json')
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.url_dialog_list = reverse('dialogs_api:dialog_list')
+        self.url_dialog_detail = reverse('dialogs_api:dialog_detail', kwargs={'pk': self.dialog.pk})
 
     def test_get_dialog_list(self):
-        resp = self.client.get(self.url, format='json')
+        resp = self.client.get(self.url_dialog_list, format='json')
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
 
         self.client.force_login(self.opponent)
-        resp = self.client.get(self.url, format='json')
+        resp = self.client.get(self.url_dialog_list, format='json')
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(len(resp.data), 1)
         self.assertEqual(resp.data[0]['id'], self.dialog.pk)
@@ -44,7 +41,7 @@ class DialogViewAPITestCase(APITestCase):
         }
 
         self.client.force_login(creator)
-        resp = self.client.post(self.url, data=data, format='json')
+        resp = self.client.post(self.url_dialog_list, data=data, format='json')
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         created_dialog = Dialog.objects.get(members=creator)
         self.assertDictEqual(resp.data, {'id': created_dialog.pk})
@@ -55,12 +52,41 @@ class DialogViewAPITestCase(APITestCase):
 
     def test_post_message(self):
 
-        url = reverse('dialogs_api:dialog_detail', kwargs={'pk': self.dialog.pk})
         msg = {'text': 'Hello world'}
 
-        resp = self.client.post(url, data=msg, format='json')
+        resp = self.client.post(self.url_dialog_detail, data=msg, format='json')
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
 
         self.client.force_login(self.creator)
-        resp = self.client.post(url, data=msg, format='json')
+        resp = self.client.post(self.url_dialog_detail, data=msg, format='json')
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+    def test_permissions_unauthorized(self):
+        testcases = [
+            self.url_dialog_detail,
+            self.url_dialog_list,
+        ]
+        for case in testcases:
+            with self.subTest(case=case):
+                resp = self.client.get(case)
+                self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+                resp = self.client.post(case, data={}, format='json')
+                self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_permissions_authorized(self):
+        user = mixer.blend(User)
+        self.client.force_login(user)
+
+        # Проверка, что пользователь не может получить чужие диалоги
+        resp = self.client.get(self.url_dialog_list)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 0)
+
+        # Проверка, что пользователь не может получить чужие сообщения
+        resp = self.client.get(self.url_dialog_detail)
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+        # Проверка, что пользователь не может отправить сообщение в чужой диалог
+        msg = {'text': 'foo bar'}
+        resp = self.client.post(self.url_dialog_detail, data=msg, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
