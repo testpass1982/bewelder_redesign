@@ -11,9 +11,6 @@ from orgs.forms import EmployerForm
 
 User = get_user_model()
 
-username = 'foo@bar.com'
-password = 'geekbrains'
-
 
 class EmployerListTestCase(TestCase):
     def test_employer_list_pagination(self):
@@ -46,8 +43,8 @@ class EmployerCreateTestCase(TestCase):
         )
 
     def test_create_employer(self):
-        User.objects.create_user(username, password)
-        self.client.login(username=username, password=password)
+        user = mixer.blend(User)
+        self.client.force_login(user)
         response = self.client.get(self.url_create)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'orgs/employer_form.html')
@@ -98,8 +95,8 @@ class EmployerUpdateTestCase(TestCase):
         )
 
     def test_update_employer(self):
-        User.objects.create_user(username, password)
-        self.client.login(username=username, password=password)
+        user = mixer.blend(User)
+        self.client.force_login(user)
         response = self.client.get(self.url_update)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'orgs/employer_form.html')
