@@ -3,7 +3,7 @@ import * as actions from "../actions";
 import DialogList from "../components/DialogList";
 
 const mapStateToProps = state => ({
-  dialogs: state.dialogs
+  dialogSet: state.dialogSet
 });
 
 export default connect(

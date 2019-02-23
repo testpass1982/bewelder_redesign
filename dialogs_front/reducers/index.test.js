@@ -97,11 +97,11 @@ test("reducer should handle SAVE_DIALOG_LIST", () => {
       {},
       {
         type: types.SAVE_DIALOG_LIST,
-        dialogs: [{ id: 1 }, { id: 2 }]
+        dialogSet: [{ id: 1 }, { id: 2 }]
       }
     )
   ).toMatchObject({
-    dialogs: [{ id: 1 }, { id: 2 }]
+    dialogSet: [{ id: 1 }, { id: 2 }]
   });
 
   expect(
@@ -112,13 +112,13 @@ test("reducer should handle SAVE_DIALOG_LIST", () => {
       },
       {
         type: types.SAVE_DIALOG_LIST,
-        dialogs: [{ id: 1 }, { id: 2 }]
+        dialogSet: [{ id: 1 }, { id: 2 }]
       }
     )
   ).toMatchObject({
     status: status.DIALOG_VIEW,
     dialog: { id: 23 },
-    dialogs: [{ id: 1 }, { id: 2 }]
+    dialogSet: [{ id: 1 }, { id: 2 }]
   });
 });
 

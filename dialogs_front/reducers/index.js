@@ -23,7 +23,7 @@ export default (state = {}, action) => {
     case types.SAVE_DIALOG_LIST:
       return {
         ...state,
-        dialogs: action.dialogs
+        dialogSet: action.dialogSet
       };
     case types.SAVE_DIALOG:
       return {

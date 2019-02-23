@@ -7,7 +7,7 @@ import DialogView from "../containers/DialogView";
 
 class App extends React.Component {
   state = {
-    dialogs: []
+    dialogSet: []
   };
 
   componentWillUnmount() {

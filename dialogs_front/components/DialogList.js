@@ -4,15 +4,15 @@ import api from "../utils/api";
 
 class DialogList extends React.Component {
   componentDidMount() {
-    api.dialogs.get().then(dialogs => {
-      if (JSON.stringify(dialogs) !== JSON.stringify(this.props.dialogs)) {
-        this.props.saveDialogList(dialogs);
+    api.dialogs.get().then(dialogSet => {
+      if (JSON.stringify(dialogSet) !== JSON.stringify(this.props.dialogSet)) {
+        this.props.saveDialogList(dialogSet);
       }
     });
   }
 
   render() {
-    const dialogs = this.props.dialogs.map(dialog => (
+    const dialogs = this.props.dialogSet.map(dialog => (
       <a
         href="#"
         className="list-group-item list-group-item-action"

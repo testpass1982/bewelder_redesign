@@ -16,7 +16,7 @@ $("#dialogs-modal").on("show.bs.modal", function(event) {
   if (el) {
     const initStore = {
       status: status.DIALOG_LIST,
-      dialogs: [],
+      dialogSet: [],
       dialog: {}
     };
     if (opponent) {

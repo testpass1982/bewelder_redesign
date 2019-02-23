@@ -15,9 +15,9 @@ export const toDialogCreate = opponentId => ({
   // TODO: vacancy_id
 });
 
-export const saveDialogList = dialogs => ({
+export const saveDialogList = dialogSet => ({
   type: types.SAVE_DIALOG_LIST,
-  dialogs
+  dialogSet
 });
 
 export const saveDialog = dialog => ({
