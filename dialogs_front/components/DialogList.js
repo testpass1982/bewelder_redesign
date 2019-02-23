@@ -26,7 +26,11 @@ class DialogList extends React.Component {
     ));
     return (
       <div className="my-3">
-        <div className="list-group">{dialogs}</div>
+        {dialogs.length ? (
+          <div className="list-group">{dialogs}</div>
+        ) : (
+          <div>У Вас пока нет сообщений</div>
+        )}
       </div>
     );
   }
