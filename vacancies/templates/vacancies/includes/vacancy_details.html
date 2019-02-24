@@ -5,32 +5,37 @@
         <div class="row">
             <div class="col-xl-8">
                 <div class="bg-light p-2 border-bottom rounded">
-                <h3 class="mb-3">Работодатель: {{ vacancy.employer|title }}</h3>
-                {% endif %}
-                <p>
-                    Название вакансии: <strong>{{ vacancy.title }}</strong><br>
-                    Краткое описание: {{ vacancy.short_description }}<br>
-
-                    {% if vacancy.salary_min %}
-                    Зарплата от:
-                    {{ vacancy.salary_min }}<br>
+                <div class="p-2">
+                    <h3 class="mb-3">Работодатель: {{ vacancy.employer|title }}</h3>
                     {% endif %}
-
-                    {% if vacancy.salary_max %}
-                    Зарплата до:
-                    {{ vacancy.salary_max }}
-                    {% endif %}
-
-                    {% if vacancy.category %}
-                    Категория: {{ vacancy.category }}<br>
-                    {% endif %}
-
-                    {% if vacancy.employer %}
-                    Город: {{ vacancy.employer.city|title }}<br>
-                    {% endif %}
+                    <p>
+                        Название вакансии: <strong>{{ vacancy.title }}</strong><br>
+                        Краткое описание: {{ vacancy.short_description }}<br>
+    
+                        {% if vacancy.salary_min %}
+                        Зарплата от:
+                        {{ vacancy.salary_min }}<br>
+                        {% endif %}
+    
+                        {% if vacancy.salary_max %}
+                        Зарплата до:
+                        {{ vacancy.salary_max }}
+                        {% endif %}
+    
+                        {% if vacancy.category %}
+                        Категория: {{ vacancy.category }}<br>
+                        {% endif %}
+    
+                        {% if vacancy.employer %}
+                        Город: {{ vacancy.employer.city|title }}<br>
+                        {% endif %}
+                </div>
 
                     {% if vacancy.description %}
-                    {{ vacancy.description|safe }}
+                    <div class="p-2 m-2 bg-white">
+                    <h5>Детали вакансии</h5>
+                        {{ vacancy.description|safe }}
+                    </div>
                     {% endif %}
                     <div class="p-2">
                         <input type=button value="Назад" class="btn btn-warning" onClick="javascript:history.go(-1);">
@@ -40,7 +45,7 @@
 
             </p>
 
-            <div class="bg-light rounded p-2">
+            <div class="bg-light border-bottom rounded p-2 mb-3 ">
                 Если Вас заинтересовала вакансия, нажмите кнопку "откликнуться на вакансию" и отправьте сообщение
                 работодателю. Работодатель свяжется с вами для уточнения условий сотрудничества.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim quasi odit blanditiis vel laborum maxime
@@ -48,17 +53,16 @@
             </div>
         </div>
         <div class="col-xl-4">
-            <div class="container side-panel-bg">
+            <div class="side-panel-bg p-2">
 
-                <p>
                     <h5>
                         Возможно, вас заинтересуют похожие вакансии:
                     </h5>
-                </p>
+
 
                 <div class="row">
                     {% for vacancy in related_vacancies %}
-                    <div class="col-xs-12 col-md-4 col-lg-12">
+                    <div class="col-xs-12 col-md-4 col-xl-12">
                         <div class="vacancy-card-bg border-bottom">
                             <h6 class="text text-info">{{ vacancy.title }}</h6>
                             <p>{{ vacancy.short_description }}</p>
