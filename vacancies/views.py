@@ -16,8 +16,16 @@ def vacancies_list(request):
     title = 'Список вакансий'
     if request.method == 'POST':
         vacancy_search_form = VacancySearchForm(request.POST)
+        print('REQUEST POST', request.POST)
         if vacancy_search_form.is_valid():
-            print('valid')
+            salary_min = request.POST['salary_min']
+            filtered_vacancies = Vacancy.objects.filter(salary_min=salary_min)
+            context = {
+                'title': 'Результаты поиска',
+                'vacancies': filtered_vacancies,
+                'vacancy_search_form': VacancySearchForm(initial={'salary_min': salary_min})
+            }
+            return render(request, 'vacancies/list.html', context)
     else:
         vacancy_search_form = VacancySearchForm()
     vacancy_list = Vacancy.objects.filter(
