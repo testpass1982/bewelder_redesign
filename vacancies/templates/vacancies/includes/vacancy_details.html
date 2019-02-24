@@ -1,41 +1,48 @@
 {% extends 'mainapp/base.html' %}
 {% block content %}
-<div class="cont-width-block">{% if vacancy.employer %}
-    <div class="row">
-        <div class="col-xl-8">
-            <h3>{{ vacancy.employer|title }}</h3>
-            {% endif %}
-            <p>
-                Название вакансии: <strong>{{ vacancy.title }}</strong><br>
-                Краткое описание: {{ vacancy.short_description }}<br>
-
-                {% if vacancy.salary_min %}
-                Зарплата от:
-                {{ vacancy.salary_min }}<br>
+<div class="cont-width-block">
+        {% if vacancy.employer %}
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="bg-light p-2 border-bottom rounded">
+                <h3 class="mb-3">Работодатель: {{ vacancy.employer|title }}</h3>
                 {% endif %}
+                <p>
+                    Название вакансии: <strong>{{ vacancy.title }}</strong><br>
+                    Краткое описание: {{ vacancy.short_description }}<br>
 
-                {% if vacancy.salary_max %}
-                Зарплата до:
-                {{ vacancy.salary_max }}
-                {% endif %}
+                    {% if vacancy.salary_min %}
+                    Зарплата от:
+                    {{ vacancy.salary_min }}<br>
+                    {% endif %}
 
-                {% if vacancy.category %}
-                Категория: {{ vacancy.category }}<br>
-                {% endif %}
+                    {% if vacancy.salary_max %}
+                    Зарплата до:
+                    {{ vacancy.salary_max }}
+                    {% endif %}
 
-                {% if vacancy.employer %}
-                Город: {{ vacancy.employer.city|title }}<br>
-                {% endif %}
-                <div class="p-2">
-                    <input type=button value="Назад" class="btn btn-warning" onClick="javascript:history.go(-1);">
-                    <a href="#" class="btn btn-info">Откликнуться на вакансию</a>
-                </div>
+                    {% if vacancy.category %}
+                    Категория: {{ vacancy.category }}<br>
+                    {% endif %}
+
+                    {% if vacancy.employer %}
+                    Город: {{ vacancy.employer.city|title }}<br>
+                    {% endif %}
+
+                    {% if vacancy.description %}
+                    {{ vacancy.description|safe }}
+                    {% endif %}
+                    <div class="p-2">
+                        <input type=button value="Назад" class="btn btn-warning" onClick="javascript:history.go(-1);">
+                        <a href="#" class="btn btn-info">Откликнуться на вакансию</a>
+                    </div>
+            </div>
 
             </p>
 
             <div class="bg-light rounded p-2">
                 Если Вас заинтересовала вакансия, нажмите кнопку "откликнуться на вакансию" и отправьте сообщение
-                работодателю. Работодатель свяжется с вами для уточнения условий сотрудничества. 
+                работодателю. Работодатель свяжется с вами для уточнения условий сотрудничества.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim quasi odit blanditiis vel laborum maxime
                 reprehenderit possimus odio exercitationem ullam?
             </div>
