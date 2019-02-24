@@ -14,6 +14,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = 'id', 'name'
 
 
+class MemberSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(source='user.id', read_only=True)
+    name = serializers.CharField(source='user.get_full_name', read_only=True)
+
+    class Meta:
+        model = Membership
+        fields = ('id', 'name', 'is_creator')
+
+
 class MessageSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
@@ -24,7 +33,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class DialogListSerializer(serializers.ModelSerializer):
-    members = UserSerializer(many=True, read_only=True)
+    members = MemberSerializer(source='membership_set', many=True, read_only=True)
 
     class Meta:
         model = Dialog
@@ -32,7 +41,7 @@ class DialogListSerializer(serializers.ModelSerializer):
 
 
 class DialogRetrieveSerializer(serializers.ModelSerializer):
-    members = UserSerializer(many=True, read_only=True)
+    members = MemberSerializer(source='membership_set', many=True, read_only=True)
     message_set = MessageSerializer(many=True, read_only=True)
 
     class Meta:

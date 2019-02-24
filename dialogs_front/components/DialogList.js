@@ -1,24 +1,18 @@
 import React from "react";
-import * as actions from "../actions/viewActions";
-import { connect } from "react-redux";
 import DialogListItem from "./DialogListItem";
+import api from "../utils/api";
 
 class DialogList extends React.Component {
-  state = {
-    dialogs: [
-      {
-        id: 1,
-        theme: "Предложение от ГазПрома"
-      },
-      {
-        id: 2,
-        theme: "Не хотите поработать на Новой Земле?"
+  componentDidMount() {
+    api.dialogs.get().then(dialogSet => {
+      if (JSON.stringify(dialogSet) !== JSON.stringify(this.props.dialogSet)) {
+        this.props.saveDialogList(dialogSet);
       }
-    ]
-  };
+    });
+  }
 
   render() {
-    const dialogs = this.state.dialogs.map(dialog => (
+    const dialogs = this.props.dialogSet.map(dialog => (
       <a
         href="#"
         className="list-group-item list-group-item-action"
@@ -32,13 +26,14 @@ class DialogList extends React.Component {
     ));
     return (
       <div className="my-3">
-        <div className="list-group">{dialogs}</div>
+        {dialogs.length ? (
+          <div className="list-group">{dialogs}</div>
+        ) : (
+          <div>У Вас пока нет сообщений</div>
+        )}
       </div>
     );
   }
 }
 
-export default connect(
-  () => ({}),
-  actions
-)(DialogList);
+export default DialogList;
