@@ -13,3 +13,7 @@ class VacancyForm(forms.ModelForm):
     class Meta:
         model = Vacancy
         exclude = ('user', 'employer', 'category', 'created_date')
+
+class VacancySearchForm(forms.Form):
+    salary_min = forms.IntegerField(label='Зарплата от')
+    salary_max = forms.IntegerField(label='Зарплата до')

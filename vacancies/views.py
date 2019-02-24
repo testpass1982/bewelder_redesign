@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from orgs.models import Employer
 from .models import Vacancy, Level
-from .forms import VacancyForm
+from .forms import VacancyForm, VacancySearchForm
 # from orgs.forms import EmployerForm, RegionForm, CityForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -14,7 +14,12 @@ from django.shortcuts import get_object_or_404
 
 def vacancies_list(request):
     title = 'Список вакансий'
-    
+    if request.method == 'POST':
+        vacancy_search_form = VacancySearchForm(request.POST)
+        if vacancy_search_form.is_valid():
+            print('valid')
+    else:
+        vacancy_search_form = VacancySearchForm()
     vacancy_list = Vacancy.objects.filter(
         published=True).order_by('created_date')
     paginator = Paginator(vacancy_list, 5)
@@ -22,7 +27,8 @@ def vacancies_list(request):
     vacancies = paginator.get_page(page)
     content = {
         'title': title,
-        'vacancies': vacancies
+        'vacancies': vacancies,
+        'vacancy_search_form': vacancy_search_form,
     }
     return render(request, 'vacancies/list.html', content)
 
