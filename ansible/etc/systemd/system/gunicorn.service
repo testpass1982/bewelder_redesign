@@ -9,7 +9,7 @@ Environment=DJANGO_DEBUG=
 User={{ ansible_user }}
 Group={{ ansible_user }}
 WorkingDirectory={{ site_root }}
-ExecStart={{ gunicorn_bin }} --workers 3 --bind unix:/tmp/gunicorn.sock bewelder_redesign.wsgi
+ExecStart={{ gunicorn_bin }} --workers 3 --bind unix:/tmp/gunicorn.sock --error-logfile=/tmp/gunicorn.errors --access-logfile=/tmp/gunicorn.access bewelder_redesign.wsgi {% if 'dev' in group_names %}--reload{% endif %}
 
 [Install]
 WantedBy=multi-user.target
