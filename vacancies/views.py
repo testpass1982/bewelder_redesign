@@ -28,11 +28,13 @@ def vacancies_list(request):
 
 def vacancy_details(request, pk):
     vacancy = Vacancy.objects.get(pk=pk)
+    related_vacancies = Vacancy.objects.all().exclude(pk=vacancy.pk)[:3]
     title = vacancy.title
 
     content = {
         'title': title,
         'vacancy': vacancy,
+        'related_vacancies': related_vacancies,
     }
 
     return render(request, 'vacancies/includes/vacancy_details.html', content)

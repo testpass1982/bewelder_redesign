@@ -1,30 +1,74 @@
 {% extends 'mainapp/base.html' %}
 {% block content %}
-{% if vacancy.employer %}
-<h3>{{ vacancy.employer|title }}</h3>
-{% endif %}
-<p>
-    Название вакансии: <strong>{{ vacancy.title }}</strong><br>
-    Краткое описание: {{ vacancy.short_description }}<br>
+<div class="cont-width-block">{% if vacancy.employer %}
+    <div class="row">
+        <div class="col-xl-8">
+            <h3>{{ vacancy.employer|title }}</h3>
+            {% endif %}
+            <p>
+                Название вакансии: <strong>{{ vacancy.title }}</strong><br>
+                Краткое описание: {{ vacancy.short_description }}<br>
 
-    {% if vacancy.salary_min %}
-    Зарплата от:
-    {{ vacancy.salary_min }}<br>
-    {% endif %}
+                {% if vacancy.salary_min %}
+                Зарплата от:
+                {{ vacancy.salary_min }}<br>
+                {% endif %}
 
-    {% if vacancy.salary_max %}
-    Зарплата до:
-    {{ vacancy.salary_max }}
-    {% endif %}
+                {% if vacancy.salary_max %}
+                Зарплата до:
+                {{ vacancy.salary_max }}
+                {% endif %}
 
-    {% if vacancy.category %}
-    Категория: {{ vacancy.category }}<br>
-    {% endif %}
+                {% if vacancy.category %}
+                Категория: {{ vacancy.category }}<br>
+                {% endif %}
 
-    {% if vacancy.employer %}
-    Город: {{ vacancy.employer.city|title }}<br>
-    {% endif %}
-    <input type=button value="Назад" class="btn btn-warning" onClick="javascript:history.go(-1);">
+                {% if vacancy.employer %}
+                Город: {{ vacancy.employer.city|title }}<br>
+                {% endif %}
+                <div class="p-2">
+                    <input type=button value="Назад" class="btn btn-warning" onClick="javascript:history.go(-1);">
+                    <a href="#" class="btn btn-info">Откликнуться на вакансию</a>
+                </div>
 
-</p>
+            </p>
+
+            <div class="bg-light rounded p-2">
+                Если Вас заинтересовала вакансия, нажмите кнопку "откликнуться на вакансию" и отправьте сообщение
+                работодателю. Работодатель свяжется с вами для уточнения условий сотрудничества. 
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim quasi odit blanditiis vel laborum maxime
+                reprehenderit possimus odio exercitationem ullam?
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="container side-panel-bg">
+
+                <p>
+                    <h5>
+                        Возможно, вас заинтересуют похожие вакансии:
+                    </h5>
+                </p>
+
+                <div class="row">
+                    {% for vacancy in related_vacancies %}
+                    <div class="col-xs-12 col-md-4 col-lg-12">
+                        <div class="vacancy-card-bg border-bottom">
+                            <h6 class="text text-info">{{ vacancy.title }}</h6>
+                            <p>{{ vacancy.short_description }}</p>
+                            <p class="text-muted">Зарплата
+                                {% if vacancy.salary_min %}от: {{ vacancy.salary_min }}{% endif %}
+                                {% if vacancy.salary_max %}до: {{ vacancy.salary_max }}{% endif %}
+                            </p>
+                            <a href="{% url 'vacancies:vacancy_details' vacancy.pk %}" class="btn btn-warning smaller-text">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

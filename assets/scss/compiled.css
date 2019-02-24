@@ -116,4 +116,10 @@
 
 .side-panel .side-panel-block .subscribe button { margin-left: 10px; font-size: inherit; }
 
+.side-panel-bg { background-color: rgba(0, 0, 0, 0.03); border: 1px solid transparent; border-radius: 3px; margin-bottom: 30px; }
+
+.vacancy-card-bg { background-color: white; border: 1px solid transparent; border-radius: 3px; padding: 10px; margin: 10px; font-size: 0.8em; }
+
+.smaller-text { font-size: 0.8em; }
+
 /*# sourceMappingURL=compiled.css.map */
