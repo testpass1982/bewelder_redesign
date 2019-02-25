@@ -4,6 +4,7 @@
   - nginx
   - postgresql
   - gunicorn
+  - jenkins
 
   vars_files:
   - 'vars.yml'

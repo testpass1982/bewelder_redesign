@@ -1,0 +1,20 @@
+---
+- name: Add Jenkins apt repository key
+  apt_key:
+    url: "{{ jenkins_repo_key_url }}"
+  tags: jenkins
+
+- name: Add Jenkins apt repository
+  apt_repository:
+    repo: "{{ jenkins_repo_url }}"
+  tags: jenkins
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: "yes"
+  with_items:
+  - 'jenkins'
+  - 'openjdk-8-jdk'
+  tags: jenkins
