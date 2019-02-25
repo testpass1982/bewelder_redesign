@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.indexes import Index
 from ckeditor_uploader.fields import RichTextUploadingField
 from mainapp.models import Category
 from orgs.models import Employer
@@ -47,6 +48,9 @@ class Vacancy(models.Model):
         ordering = ['created_date']
         verbose_name = 'Вакансия'
         verbose_name_plural = 'Вакансии'
+        indexes = [
+            models.Index(fields=['salary_min', 'salary_max']),
+        ]
     
     def __str__(self):
         return self.title
