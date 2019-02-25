@@ -1,0 +1,11 @@
+---
+- name: Gunicorn configuration
+  template:
+    src: gunicorn.service
+    dest: /etc/systemd/system/gunicorn.service
+  notify:
+  - restart gunicorn
+
+- name: Restart gunicorn
+  service: name=gunicorn state=restarted
+  tags: never, gunicorn_restart

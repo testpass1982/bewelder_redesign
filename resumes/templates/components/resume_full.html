@@ -1,4 +1,15 @@
 <h3>{{ resume.user.get_full_name|title }}</h3>
+{% if user.is_authenticated %}
+<button
+    type="button"
+    class="btn btn-outline-secondary"
+    data-toggle="modal"
+    data-target="#dialogs-modal"
+    data-opponent="{{ resume.user.id }}"
+>
+    Оставить сообщение
+</button>
+{% endif %}
 <p>
     Должность: {{ resume.position }}<br>
 

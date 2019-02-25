@@ -3,6 +3,8 @@
   roles:
   - nginx
   - postgresql
+  - gunicorn
+  - jenkins
 
   vars_files:
   - 'vars.yml'
@@ -63,16 +65,3 @@
     - 'makemigrations'
     - 'migrate'
     tags: migrations
-
-  - name: Gunicorn configuration
-    template:
-      src: etc/systemd/system/gunicorn.service
-      dest: /etc/systemd/system/gunicorn.service
-    notify:
-    - restart gunicorn
-
-  handlers:
-  - name: restart gunicorn
-    service:
-      name: gunicorn
-      state: restarted

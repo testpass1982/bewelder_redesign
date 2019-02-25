@@ -1,29 +1,50 @@
-import {
-  TO_DIALOG_VIEW,
-  TO_DIALOG_LIST,
-  TO_DIALOG_CREATE
-} from "../constants/actionTypes";
+import * as types from "../constants/actionTypes";
 import * as status from "../constants/status";
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case TO_DIALOG_CREATE:
+    case types.TO_DIALOG_CREATE:
       return {
         ...state,
         status: status.DIALOG_CREATE,
-        opponent_id: action.opponent_id
+        opponentId: action.opponentId
       };
-    case TO_DIALOG_VIEW:
+    case types.TO_DIALOG_VIEW:
       return {
         ...state,
         status: status.DIALOG_VIEW,
-        dialog_id: action.dialog_id
+        dialog: { id: action.dialogId }
       };
-    case TO_DIALOG_LIST:
+    case types.TO_DIALOG_LIST:
       return {
         ...state,
         status: status.DIALOG_LIST
       };
+    case types.SAVE_DIALOG_LIST:
+      return {
+        ...state,
+        dialogSet: action.dialogSet
+      };
+    case types.SAVE_DIALOG:
+      return {
+        ...state,
+        dialog: action.dialog
+      };
+    case types.APPEND_MESSAGE:
+      if (state.status === status.DIALOG_VIEW) {
+        const dialog = {
+          ...state.dialog
+        };
+        if (dialog.message_set) {
+          dialog.message_set = [...state.dialog.message_set, action.message];
+        } else {
+          dialog.message_set = [action.message];
+        }
+        return {
+          ...state,
+          dialog
+        };
+      }
     default:
       return state;
   }

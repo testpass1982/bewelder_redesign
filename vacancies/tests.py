@@ -2,13 +2,13 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import resolve, reverse
 from django.http import HttpRequest
-from vacancies.views import vacancies_list
+from vacancies.views import vacancies_list, vacancy_details
 from vacancies.models import Vacancy, Level
 from django.core.paginator import Paginator
 from orgs.models import Employer, City, Region
 from users.models import User
 from http import HTTPStatus
-from vacancies.forms import VacancyForm
+from vacancies.forms import VacancyForm, VacancySearchForm
 from django.shortcuts import get_object_or_404
 from mixer.backend.django import mixer
 from model_mommy import mommy
@@ -333,4 +333,111 @@ class TestVacancyDelete(TestCase):
         url = reverse('vacancies:vacancy_delete', kwargs={'pk': vacancy_user1[0].pk})
         response = self.client.post(url, data={'Confirm': 'YES'})
         self.assertTrue(response.status_code, 404)
+
+class TestVacancyDetails(TestCase):
+    def setUp(self):
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        self.user = User.objects.create(**user_test_data)
+        self.vacancies = mixer.cycle(10).blend(Vacancy, user=self.user)
+
+    def test_details_url_resolves_to_details_view(self):
+        for vacancy in self.vacancies:
+            found = resolve('/vacancies/details/{}'.format(vacancy.pk))
+            self.assertEqual(found.func, vacancy_details)
+
+    def test_vacancy_details_reachable_by_pk(self):
+        for vacancy in self.vacancies:
+            url = reverse('vacancies:vacancy_details', kwargs={'pk': vacancy.pk})
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+
+    def test_vacancy_details_contains_related_vacancies(self):
+        for vacancy in self.vacancies:
+            url = reverse('vacancies:vacancy_details', kwargs={'pk': vacancy.pk})
+            response = self.client.get(url)
+            self.assertTrue(len(response.context['related_vacancies'])==3)
+
+    def test_related_vacancies_reachable_by_pk(self):
+        vacancy = self.vacancies[5]
+        url = reverse('vacancies:vacancy_details', kwargs={'pk': vacancy.pk})
+        response = self.client.get(url)
+        for vacancy in response.context['related_vacancies']:
+            url = reverse('vacancies:vacancy_details', kwargs={'pk': vacancy.pk})
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+
+
+class VacancyListFilter(TestCase):
+    def setUp(self):
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        self.user = User.objects.create(**user_test_data)
+        
+        self.min_salaries = [ 5000, 10000, 20000, 30000 ]
+        self.max_salaries = [ 50000, 100000, 200000, 300000 ]
+        self.levels = mixer.cycle(3).blend(Level)
+        for i in range(0, 10):
+            mixer.blend(Vacancy, business_trips=True, 
+                        salary_min=random.choice(self.min_salaries),
+                        salary_max = random.choice(self.max_salaries))
+        for i in range(0, 10):
+            mixer.blend(Vacancy, shift_work=True, 
+                        salary_min = random.choice(self.min_salaries),
+                        salary_max = random.choice(self.max_salaries))
+
+        self.vacancies = Vacancy.objects.all()
+
+
+    def test_vacancy_can_contain_business_trip_option(self):
+        self.vacancies_with_trips = Vacancy.objects.filter(business_trips=True)
+        self.assertTrue(len(self.vacancies_with_trips), 10)
+
+    def test_vacancy_can_contain_shift_work_option(self):
+        self.vacancies_shifted = Vacancy.objects.filter(shift_work=True)
+        self.assertTrue(len(self.vacancies_shifted), 10)
+
+    def test_vacancy_list_contain_vacancy_search_form(self):
+        url = reverse('vacancies:list')
+        response = self.client.get(url)
+        self.assertTrue(isinstance(response.context['vacancy_search_form'], VacancySearchForm))
+
+    def test_count_vacancies(self):
+        self.assertEqual(Vacancy.objects.count(), 20)
+        second_random_vacancy = random.choice(self.vacancies)
+        self.assertTrue(second_random_vacancy.salary_max in self.max_salaries)
+
+    def test_vacancy_list_form_return_results_by_salaries_fields(self):
+        random_salary_min = random.choice(self.vacancies).salary_min
+        random_salary_max = random.choice(self.vacancies).salary_max
+        url = reverse('vacancies:list')
+        data_with_salary_min = {
+            'salary_min': random_salary_min,
+        }
+        response = self.client.post(url, data_with_salary_min)
+        self.assertEqual(
+            len(response.context['vacancies']), len(Vacancy.objects.filter(salary_min=random_salary_min))
+        )
+        data_with_salary_max = {
+            'salary_max': random_salary_max,
+        }
+        response = self.client.post(url, data_with_salary_max)
+        self.assertEqual(
+            len(response.context['vacancies']), len(Vacancy.objects.filter(salary_max=random_salary_max))
+        )
+
+
+    
+
+
+
+            
 

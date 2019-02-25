@@ -1,16 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, status, viewsets
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-
-from dialogs.api.serializers import (
-    DialogCreateSerializer,
-    DialogListSerializer,
-    DialogRetrieveSerializer,
-    MessageSerializer,
-)
+from dialogs.api.permissions import IsInDialog
+from dialogs.api.serializers import (DialogCreateSerializer,
+                                     DialogListSerializer,
+                                     DialogRetrieveSerializer,
+                                     MessageSerializer)
 from dialogs.models import Dialog, Message
 
 User = get_user_model()
@@ -20,9 +17,9 @@ class DialogView(mixins.ListModelMixin,
                  mixins.CreateModelMixin,
                  mixins.RetrieveModelMixin,
                  viewsets.GenericViewSet):
-    queryset = Dialog.objects.all()
+    queryset = Dialog.objects.none()
     serializer_class = DialogListSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsInDialog,)
 
     action_serializers = {
         'create': DialogCreateSerializer,
@@ -30,6 +27,10 @@ class DialogView(mixins.ListModelMixin,
         'retrieve': DialogRetrieveSerializer,
         'create_msg': MessageSerializer,
     }
+
+    def get_queryset(self):
+        user = self.request.user
+        return Dialog.objects.filter(members=user)
 
     def get_serializer_class(self):
         return self.action_serializers.get(
@@ -47,6 +48,10 @@ class DialogView(mixins.ListModelMixin,
             theme: str,
             text: str
         }
+        output schema
+        {
+            id: int  # возвращает id созданного диалога
+        }
         """
 
         data = request.data
@@ -57,9 +62,9 @@ class DialogView(mixins.ListModelMixin,
 
         dialog = serializer.save(creator=request.user)
 
-        dialog_details = self.action_serializers['retrieve'](dialog)
+        # dialog_details = self.action_serializers['retrieve'](dialog)
 
-        return Response(dialog_details.data, status=status.HTTP_201_CREATED)
+        return Response({'id': dialog.id}, status=status.HTTP_201_CREATED)
 
     def create_msg(self, request, pk=None):
         """
@@ -69,6 +74,7 @@ class DialogView(mixins.ListModelMixin,
         }
         """
         dialog = get_object_or_404(Dialog, pk=pk)
+        self.check_object_permissions(self.request, dialog)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user, dialog=dialog)
