@@ -58,8 +58,11 @@ class EmployerCreateTestCase(TestCase):
             'city': city_1.id,
             'phone': '123',
             'email': 'test@email.local',
+            'user': user
         }
         response = self.client.post(self.url_create, data=employer_data, follow=True)
+        print(response)
+        print(dir(response))
         self.assertRedirects(
             response,
             reverse(
@@ -75,6 +78,7 @@ class EmployerCreateTestCase(TestCase):
 
 class EmployerUpdateTestCase(TestCase):
     def setUp(self):
+        self.user = mixer.blend(User)
         self.region_1 = Region.objects.create(name='Region 1')
         self.city_1 = City.objects.create(name='City 1', region=self.region_1)
         self.employer_data = {
@@ -83,6 +87,7 @@ class EmployerUpdateTestCase(TestCase):
             'city': self.city_1,
             'phone': '123',
             'email': 'test@email.local',
+            'user': self.user
         }
         self.employer_1 = Employer.objects.create(**self.employer_data)
         self.url_update = reverse('orgs:update', kwargs={'pk': self.employer_1.id})
@@ -95,8 +100,7 @@ class EmployerUpdateTestCase(TestCase):
         )
 
     def test_update_employer(self):
-        user = mixer.blend(User)
-        self.client.force_login(user)
+        self.client.force_login(self.user)
         response = self.client.get(self.url_update)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'orgs/employer_form.html')
@@ -123,6 +127,7 @@ class EmployerUpdateTestCase(TestCase):
 
 class EmployerDeleteTestCase(TestCase):
     def setUp(self):
+        self.user = mixer.blend(User)
         self.region_1 = Region.objects.create(name='Region 1')
         self.city_1 = City.objects.create(name='City 1', region=self.region_1)
         self.employer_data = {
@@ -131,6 +136,7 @@ class EmployerDeleteTestCase(TestCase):
             'city': self.city_1,
             'phone': '123',
             'email': 'test@email.local',
+            'user': self.user
         }
         self.employer_1 = Employer.objects.create(**self.employer_data)
         self.url_delete = reverse('orgs:delete', kwargs={'pk': self.employer_1.id})

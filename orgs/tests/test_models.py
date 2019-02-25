@@ -1,8 +1,13 @@
 from django.test import TestCase
+from django.contrib.auth import get_user_model
+
+from mixer.backend.django import mixer
 
 from orgs.models import Employer, City, Region
-from users.models import User
 from vacancies.models import Vacancy
+
+
+User = get_user_model()
 
 
 class RegionModelTestCase(TestCase):
@@ -31,6 +36,7 @@ class CityModelTestCase(TestCase):
 
 class EmployerModelTestCase(TestCase):
     def setUp(self):
+        user = mixer.blend(User)
         self.region_1 = Region.objects.create(name='Region 1')
         self.city_1 = City.objects.create(name='City 1', region=self.region_1)
         self.employer_data = {
@@ -39,6 +45,7 @@ class EmployerModelTestCase(TestCase):
             'city': self.city_1,
             'phone': '123',
             'email': 'test@email.local',
+            'user': user
         }
         self.employer_1 = Employer.objects.create(**self.employer_data)
 
