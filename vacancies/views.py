@@ -22,27 +22,41 @@ def vacancies_list(request):
         if vacancy_search_form.is_valid():
             request_to_dict = dict(zip(request.POST.keys(), request.POST.values()))
             print('REQUEST DICT', request_to_dict)
-            sal_min = request_to_dict['salary_min'] 
-            sal_max = request_to_dict['salary_max']
-            # att_levels = {
-            #     'naks_att_level1' in request_to_dict: 'I',
-            #     request_to_dict['naks_att_level2']: 'II' or None,
-            #     request_to_dict['naks_att_level3']: 'III' or None,
-            #     request_to_dict['naks_att_level4']: 'IV' or None,
-            # }
+            #начинаем конфигурировать запрос к БД с помощью объекта Q
             query_list = [
                 Q(business_trips='business_trips' in request_to_dict),
                 Q(shift_work='shifted_work' in request_to_dict),
-                # Q(naks_att_level__in=att_levels.values()),
             ]
+            #сопоставляем данные из POST с уровнями
+            att_levels = {
+                'naks_att_level1' : 'I',
+                'naks_att_level2' : 'II',
+                'naks_att_level3': 'III',
+                'naks_att_level4': 'IV',
+            }
+            #собираем все уровни в список (для выбора из БД)
+            att_levels_query = []
+            for i in att_levels.keys():
+                if i in request_to_dict.keys():
+                    att_levels_query.append(att_levels[i])
+            #print('LEVEL QUERY' , att_levels_query)
+            #дополняем запрос  к БД в случае если выбран хотя бы один уровень
+            if len(att_levels_query)!=0:
+                levels_query = Q(naks_att_level__name__in=att_levels_query)
+                query_list.append(levels_query)
+            #Если в POST содержатся непустые поля по зарплате, добавляем их в список запросов
             if request_to_dict['salary_min'] !='':
                 query_list.append(Q(salary_min__gte=request_to_dict['salary_min']))
             if request_to_dict['salary_max'] !='':
                 query_list.append(Q(salary_max__lte=request_to_dict['salary_max']))
-            print('QUERY_LIST', query_list)
+            #print('QUERY_LIST', query_list)
+            #собираем запрос и выполняем последовательное
+            #применение оператора И к каждому запросу в query list
             query = reduce(operator.and_, query_list)
-            print('QUERY', query)
+            #print('QUERY', query)
+            #формируем список вакансий
             filtered_vacancies=Vacancy.objects.filter(query)
+            #print('RAW SQL', filtered_vacancies.query)
             context = {
                 'title': 'Результаты поиска',
                 'vacancies': filtered_vacancies,
