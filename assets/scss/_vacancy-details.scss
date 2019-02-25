@@ -1,0 +1,19 @@
+@import '_variables.scss';
+.side-panel-bg {
+    background-color: $barely-white;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    margin-bottom: 30px;
+}
+.vacancy-card-bg {
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 0.8em;
+}
+
+.smaller-text {
+    font-size: 0.8em;
+}

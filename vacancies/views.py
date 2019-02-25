@@ -5,16 +5,52 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from orgs.models import Employer
 from .models import Vacancy, Level
-from .forms import VacancyForm
+from .forms import VacancyForm, VacancySearchForm
 # from orgs.forms import EmployerForm, RegionForm, CityForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from functools import reduce
+import operator
 # from django.forms.formsets import formset_factory
 # Create your views here.
 
 def vacancies_list(request):
     title = 'Список вакансий'
-    
+    if request.method == 'POST':
+        vacancy_search_form = VacancySearchForm(request.POST)
+        if vacancy_search_form.is_valid():
+            request_to_dict = dict(zip(request.POST.keys(), request.POST.values()))
+            print('REQUEST DICT', request_to_dict)
+            sal_min = request_to_dict['salary_min'] 
+            sal_max = request_to_dict['salary_max']
+            # att_levels = {
+            #     'naks_att_level1' in request_to_dict: 'I',
+            #     request_to_dict['naks_att_level2']: 'II' or None,
+            #     request_to_dict['naks_att_level3']: 'III' or None,
+            #     request_to_dict['naks_att_level4']: 'IV' or None,
+            # }
+            query_list = [
+                Q(business_trips='business_trips' in request_to_dict),
+                Q(shift_work='shifted_work' in request_to_dict),
+                # Q(naks_att_level__in=att_levels.values()),
+            ]
+            if request_to_dict['salary_min'] !='':
+                query_list.append(Q(salary_min__gte=request_to_dict['salary_min']))
+            if request_to_dict['salary_max'] !='':
+                query_list.append(Q(salary_max__lte=request_to_dict['salary_max']))
+            print('QUERY_LIST', query_list)
+            query = reduce(operator.and_, query_list)
+            print('QUERY', query)
+            filtered_vacancies=Vacancy.objects.filter(query)
+            context = {
+                'title': 'Результаты поиска',
+                'vacancies': filtered_vacancies,
+                'vacancy_search_form': VacancySearchForm(initial=request_to_dict)
+            }
+            return render(request, 'vacancies/list.html', context)
+    else:
+        vacancy_search_form = VacancySearchForm()
     vacancy_list = Vacancy.objects.filter(
         published=True).order_by('created_date')
     paginator = Paginator(vacancy_list, 5)
@@ -22,17 +58,20 @@ def vacancies_list(request):
     vacancies = paginator.get_page(page)
     content = {
         'title': title,
-        'vacancies': vacancies
+        'vacancies': vacancies,
+        'vacancy_search_form': vacancy_search_form,
     }
     return render(request, 'vacancies/list.html', content)
 
 def vacancy_details(request, pk):
     vacancy = Vacancy.objects.get(pk=pk)
+    related_vacancies = Vacancy.objects.all().exclude(pk=vacancy.pk)[:3]
     title = vacancy.title
 
     content = {
         'title': title,
         'vacancy': vacancy,
+        'related_vacancies': related_vacancies,
     }
 
     return render(request, 'vacancies/includes/vacancy_details.html', content)
