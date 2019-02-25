@@ -18,3 +18,7 @@
   - 'jenkins'
   - 'openjdk-8-jdk'
   tags: jenkins
+
+- name: Restart jenkins
+  service: name=jenkins state=restarted
+  tags: never, jenkins_restart

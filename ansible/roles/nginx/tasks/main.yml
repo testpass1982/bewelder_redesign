@@ -14,3 +14,7 @@
   tags: nginx
   notify:
   - restart nginx
+
+- name: Restart nginx
+  service: name=nginx state=restarted
+  tags: never, nginx_restart
