@@ -1,0 +1,14 @@
+{% extends 'mainapp/base.html' %}
+{% load css_extras %}
+
+{% block content %}
+    <div class="cont-width-block">
+        <div class="m-5">
+            <form method="post">
+                {% csrf_token %}
+                {% include 'includes/bootstrap_form.html' %}
+                <button type="submit" class="btn btn-success">Сохранить</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

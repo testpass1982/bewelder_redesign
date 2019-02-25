@@ -1,0 +1,9 @@
+<form action="{% url 'search:search' %}" method="get">
+    <div class="input-group my-3">
+        <input type="text" name='q' class="form-control" placeholder="Искать резюме" aria-label="Example text with button addon" aria-describedby="button-addon1">
+        <div class="input-group-append">
+            <button class="btn btn-success" type="submit" id="button-addon1">Найти</button>
+        </div>
+    </div>
+    <input type="checkbox" name="models" value="resumes.resume" checked hidden>
+</form>

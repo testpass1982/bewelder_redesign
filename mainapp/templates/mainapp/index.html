@@ -1,12 +1,149 @@
 {% extends 'mainapp/base.html' %}
 
 {% block content %}
+<div class="main-page-search w-100">
+    <div class="bg w-100 py-4">
+        <div class="cont-width-block h-100">
+            <table class="h-100">
+                <tr>
+                    <td class="align-middle">
+                        <div class="row">
+                            <div class="col-md-7 col-xl-5">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1>База вакансий сваровочного производства</h1>
+                                    </div>
+                                </div>
+                                <div class="row text-stat">
+                                    <div class="col">
+                                        Вакансий:
+                                        <p><a class="main-page-search-a" href="{% url 'vacancies:list' %}"> 
+                                        {{ vacancies_count }}</a></p>
+                                    </div>
+                                    <div class="col">
+                                        Резюме:
+                                        <p><a class="main-page-search-a" href="{% url 'resumes:resume_list' %}">{{ resumes_count }}</a></p>
+                                    </div>
+                                    <div class="col">
+                                        Компаний:
+                                        <p><a class="main-page-search-a" href="{% url 'orgs:list' %}">{{ orgs_count }}</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-xl-7">
+                                <div class="row">
+                                    <div class="col-xl-4"></div>
+                                    <div class="col-xl-8">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{% url 'resumes:resume_create' %}" class="btn btn-secondary button-add my-2">Разместить
+                                                    резюме</a>
+                                            </div>
+                                            <div class="col text-right">
+                                                <a href="{% url 'vacancies:vacancy_create' %}" class="btn btn-secondary button-add my-2">Разместить
+                                                    вакансию</a>
+                                                {% comment %} <button type="button" class="btn btn-secondary button-add my-2">Разместить
+                                                    вакансию</button> {% endcomment %}
+                                            </div>
+                                        </div>
+                                        <div class="cont-fast-search my-2">
+                                            <p>Быстрый поиск</p>
+                                            <div class="row">
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Должность"
+                                                            aria-label="Должность" aria-describedby="fast-search-position">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-position"><i
+                                                                    class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Город"
+                                                            aria-label="Город" aria-describedby="fast-search-city">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-city"><i
+                                                                    class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Тип занятости"
+                                                            aria-label="Тип занятости" aria-describedby="fast-search-type">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-type"><i
+                                                                    class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-12 col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control" placeholder="Командировки"
+                                                            aria-label="Командировки" aria-describedby="fast-search-travel">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text" id="fast-search-travel"><i
+                                                                    class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-warning text-white px-5">Поиск</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
-
-<div class="container">
-    <div class="red_text">
-        Bootstrap works, django-template-includes works
+{% if resumes %}
+<div class="container h-100 my-5">
+    <div class="row justify-content-center">
+        <div class="col">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#resumes_tab">
+                        
+                            Новые резюме
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#vacancies_tab">
+                        
+                            Новые вакансии
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="resumes_tab" class="tab-pane active">
+                        {% include 'components/resume_search_form.html' %}
+                        {% for resume in resumes %}
+                        {% include 'components/resume_short.html' %}
+                        {% endfor %}
+                        <a href="{% url 'resumes:resume_list' %}" class="btn btn-secondary mx-5 px-5">
+                            Просмотреть все резюме</a>
+                    </div>
+                    <div id="vacancies_tab" class="tab-pane fade">
+                        {% include 'vacancies/includes/vacancy_search_form.html' %}
+                        {% for vacancy in vacancies %}
+                        {% include 'vacancies/includes/vacancy_card.html'%}
+                        {% endfor %}
+                        <a href="{% url 'vacancies:list' %}" class="btn btn-secondary mx-5 px-5">
+                            Просмотреть все вакансии</a>
+                    </div>
+                </div>
+        </div>
     </div>
 
 </div>
-{% endblock  %}
+{% endif %}
+
+
+{% endblock %}

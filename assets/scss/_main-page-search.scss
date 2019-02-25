@@ -1,0 +1,48 @@
+.main-page-search {
+    background: url(/static/img/main-page-search-bg.jpg);
+    color: rgb(255, 255, 255);
+    .bg {
+        background-color: rgba(255, 218, 85, 0.85);
+        padding: 50px 0;
+        @media screen and (min-width: 768px) {
+            padding: 108px 0;
+        }
+    }
+    h1 {
+        font-size: 52px;
+        font-weight: 700;
+        line-height: 52px;
+    }
+    .text-stat {
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 52px;
+        p {
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 52px;
+        }
+    }
+    .button-add {
+        min-width: 170px;
+        font-size: 14px;
+        width: 100%;
+    }
+    .cont-fast-search {
+        background-color: rgb(255, 255, 255);
+        border-radius: 3px;
+        padding: 29px 23px;
+        p {
+            color: #8d8d8d;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .btn-warning {
+            font-size: 14px;
+        }
+        .form-control {
+            font-size: 12px;
+        }
+    }
+}

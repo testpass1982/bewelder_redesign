@@ -1,8 +1,15 @@
 - hosts: all
 
+  roles:
+  - nginx
+  - postgresql
+  - gunicorn
+  - jenkins
+
   vars_files:
   - 'vars.yml'
 
+  become: yes
   gather_facts: no
 
   tasks:
@@ -12,53 +19,49 @@
       name: "{{ packages }}"
     vars:
       packages:
+        - git
         - python3-pip
-        - nginx
         - memcached
       state: latest
-      autoclean: yes
-    become: yes
-    notify:
-      - restart nginx
+    tags: apt
 
   - name: Clone repo
     git:
       repo: "{{ repository }}"
       dest: "{{ site_root }}"
       update: no
-    become: yes
+    when: "'prod' in group_names"
     tags: repo
+
+  - name: Git pull origin dev
+    git:
+      repo: "{{ repository }}"
+      dest: "{{ site_root }}"
+      update: yes
+      force: yes
+      version: dev
+    tags: ['never', 'git_pull']
+    notify:
+    - restart gunicorn
 
   - name: Installing requirements.txt
     pip:
       requirements: '{{ requirements }}'
       executable: "pip3"
-
-  - name: Gunicorn configuration
-    template:
-      src: etc/systemd/system/gunicorn.service
-      dest: /etc/systemd/system/gunicorn.service
-    become: yes
-
-  - name: Nginx configuration
-    template:
-      src: etc/nginx/sites-available/default
-      dest: /etc/nginx/sites-available/default
-    tags: nginx
-    become: yes
+      state: forcereinstall
+    tags: 'requirements'
     notify:
-    - restart nginx
+    - restart gunicorn
 
-  - name: Enable gunicorn
-    systemd:
-      name: gunicorn
-      state: started
-      enabled: yes
-    become: yes
+  - name: Create directories
+    file:
+      path: '{{ site_root }}/whoosh_index'
+      state: directory
+      mode: 0777
 
-  handlers:
-  - name: restart nginx
-    service:
-      name: nginx
-      state: restarted
-    become: yes
+  - name: Migrations
+    command: python3 manage.py "{{ item }}" chdir="{{ site_root }}"
+    with_items:
+    - 'makemigrations'
+    - 'migrate'
+    tags: migrations

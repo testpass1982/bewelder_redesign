@@ -1,0 +1,4 @@
+{{ object.position }}
+{{ object.user.get_full_name }}
+{{ object.city }}
+{{ object.about }}

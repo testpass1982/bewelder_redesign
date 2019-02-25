@@ -15,10 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 import mainapp.views as mainapp  
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('', mainapp.main, name='main')
+    path('users/', include('users.urls', namespace='users')),
+    path('orgs/', include('orgs.urls', namespace='orgs')),
+    path('resumes/', include('resumes.urls', namespace='resumes')),
+    path('vacancies/', include('vacancies.urls', namespace='vacancies')),
+    path('search/', include('search.urls', namespace='search')),
+    path('api/messaging/', include('dialogs.api.urls', namespace='dialogs_api')),
+    path('dialogs/', include('dialogs.urls', namespace='dialogs')),
+    path('', include('mainapp.urls', namespace='mainapp'))
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

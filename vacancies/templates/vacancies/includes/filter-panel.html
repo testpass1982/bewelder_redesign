@@ -1,0 +1,80 @@
+
+<div class="container filter-panel-bg p-3">
+  <h4>Фильтр вакансий</h4>
+  <p >Выберите вакансии по параметрам</p>
+
+  <form method="post">
+      {% csrf_token %}
+      <div class="form-check">
+          {% comment %} <input class="form-check-input" type="checkbox" value="" id="BusinessTripRequired"> {% endcomment %}
+          {{ vacancy_search_form.business_trips }}
+        <label class="form-check-label" for="id_business_trips">
+          С командировками
+        </label>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+            {% comment %} <input class="form-check-input" type="checkbox" value="" id="SvidOKCheck"> {% endcomment %}
+            {{ vacancy_search_form.shifted_work }}
+          <label class="form-check-label" for="id_shifted_work">
+            Вахтовый метод работы
+          </label>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <div class="form-check">
+            {% comment %} <input class="form-check-input" type="checkbox" value="" id="AttNaksCheck"> {% endcomment %}
+            {{ vacancy_search_form.naks_att_required }}
+          <label class="form-check-label" for="id_naks_att_required">
+            С аттестацией НАКС
+          </label>
+        </div>
+        <div class="form-check">
+            {% comment %} <input class="form-check-input" type="checkbox" value="" id="Naks1Level"> {% endcomment %}
+            {{ vacancy_search_form.naks_att_level1 }}
+          <label class="form-check-label" for="id_naks_att_level1">
+            1 уровень аттестации
+          </label>
+        </div>
+        <div class="form-check">
+            {% comment %} <input class="form-check-input" type="checkbox" value="" id="Naks2Level"> {% endcomment %}
+              {{ vacancy_search_form.naks_att_level2 }}
+          <label class="form-check-label" for="id_naks_att_level2">
+            2 уровень аттестации
+          </label>
+        </div>
+        <div class="form-check">
+            {% comment %} <input class="form-check-input" type="checkbox" value="" id="Naks3Level"> {% endcomment %}
+            {{ vacancy_search_form.naks_att_level3 }}
+          <label class="form-check-label" for="id_naks_att_level3">
+            3 уровень аттестации
+          </label>
+        </div>
+        <div class="form-check">
+            {% comment %} <input class="form-check-input" type="checkbox" value="" id="Naks4Level"> {% endcomment %}
+            {{ vacancy_search_form.naks_att_level4 }}
+          <label class="form-check-label" for="id_naks_att_level4">
+            4 уровень аттестации
+          </label>
+        </div>
+      </div>
+      <hr>
+
+    <div class="form-row">
+      <div class="form-group col-sm">
+        <label for="id_salary_min">Зарплата от: </label>
+        {{ vacancy_search_form.salary_min }}
+         {% comment %} <input type="text" class="form-control" name="salary_min" id="salary_min_input"> {% endcomment %}
+      </div>
+         <div class="form-group col-sm">
+           <label for="id_salary_max">до: </label>
+           {{ vacancy_search_form.salary_max }}
+           {% comment %} <input type="text" class="form-control" name="salary_max" id="salary_max_input"> {% endcomment %}
+         </div>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-primary" value="Поиск" name="SearchVacancy">
+    </div>
+  </form>
+</div>

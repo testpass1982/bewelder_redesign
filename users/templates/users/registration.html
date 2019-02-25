@@ -1,0 +1,17 @@
+{% extends 'mainapp/base.html' %}
+{% load css_extras %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <form action="{% url 'users:registration' %}" method="post" class="my-5">
+        {% csrf_token %}
+        {% include 'includes/bootstrap_form.html' %}
+
+        <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+    </form>
+</div>
+
+{% endblock  %}

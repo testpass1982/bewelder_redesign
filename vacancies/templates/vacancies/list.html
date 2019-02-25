@@ -1,0 +1,48 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+
+
+<div class="cont-width-block">
+    <h2>Список вакансий</h2>
+    <ul class="pagination">
+        {% if vacancies.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.previous_page_number }}"><i class="fa fa-arrow-left"></i></a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link"> {{ vacancies.number }}</a></li>
+        {% if vacancies.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.next_page_number}}"><i class="fa fa-arrow-right"></i></a></li>
+        {% endif %}
+    </ul>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {% for vacancy in vacancies %}
+                {% include 'vacancies/includes/vacancy_card.html' %}
+            {% endfor %}
+        </div>
+        <div class="col-lg-4">
+            <div class="contianer">
+                {% include 'vacancies/includes/filter-panel.html' %}
+            </div>
+        </div>
+    </div>
+
+       <ul class="pagination">
+        {% if vacancies.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.previous_page_number }}"><i class="fa fa-arrow-left"></i></a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link"> {{ vacancies.number }}</a></li>
+        {% if vacancies.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ vacancies.next_page_number}}"><i class="fa fa-arrow-right"></i></a></li>
+        {% endif %}
+    </ul>
+
+</div>
+
+
+
+
+
+{% endblock %}

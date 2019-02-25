@@ -1,0 +1,53 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h3>
+        Ваши данные
+    </h3>
+    <hr>
+    <div>
+        <p>
+            {{ user.get_full_name }}<br>
+            {{ user.email }}<br>
+            {{ user.date_of_birth|default:'' }}
+        </p>
+        <div class="mt-3">
+            <a href="{% url 'users:profile_update' %}" class="btn btn-outline-success my-1">Изменить данные</a>
+            <a href="{% url 'users:password_change' %}" class="btn btn-outline-secondary my-1">Сменить пароль</a>
+        </div>
+        
+    </div>
+    {% with resume=user.resume %}
+    {% if resume %}
+    <div class="my-5">
+        <h4>Ваше резюме</h4>
+        <hr>
+        {% include 'components/resume_full.html' %}
+        <a href="{% url 'resumes:resume_update' %}" class="btn btn-outline-success">Обновить резюме</a>
+        <a href="{% url 'resumes:resume_delete' %}" class="btn btn-outline-danger">Удалить резюме</a>
+    </div>
+    {% else %}
+    <div class="my-5">
+        <a href="{% url 'resumes:resume_create' %}" class="btn btn-success btn-lg btn-block">Создать резюме</a>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% if vacancies %}
+    <div class="my-5">
+        <h4>Ваши вакансии</h4>
+        <hr>
+        {% for vacancy in vacancies %}
+        {% include 'vacancies/includes/vacancy_full.html'%}
+        <a href="{% url 'vacancies:vacancy_update' vacancy.pk %}" class="btn btn-outline-success">Обновить вакансию</a>
+        <a href="{% url 'vacancies:vacancy_delete' vacancy.pk %}" class="btn btn-outline-danger">Удалить вакансию</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="my-5">
+        <a href="{% url 'vacancies:vacancy_create' %}" class="btn btn-success btn-lg btn-block">Создать вакансию</a>
+    </div>
+</div>
+
+{% endblock %}

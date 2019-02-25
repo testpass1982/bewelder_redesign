@@ -1,0 +1,20 @@
+server {
+    server_name  www.{{ server_name }};
+    rewrite ^(.*) http://{{ server_name }}$1 permanent;
+}
+server {
+    listen 80;
+    server_name {{ server_name }};
+    index index.php index.html;
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root {{ site_root }};
+    }
+    location /media/ {
+        root {{ site_root }};
+    }
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/tmp/gunicorn.sock;
+    }
+}
