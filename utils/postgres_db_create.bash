@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 sudo -u postgres psql -v ON_ERROR_STOP=1 --username postgres <<-EOSQL
     CREATE DATABASE bewgb_db;
     CREATE USER bewgb_user WITH PASSWORD 'password';
