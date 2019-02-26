@@ -1,28 +1,16 @@
 import React from "react";
+import MessageListItem from "./MessageListItem";
 
 const MessageList = props => {
-  /*
-  [
-    {
-      id: int,
-      user: {
-        id: int,
-        name: str
-      },
-      text: str,
-      sent_at: str,
-      dialog: int
-    }
-  ]
-  */
   if (props.messages && props.messages.length) {
     const messages = props.messages.map(message => (
-      <div key={message.id} className="card bg-light mb-3">
-        <h5 className="card-header">{message.user.name}</h5>
-        <div className="card-body">{message.text}</div>
-      </div>
+      <MessageListItem message={message} key={message.id} />
     ));
-    return <div>{messages}</div>;
+    return (
+      <div className="mb-3" style={{ height: "42vh", overflow: "auto" }}>
+        {messages}
+      </div>
+    );
   } else {
     return <div>Нет сообщений</div>;
   }
