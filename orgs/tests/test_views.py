@@ -58,11 +58,8 @@ class EmployerCreateTestCase(TestCase):
             'city': city_1.id,
             'phone': '123',
             'email': 'test@email.local',
-            'user': user
         }
         response = self.client.post(self.url_create, data=employer_data, follow=True)
-        print(response)
-        print(dir(response))
         self.assertRedirects(
             response,
             reverse(
@@ -87,7 +84,7 @@ class EmployerUpdateTestCase(TestCase):
             'city': self.city_1,
             'phone': '123',
             'email': 'test@email.local',
-            'user': self.user
+            'user': self.user,
         }
         self.employer_1 = Employer.objects.create(**self.employer_data)
         self.url_update = reverse('orgs:update', kwargs={'pk': self.employer_1.id})
