@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.indexes import Index
 from ckeditor_uploader.fields import RichTextUploadingField
 from mainapp.models import Category
 from orgs.models import Employer
@@ -32,6 +33,8 @@ class Vacancy(models.Model):
     salary_min = models.IntegerField(u'Зарплата от', blank=True)
     salary_max = models.IntegerField(u'Зарплата до', blank=True, null=True)
     naks_att_level = models.ManyToManyField(Level, verbose_name="Уровень аттестации НАКС") 
+    business_trips = models.BooleanField(verbose_name="Вакансия с командировками", default=False)
+    shift_work = models.BooleanField(verbose_name="Вахтовый метод работы", default=False)
     short_description = models.CharField(
         u'Краткое описание вакансии', max_length=200)
     description = RichTextUploadingField(blank=True, verbose_name='Описание вакансии') 
@@ -45,6 +48,9 @@ class Vacancy(models.Model):
         ordering = ['created_date']
         verbose_name = 'Вакансия'
         verbose_name_plural = 'Вакансии'
+        indexes = [
+            models.Index(fields=['salary_min', 'salary_max']),
+        ]
     
     def __str__(self):
         return self.title
