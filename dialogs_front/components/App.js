@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "./Header";
 import { DIALOG_CREATE, DIALOG_LIST, DIALOG_VIEW } from "../constants/status";
+import Header from "../containers/Header";
 import DialogList from "../containers/DialogList";
 import DialogCreate from "../containers/DialogCreate";
 import DialogView from "../containers/DialogView";

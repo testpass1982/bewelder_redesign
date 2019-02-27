@@ -2,7 +2,7 @@ import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import * as status from "../../constants/status";
 import App from "../App";
-import Header from "../Header";
+import Header from "../../containers/Header";
 import DialogList from "../../containers/DialogList";
 import DialogCreate from "../../containers/DialogCreate";
 import DialogView from "../../containers/DialogView";
