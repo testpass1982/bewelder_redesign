@@ -54,6 +54,6 @@ class EmployerDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self, queryset=None):
         user = self.request.user
-        if user.is_anonymous or not user.is_employer:
+        if user.is_anonymous or not (hasattr(user, 'employer') and bool(user.employer.id)):
             raise Http404
         return user.employer

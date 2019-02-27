@@ -53,15 +53,15 @@ class EmployerModelTestCase(TestCase):
 
     def test_name_with_city(self):
         expected = 'Employer 1 (City 1)'
-        result = str(self.employer_1)
+        result = self.employer_1.name_with_city
         self.assertEqual(expected, result)
 
     def test_creation_short_name(self):
+        self.assertEqual(self.employer_1.name, self.employer_1.short_name)
         self.employer_data['name'] = 'Employer 2'
         self.employer_data['short_name'] = 'Emp. 2'
         self.employer_data['user'] = mixer.blend(User)
         employer_2 = Employer.objects.create(**self.employer_data)
-        self.assertEqual(self.employer_1.name, self.employer_1.short_name)
         self.assertNotEqual(employer_2.name, employer_2.short_name)
 
     def test_same_name_employers_another_city_creation_succeed(self):
@@ -74,20 +74,7 @@ class EmployerModelTestCase(TestCase):
         self.assertEqual(city_2.name, employer_2.city.name)
 
     def test_get_vacancy_count(self):
-        first_vacancy = Vacancy()
-        first_vacancy.user = mixer.blend(User)
-        first_vacancy.employer = self.employer_1
-        first_vacancy.title = 'Welder TIG'
-        first_vacancy.salary_min = 50000
-        first_vacancy.save()
-
-        second_vacancy = Vacancy()
-        second_vacancy.user = mixer.blend(User)
-        second_vacancy.employer = self.employer_1
-        second_vacancy.title = "Welder MIG-MAG"
-        second_vacancy.salary_min = 60000
-        second_vacancy.save()
-
+        mixer.cycle(2).blend(Vacancy, employer=self.employer_1)
         self.assertEqual(2, self.employer_1.get_vacancy_count())
 
     def test_get_absolute_url(self):
