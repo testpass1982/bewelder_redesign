@@ -17,7 +17,8 @@ $("#dialogs-modal").on("show.bs.modal", function(event) {
     const initStore = {
       status: status.DIALOG_LIST,
       dialogSet: [],
-      dialog: {}
+      dialog: {},
+      loading: false
     };
     if (opponent) {
       initStore.status = status.DIALOG_CREATE;

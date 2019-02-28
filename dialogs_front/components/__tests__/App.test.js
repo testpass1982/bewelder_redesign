@@ -33,24 +33,32 @@ test("Header should render", () => {
 
 test("DialogList should render by default", () => {
   const { output } = setup();
-  const [, dialogList] = output.props.children;
-  expect(dialogList.type).toBe(DialogList);
+  const [, cssTransitionGroup] = output.props.children;
+  const div = cssTransitionGroup.props.children;
+  const view = div.props.children;
+  expect(view.type).toBe(DialogList);
 });
 
 test("DialogCreate should render with status DIALOG_CREATE", () => {
   const { output } = setup({ status: status.DIALOG_CREATE });
-  const [, dialogCreate] = output.props.children;
-  expect(dialogCreate.type).toBe(DialogCreate);
+  const [, cssTransitionGroup] = output.props.children;
+  const div = cssTransitionGroup.props.children;
+  const view = div.props.children;
+  expect(view.type).toBe(DialogCreate);
 });
 
 test("DialogList should render with status DIALOG_LIST", () => {
   const { output } = setup({ status: status.DIALOG_LIST });
-  const [, dialogList] = output.props.children;
-  expect(dialogList.type).toBe(DialogList);
+  const [, cssTransitionGroup] = output.props.children;
+  const div = cssTransitionGroup.props.children;
+  const view = div.props.children;
+  expect(view.type).toBe(DialogList);
 });
 
 test("DialogView should render with status DIALOG_VIEW", () => {
   const { output } = setup({ status: status.DIALOG_VIEW });
-  const [, dialogView] = output.props.children;
-  expect(dialogView.type).toBe(DialogView);
+  const [, cssTransitionGroup] = output.props.children;
+  const div = cssTransitionGroup.props.children;
+  const view = div.props.children;
+  expect(view.type).toBe(DialogView);
 });

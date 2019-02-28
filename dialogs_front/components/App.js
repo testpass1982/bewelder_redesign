@@ -5,11 +5,10 @@ import DialogList from "../containers/DialogList";
 import DialogCreate from "../containers/DialogCreate";
 import DialogView from "../containers/DialogView";
 
-class App extends React.Component {
-  state = {
-    dialogSet: []
-  };
+import { CSSTransitionGroup } from "react-transition-group";
+import "./animation.css";
 
+class App extends React.Component {
   componentWillUnmount() {
     console.log("dialogs app will unmount");
   }
@@ -31,9 +30,19 @@ class App extends React.Component {
         view = <DialogList />;
     }
     return (
-      <div className="m-3">
+      <div className="m-1" style={{ overflow: "hidden", height: "81vh" }}>
         <Header />
-        {view}
+        <CSSTransitionGroup
+          transitionName="slide"
+          transitionAppear={true}
+          transitionAppearTimeout={1000}
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
+          component="div"
+          className="anim-container"
+        >
+          <div key={status}>{view}</div>
+        </CSSTransitionGroup>
       </div>
     );
   }
