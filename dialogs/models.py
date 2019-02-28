@@ -21,6 +21,7 @@ class Membership(models.Model):
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
     last_check = models.DateTimeField(null=True, blank=True)
     is_creator = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
 
 class Message(models.Model):

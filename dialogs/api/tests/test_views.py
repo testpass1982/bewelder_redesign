@@ -90,3 +90,31 @@ class DialogViewAPITestCase(APITestCase):
         msg = {'text': 'foo bar'}
         resp = self.client.post(self.url_dialog_detail, data=msg, format='json')
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_leave_dialog(self):
+        user = self.creator
+        self.client.force_login(user)
+
+        # Проверяем, что учавствуем в одном диалоге
+        resp = self.client.get(self.url_dialog_list)
+        self.assertEqual(len(resp.data), 1)
+
+        # Покидаем (удаляемся из) диалог
+        resp = self.client.delete(self.url_dialog_detail)
+        self.assertEqual(resp.status_code, 204)
+
+        # Проверяем, что участвуем в 0 диалогах
+        resp = self.client.get(self.url_dialog_list)
+        self.assertEqual(len(resp.data), 0)
+
+        # Убеждаемся, что нет доступа к покинутому диалогу
+        resp = self.client.get(self.url_dialog_detail)
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+        # Убеждаемся, что не можем отправить сообщение в покинутый диалог
+        resp = self.client.post(self.url_dialog_detail, data={'text': 'text'})
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+        # Убеждаемся, что не можем удалиться дважды
+        resp = self.client.delete(self.url_dialog_detail)
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
