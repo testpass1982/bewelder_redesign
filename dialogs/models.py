@@ -12,6 +12,9 @@ class Dialog(models.Model):
     members = models.ManyToManyField(User, through='Membership')
     theme = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return 'Диалог: {}'.format(self.theme)
 
