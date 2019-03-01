@@ -1,9 +1,8 @@
 import React from "react";
-import { CSSTransitionGroup } from "react-transition-group";
 import DialogData from "./DialogData";
 import api from "../utils/api";
-import "./animation.css";
 import TrashButton from "./TrashButton";
+import AnimateThis from "./AnimateThis";
 
 class DialogList extends React.Component {
   componentDidMount() {
@@ -41,15 +40,7 @@ class DialogList extends React.Component {
             className="list-group"
             style={{ height: "70vh", overflow: "auto" }}
           >
-            <CSSTransitionGroup
-              transitionName="slide"
-              transitionAppear={true}
-              transitionAppearTimeout={1000}
-              transitionEnterTimeout={1000}
-              transitionLeaveTimeout={1000}
-            >
-              {dialogs}
-            </CSSTransitionGroup>
+            <AnimateThis transitionLeave>{dialogs}</AnimateThis>
           </div>
         ) : (
           <div>У Вас пока нет сообщений</div>

@@ -1,4 +1,5 @@
 import React from "react";
+import AnimateThis from "./AnimateThis";
 
 class TrashButton extends React.Component {
   state = {
@@ -17,9 +18,9 @@ class TrashButton extends React.Component {
 
   render() {
     return (
-      <div>
+      <AnimateThis>
         {this.state.showConfirm ? (
-          <div>
+          <div key={0}>
             Вы уверены?
             <button
               className="btn btn-outline-danger btn-sm mr-1 ml-2"
@@ -35,7 +36,7 @@ class TrashButton extends React.Component {
             </button>
           </div>
         ) : (
-          <div>
+          <div key={1}>
             <button
               className="btn btn-outline-danger btn-sm"
               onClick={this.handleClick}
@@ -44,7 +45,7 @@ class TrashButton extends React.Component {
             </button>
           </div>
         )}
-      </div>
+      </AnimateThis>
     );
   }
 }

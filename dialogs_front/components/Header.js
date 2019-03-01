@@ -1,7 +1,6 @@
 import React from "react";
 import * as statusView from "../constants/status";
-import { CSSTransitionGroup } from "react-transition-group";
-import "./animation.css";
+import AnimateThis from "./AnimateThis";
 
 const Header = ({ status, dialog }) => {
   let title = "Ваши сообщения";
@@ -16,17 +15,11 @@ const Header = ({ status, dialog }) => {
     title = "Оставить сообщение";
   }
   return (
-    <CSSTransitionGroup
-      transitionName="slide"
-      transitionAppear={true}
-      transitionAppearTimeout={1000}
-      transitionEnterTimeout={1000}
-      transitionLeave={false}
-    >
+    <AnimateThis>
       <div key={key}>
         <h3>{title}</h3>
       </div>
-    </CSSTransitionGroup>
+    </AnimateThis>
   );
 };
 

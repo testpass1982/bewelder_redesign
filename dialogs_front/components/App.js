@@ -4,9 +4,7 @@ import Header from "../containers/Header";
 import DialogList from "../containers/DialogList";
 import DialogCreate from "../containers/DialogCreate";
 import DialogView from "../containers/DialogView";
-
-import { CSSTransitionGroup } from "react-transition-group";
-import "./animation.css";
+import AnimateThis from "./AnimateThis";
 
 class App extends React.Component {
   componentWillUnmount() {
@@ -32,17 +30,9 @@ class App extends React.Component {
     return (
       <div className="m-1" style={{ overflow: "hidden", height: "81vh" }}>
         <Header />
-        <CSSTransitionGroup
-          transitionName="slide"
-          transitionAppear={true}
-          transitionAppearTimeout={1000}
-          transitionEnterTimeout={1000}
-          transitionLeaveTimeout={1000}
-          component="div"
-          className="anim-container"
-        >
+        <AnimateThis useDiv transitionLeave>
           <div key={status}>{view}</div>
-        </CSSTransitionGroup>
+        </AnimateThis>
       </div>
     );
   }

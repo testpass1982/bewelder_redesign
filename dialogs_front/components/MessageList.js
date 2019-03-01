@@ -1,7 +1,6 @@
 import React from "react";
-import { CSSTransitionGroup } from "react-transition-group";
 import MessageListItem from "./MessageListItem";
-import "./animation.css";
+import AnimateThis from "./AnimateThis";
 
 class MessageList extends React.Component {
   messageList = React.createRef();
@@ -18,7 +17,7 @@ class MessageList extends React.Component {
   };
 
   render() {
-    let messages = <div key="No messages">Нет сообщений</div>;
+    let messages;
     if (this.props.messages && this.props.messages.length) {
       messages = this.props.messages.map(message => (
         <MessageListItem message={message} key={message.id} />
@@ -31,15 +30,7 @@ class MessageList extends React.Component {
         style={{ height: "40vh", overflow: "auto" }}
         ref={this.messageList}
       >
-        <CSSTransitionGroup
-          transitionName="slide"
-          transitionAppear={false}
-          transitionAppearTimeout={1000}
-          transitionEnterTimeout={1000}
-          transitionLeave={false}
-        >
-          {messages}
-        </CSSTransitionGroup>
+        <AnimateThis>{messages}</AnimateThis>
       </div>
     );
   }
