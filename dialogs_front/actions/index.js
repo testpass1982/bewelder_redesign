@@ -31,3 +31,8 @@ export const appendMessage = message => ({
   type: types.APPEND_MESSAGE,
   message
 });
+
+export const deleteDialog = dialogId => ({
+  type: types.DELETE_DIALOG,
+  dialogId
+});
