@@ -56,7 +56,7 @@ class Employer(models.Model):
     site = models.CharField('Сайт', max_length=255, blank=True)
     phone = models.CharField('Телефон', max_length=11)
     email = models.EmailField('Эл. почта', max_length=255)
-    #owner = models.ForeignKey(User, verbose_name='Владелец', on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), verbose_name='Пользователь', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     # Custom Manager
