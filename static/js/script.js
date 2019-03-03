@@ -1,6 +1,5 @@
 $(document).ready(function () {
     console.log("jQuery ready!");
-
 });
 var app = new Vue({
     el: '#fast_search_app',
@@ -17,7 +16,6 @@ var app = new Vue({
                 if ($('#dropdown_search').is(":hidden")) {
                     $('#dropdown_search').show();
                     this.getVacancies();
-                    console.log(this.query_list);
                 }
             } else {
                 this.message = "введите еще что-нибудь"
@@ -40,6 +38,16 @@ var app = new Vue({
                     this.loading = false;
                     console.log(err);
                 })
+        },
+        updateQuery(value) {
+            this.search_job=value;
         }
     }
+})
+//updating list item component
+Vue.component('v-list-item', {
+    props: ['title'],
+    template: `
+    <button class="dropdown-item" type="button">[[ title ]]</button>
+    `
 })

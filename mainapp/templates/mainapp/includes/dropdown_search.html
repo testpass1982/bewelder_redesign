@@ -1,5 +1,4 @@
  <div id="dropdown_search" class="dropdown-menu">
-    <button class="dropdown-item" type="button">Action</button>
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
+    <button v-if="query_list.length==0" class="dropdown-item" type="button">совпадений нет</button>
+    <button v-for="title in query_list"  @click="updateQuery(title)" class="dropdown-item" type="button">[[title]]</button>
   </div>
