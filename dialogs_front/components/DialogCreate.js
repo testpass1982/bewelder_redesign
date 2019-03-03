@@ -46,7 +46,7 @@ class DialogCreate extends React.Component {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary btn-block">
             Отправить
           </button>
         </form>

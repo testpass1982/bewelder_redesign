@@ -22,7 +22,9 @@ const MessageListItem = ({ message }) => {
           </span>
         </div>
       </div>
-      <p className="mb-1 pl-5">{message.text}</p>
+      <p className="mb-1 pl-5" style={{ whiteSpace: "pre-wrap" }}>
+        {message.text}
+      </p>
       <hr />
     </div>
   );

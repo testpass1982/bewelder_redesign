@@ -28,7 +28,7 @@ class App extends React.Component {
         view = <DialogList />;
     }
     return (
-      <div className="m-1" style={{ overflow: "hidden", height: "81vh" }}>
+      <div className="m-1" style={{ overflow: "auto", minHeight: "81vh" }}>
         <Header />
         <AnimateThis useDiv transitionLeave>
           <div key={status}>{view}</div>

@@ -22,18 +22,20 @@ class TrashButton extends React.Component {
         {this.state.showConfirm ? (
           <div key={0}>
             Вы уверены?
-            <button
-              className="btn btn-outline-danger btn-sm mr-1 ml-2"
-              onClick={this.handleDelete}
-            >
-              Да
-            </button>
-            <button
-              className="btn btn-outline-success btn-sm"
-              onClick={this.handleClick}
-            >
-              Нет
-            </button>
+            <div>
+              <button
+                className="btn btn-outline-danger btn-sm mr-1 ml-2"
+                onClick={this.handleDelete}
+              >
+                Да
+              </button>
+              <button
+                className="btn btn-outline-success btn-sm"
+                onClick={this.handleClick}
+              >
+                Нет
+              </button>
+            </div>
           </div>
         ) : (
           <div key={1}>

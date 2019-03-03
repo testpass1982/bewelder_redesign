@@ -53,7 +53,7 @@ class DialogList extends React.Component {
         <div className="form-group has-feedback">
           <input
             type="text"
-            className="form-control"
+            className="form-control pr-4"
             placeholder="Искать переписку"
             value={this.state.filterValue}
             onChange={this.handleFilterChange}
