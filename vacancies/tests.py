@@ -405,22 +405,3 @@ class VacancyListFilter(TestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(len(response.context['vacancies']), 5)
-
-    # def test_vacancy_list_form_return_results_salary_min_field(self):
-    #     random_salary_min = random.choice(self.vacancies).salary_min
-    #     random_salary_max = random.choice(self.vacancies).salary_max
-    #     url = reverse('vacancies:list')
-    #     data_with_salary_min = {
-    #         'salary_min': random_salary_min,
-    #     }
-    #     response = self.client.post(url, data_with_salary_min)
-    #     self.assertEqual(
-    #         len(response.context['vacancies']), len(Vacancy.objects.filter(salary_min=random_salary_min))
-    #     )
-    #     data_with_salary_max = {
-    #         'salary_max': random_salary_max,
-    #     }
-    #     response = self.client.post(url, data_with_salary_max)
-    #     self.assertEqual(
-    #         len(response.context['vacancies']), len(Vacancy.objects.filter(salary_max=random_salary_max))
-    #     )
