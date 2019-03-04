@@ -153,6 +153,20 @@ test("reducer should handle SAVE_DIALOG", () => {
   });
 });
 
+test("reducer should handle DELETE_DIALOG", () => {
+  const msg = { type: types.DELETE_DIALOG, dialogId: 42 };
+  expect(reducer({}, msg)).toEqual({});
+  expect(reducer({ status: status.DIALOG_LIST }, msg)).toEqual({
+    status: status.DIALOG_LIST
+  });
+  expect(reducer({ dialogSet: [{ id: 1 }, { id: 2 }] }, msg)).toEqual({
+    dialogSet: [{ id: 1 }, { id: 2 }]
+  });
+  expect(
+    reducer({ dialogSet: [{ id: 1 }, { id: 42 }, { id: 23 }] }, msg)
+  ).toEqual({ dialogSet: [{ id: 1 }, { id: 23 }] });
+});
+
 describe("reducer should handle APPEND_MESSAGE", () => {
   test("do not append a new message if status is not DIALOG_VIEW", () => {
     expect(

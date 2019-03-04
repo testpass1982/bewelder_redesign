@@ -13,12 +13,10 @@ class DialogView extends React.Component {
       <div>
         <button
           onClick={this.props.toDialogList}
-          className="btn btn-secondary my-3"
+          className="btn btn-secondary my-1"
         >
           К списку сообщений
         </button>
-        {/* <h4>Dialog view</h4>
-        <h5>{this.props.dialogId}</h5> */}
         <MessageList />
         <MessageForm />
       </div>
