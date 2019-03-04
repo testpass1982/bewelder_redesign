@@ -23,7 +23,7 @@
                 {% endwith %}
             {% elif 'employer' in result|lower %}
                 {% with result.object as employer %}
-                    {% include 'orgs/includes/employer_short.html' %}
+                    {% include 'components/employer_short.html' %}
                 {% endwith %}
             {% else %}
                 {{ result }}

@@ -34,22 +34,6 @@
     {% endif %}
     {% endwith %}
 
-    {% with employer=user.employer %}
-    {% if employer %}
-    <div class="my-5">
-        <h4>Ваша организация</h4>
-        <hr>
-        {% include 'orgs/includes/employer_full.html' %}
-        <a href="{% url 'orgs:update' %}" class="btn btn-outline-success">Обновить организацию</a>
-        <a href="{% url 'orgs:delete' %}" class="btn btn-outline-danger">Удалить организацию</a>
-    </div>
-    {% else %}
-    <div class="my-5">
-        <a href="{% url 'orgs:create' %}" class="btn btn-success btn-lg btn-block">Создать организацию</a>
-    </div>
-    {% endif %}
-    {% endwith %}
-
     {% if vacancies %}
     <div class="my-5">
         <h4>Ваши вакансии</h4>
