@@ -8,7 +8,8 @@ const getData = res => res.data;
 
 const requests = {
   get: url => api.get(url).then(getData),
-  post: (url, body) => api.post(url, body).then(getData)
+  post: (url, body) => api.post(url, body).then(getData),
+  delete: url => api.delete(url).then(getData)
 };
 
 const dialogs = {
@@ -21,7 +22,8 @@ const dialogs = {
       text
     }),
   sendMessage: (dialogId, text) =>
-    requests.post(`${dialogsURL}/${dialogId}/`, { text })
+    requests.post(`${dialogsURL}/${dialogId}/`, { text }),
+  delete: dialogId => requests.delete(`${dialogsURL}/${dialogId}/`)
 };
 
 function init(baseURL = baseMessagingURL) {

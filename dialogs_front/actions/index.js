@@ -4,10 +4,12 @@ export const toDialogList = () => ({
   type: types.TO_DIALOG_LIST
 });
 
-export const toDialogView = dialogId => ({
-  type: types.TO_DIALOG_VIEW,
-  dialogId
-});
+export const toDialogView = dialogId => {
+  return {
+    type: types.TO_DIALOG_VIEW,
+    dialogId
+  };
+};
 
 export const toDialogCreate = opponentId => ({
   type: types.TO_DIALOG_CREATE,
@@ -28,4 +30,9 @@ export const saveDialog = dialog => ({
 export const appendMessage = message => ({
   type: types.APPEND_MESSAGE,
   message
+});
+
+export const deleteDialog = dialogId => ({
+  type: types.DELETE_DIALOG,
+  dialogId
 });

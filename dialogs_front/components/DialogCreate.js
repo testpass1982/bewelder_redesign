@@ -23,7 +23,6 @@ class DialogCreate extends React.Component {
   render() {
     return (
       <div>
-        <h4>Отправить сообщение</h4>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="themeInputId">Тема сообщения</label>
@@ -47,7 +46,7 @@ class DialogCreate extends React.Component {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary btn-block">
             Отправить
           </button>
         </form>
