@@ -46,27 +46,28 @@
                                                     вакансию</button> {% endcomment %}
                                             </div>
                                         </div>
-                                        <div class="cont-fast-search my-2">
-                                            <p>Быстрый поиск</p>
+                                        <div id="fast_search_app" class="cont-fast-search my-2">
+                                            <p>Быстрый поиск ([[message]])</p> 
                                             <div class="row">
                                                 <div class="col-6 col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Должность"
+                                                        <input id ="id_job" type="text" v-model="search_job" class="form-control" placeholder="Должность"
                                                             aria-label="Должность" aria-describedby="fast-search-position">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text" id="fast-search-position"><i
                                                                     class="fa fa-angle-down" aria-hidden="true"></i></span>
                                                         </div>
+                                                        {% include 'mainapp/includes/dropdown_search.html' %}
                                                     </div>
                                                 </div>
                                                 <div class="col-6 col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Город"
-                                                            aria-label="Город" aria-describedby="fast-search-city">
+                                                        <input id="id_city" type="text" v-model="search_city" class="form-control" placeholder="Город" aria-label="Город" aria-describedby="fast-search-city">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text" id="fast-search-city"><i
                                                                     class="fa fa-angle-down" aria-hidden="true"></i></span>
                                                         </div>
+                                                        {% include 'mainapp/includes/dropdown_search.html' %}
                                                     </div>
                                                 </div>
                                                 <div class="col-6 col-md-12 col-lg-6">

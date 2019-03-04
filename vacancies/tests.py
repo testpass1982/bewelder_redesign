@@ -22,27 +22,10 @@ import random
 #     def test_bad_maths(self):
 #         self.assertEqual(1+1, 3)
 
-class VacancyModelTest(TestCase):
 
+class VacancyModelTest(TestCase):
     def setUp(self):
-        region_test_data = {
-            'name' : 'MO'
-            }
-        mo_region = Region.objects.create(**region_test_data)
-        city_test_data = {
-            'name': 'MOSCOW',
-            'region': mo_region
-            }
-        moscow = City.objects.create(**city_test_data)
-        employer_test_data = {
-            'name': 'LUKOIL',
-            'short_name': 'LUK',
-            'inn': '123456789012',
-            'city': moscow,
-            'phone': '123',
-            'email': 'test_email@test.com'
-            }
-        self.employer = Employer.objects.create(**employer_test_data)
+        self.employer = mixer.blend(Employer)
 
     def test_saving_and_retrieving_vacancies(self):
         username1 = 'foo1@bar.com'
@@ -73,34 +56,11 @@ class VacancyModelTest(TestCase):
         self.assertEqual(first_saved_vacancy.title, 'Welder TIG')
         self.assertEqual(second_saved_vacancy.title, 'Welder MIG-MAG')
 
-class VacanciesListTest(TestCase):
 
+class VacanciesListTest(TestCase):
     def setUp(self):
-        user_test_data = {
-            'email': 'foo@bar.com',
-            'first_name': 'anatoly',
-            'last_name': 'popov',
-            'password': 'testpass'
-            }
-        region_test_data = {
-            'name' : 'MO'
-            }
-        mo_region = Region.objects.create(**region_test_data)
-        city_test_data = {
-            'name': 'MOSCOW',
-            'region': mo_region
-            }
-        moscow = City.objects.create(**city_test_data)
-        employer_test_data = {
-            'name': 'LUKOIL',
-            'short_name': 'LUK',
-            'inn': '123456789012',
-            'city': moscow,
-            'phone': '123',
-            'email': 'test_email@test.com'
-            }
-        self.user = User.objects.create(**user_test_data)
-        self.employer = Employer.objects.create(**employer_test_data)
+        self.user = mixer.blend(User)
+        self.employer = mixer.blend(Employer)
         number_of_vacancies = 15
         for i in range(number_of_vacancies):
             Vacancy.objects.create(
@@ -131,8 +91,8 @@ class VacanciesListTest(TestCase):
         self.assertEqual(paginator.count, 15)
         self.assertEqual(paginator.num_pages, 2)
 
-class VacancyFormAddTest(TestCase):
 
+class VacancyFormAddTest(TestCase):
     def setUp(self):
         self.user_test_data = {
             'email': 'foo@bar.com',
@@ -192,6 +152,7 @@ class VacancyFormAddTest(TestCase):
         self.client.post('/vacancies/new/', data=self.vacancy_test_data)
         vacancy = Vacancy.objects.first()
         self.assertEqual(vacancy.user, self.user)
+
 
 class TestVacancyUpdateForm(TestCase):
     def setUp(self):
@@ -269,6 +230,7 @@ class TestVacancyUpdateForm(TestCase):
         update_url = reverse('vacancies:vacancy_update', kwargs={'pk': user_vacancy[0].pk})
         response = self.client.post(update_url)
         self.assertTrue(response.status_code, 404)
+
 
 class TestVacancyDelete(TestCase):
     def setUp(self):
@@ -383,7 +345,7 @@ class VacancyListFilter(TestCase):
         self.user = User.objects.create(**user_test_data)
         
         self.min_salaries = [ 5000, 10000, 20000, 30000 ]
-        self.max_salaries = [ 50000, 100000, 200000, 300000 ]
+        self.max_salaries = [ 50000, 80000, 200000, 300000 ]
         self.levels = mixer.cycle(3).blend(Level)
         for i in range(0, 10):
             mixer.blend(Vacancy, business_trips=True, 
@@ -412,32 +374,34 @@ class VacancyListFilter(TestCase):
 
     def test_count_vacancies(self):
         self.assertEqual(Vacancy.objects.count(), 20)
-        second_random_vacancy = random.choice(self.vacancies)
-        self.assertTrue(second_random_vacancy.salary_max in self.max_salaries)
+        random_vacancy = random.choice(self.vacancies)
+        self.assertTrue(random_vacancy.salary_min in self.min_salaries)
+        self.assertTrue(random_vacancy.salary_max in self.max_salaries)
 
-    def test_vacancy_list_form_return_results_by_salaries_fields(self):
+
+    def test_vacancy_list_form_return_results_salary_min_field(self):
         random_salary_min = random.choice(self.vacancies).salary_min
-        random_salary_max = random.choice(self.vacancies).salary_max
+        for vacancy in self.vacancies:
+            vacancy.shift_work = False
+            vacancy.business_trips = False
+            vacancy.save()
         url = reverse('vacancies:list')
         data_with_salary_min = {
             'salary_min': random_salary_min,
         }
         response = self.client.post(url, data_with_salary_min)
         self.assertEqual(
-            len(response.context['vacancies']), len(Vacancy.objects.filter(salary_min=random_salary_min))
+            len(response.context['vacancies']), 
+            len(Vacancy.objects.filter(salary_min__gte=random_salary_min))
         )
-        data_with_salary_max = {
-            'salary_max': random_salary_max,
+
+    def test_vacancy_list_form_return_results_salary_max_field(self):
+        Vacancy.objects.all().delete()
+        salary_max = 100000
+        vacancies = mixer.cycle(5).blend(Vacancy, salary_max=salary_max)
+        url = reverse('vacancies:list')
+        data = {
+            'salary_max': salary_max,
         }
-        response = self.client.post(url, data_with_salary_max)
-        self.assertEqual(
-            len(response.context['vacancies']), len(Vacancy.objects.filter(salary_max=random_salary_max))
-        )
-
-
-    
-
-
-
-            
-
+        response = self.client.post(url, data)
+        self.assertEqual(len(response.context['vacancies']), 5)
