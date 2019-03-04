@@ -110,12 +110,6 @@
 
 .side-panel .side-panel-block .text { color: #414141; font-size: 14px; }
 
-.side-panel .side-panel-block .btn-vacancy { color: #fff; font-size: 14px; line-height: 14px; font-weight: 500; background-color: #4b4e65; padding: 13px 26px; }
-
-.side-panel .side-panel-block .subscribe { font-size: 12px; }
-
-.side-panel .side-panel-block .subscribe button { margin-left: 10px; font-size: inherit; }
-
 .side-panel-bg { background-color: rgba(0, 0, 0, 0.03); border: 1px solid transparent; border-radius: 3px; margin-bottom: 30px; }
 
 .vacancy-card-bg { background-color: white; border: 1px solid transparent; border-radius: 3px; padding: 10px; margin: 10px; font-size: 0.8em; }
