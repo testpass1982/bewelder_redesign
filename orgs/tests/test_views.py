@@ -11,6 +11,9 @@ from orgs.forms import EmployerForm
 
 User = get_user_model()
 
+username = 'foo@bar.com'
+password = 'geekbrains'
+
 
 class EmployerListTestCase(TestCase):
     def test_employer_list_pagination(self):
@@ -42,29 +45,20 @@ class EmployerCreateTestCase(TestCase):
             '{}?next={}'.format(url_login, self.url_create)
         )
 
-    def test_user_has_resume_redirects_to_update(self):
-        user = mixer.blend(User)
-        mixer.blend(Employer, user=user)
-        self.client.force_login(user)
-        response = self.client.get(self.url_create)
-        self.assertRedirects(
-            response,
-            reverse('orgs:update')
-        )
-
     def test_create_employer(self):
-        user = mixer.blend(User)
-        self.client.force_login(user)
+        User.objects.create_user(username, password)
+        self.client.login(username=username, password=password)
         response = self.client.get(self.url_create)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'orgs/employer_form.html')
         self.assertIsInstance(response.context['form'], EmployerForm)
 
-        city = mixer.blend(City)
+        region_1 = Region.objects.create(name='Region 1')
+        city_1 = City.objects.create(name='City 1', region=region_1)
         employer_data = {
             'name': 'Employer 1',
             'inn': '123456789012',
-            'city': city.id,
+            'city': city_1.id,
             'phone': '123',
             'email': 'test@email.local',
         }
@@ -84,18 +78,17 @@ class EmployerCreateTestCase(TestCase):
 
 class EmployerUpdateTestCase(TestCase):
     def setUp(self):
-        self.user = mixer.blend(User)
-        self.city = mixer.blend(City)
+        self.region_1 = Region.objects.create(name='Region 1')
+        self.city_1 = City.objects.create(name='City 1', region=self.region_1)
         self.employer_data = {
             'name': 'Employer 1',
             'inn': '123456789012',
-            'city': self.city,
+            'city': self.city_1,
             'phone': '123',
             'email': 'test@email.local',
-            'user': self.user,
         }
         self.employer_1 = Employer.objects.create(**self.employer_data)
-        self.url_update = reverse('orgs:update')
+        self.url_update = reverse('orgs:update', kwargs={'pk': self.employer_1.id})
 
     def test_with_unauthorized(self):
         url_login = reverse('users:login')
@@ -105,7 +98,8 @@ class EmployerUpdateTestCase(TestCase):
         )
 
     def test_update_employer(self):
-        self.client.force_login(self.user)
+        User.objects.create_user(username, password)
+        self.client.login(username=username, password=password)
         response = self.client.get(self.url_update)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'orgs/employer_form.html')
@@ -113,6 +107,13 @@ class EmployerUpdateTestCase(TestCase):
 
         self.employer_data['name'] = 'Employer 1 Updated'
         response = self.client.post(self.url_update, data=self.employer_data, follow=True)
+        # self.assertRedirects(
+        #     response,
+        #     reverse(
+        #         'orgs:detail',
+        #         args=[response.context['employer'].pk]
+        #     )
+        # )
         self.assertEqual(
             response.context['employer'].name,
             response.context['employer'].short_name,
@@ -124,7 +125,18 @@ class EmployerUpdateTestCase(TestCase):
 
 
 class EmployerDeleteTestCase(TestCase):
-    url_delete = reverse('orgs:delete')
+    def setUp(self):
+        self.region_1 = Region.objects.create(name='Region 1')
+        self.city_1 = City.objects.create(name='City 1', region=self.region_1)
+        self.employer_data = {
+            'name': 'Employer 1',
+            'inn': '123456789012',
+            'city': self.city_1,
+            'phone': '123',
+            'email': 'test@email.local',
+        }
+        self.employer_1 = Employer.objects.create(**self.employer_data)
+        self.url_delete = reverse('orgs:delete', kwargs={'pk': self.employer_1.id})
 
     def test_with_unauthorized(self):
         url_login = reverse('users:login')
@@ -133,28 +145,3 @@ class EmployerDeleteTestCase(TestCase):
             response,
             '{}?next={}'.format(url_login, self.url_delete)
         )
-
-    def test_get_confirmation_view(self):
-        user = mixer.blend(User)
-        mixer.blend(Employer, user=user)
-        self.client.force_login(user)
-        response = self.client.get(reverse('orgs:delete'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'orgs/employer_confirm_delete.html')
-
-    def test_post(self):
-        user = mixer.blend(User)
-        mixer.blend(Employer, user=user)
-        self.assertEqual(Employer.objects.count(), 1)
-        self.client.force_login(user)
-        response = self.client.post(reverse('orgs:delete'))
-        self.assertRedirects(response, reverse('mainapp:settings'))
-        self.assertEqual(Employer.objects.count(), 0)
-        user.refresh_from_db()
-        self.assertFalse(user.is_employer)
-
-    def test_delete_nonexistent_resume(self):
-        user = mixer.blend(User)
-        self.client.force_login(user)
-        response = self.client.post(reverse('orgs:delete'))
-        self.assertEqual(response.status_code, 404)
