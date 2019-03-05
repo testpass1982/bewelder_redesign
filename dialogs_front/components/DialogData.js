@@ -14,11 +14,20 @@ const DialogData = ({ dialog }) => {
   }
   */
   let { members } = dialog;
-  const creator = members.find(e => e.is_creator);
+  const creatorIndex = members.findIndex(e => e.is_creator);
+  const creator = members[creatorIndex];
+  const opponent = members[1 - creatorIndex];
   return (
     <div>
-      <b className="text-primary">{creator.name}</b>:{" "}
-      <span className="font-italic">{dialog.theme}</span>
+      <b className="text-primary">{creator.name}</b>
+      <br />
+      {opponent ? (
+        <span>
+          {opponent.name}
+          <br />
+        </span>
+      ) : null}
+      <strong>Тема:</strong> <span className="font-italic">{dialog.theme}</span>
     </div>
   );
 };
