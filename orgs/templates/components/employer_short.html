@@ -19,9 +19,6 @@
             <div class="card-salary">
                 Вакансий: {{ employer.get_vacancy_count }}
             </div>
-            {% if employer.get_vacancy_count %}
-                <a href="{% url 'vacancies:list' %}{{ employer.pk }}/" class="btn btn-warning">Список вакансий</a>
-            {% endif %}
         </div>
     </div>
 </div>

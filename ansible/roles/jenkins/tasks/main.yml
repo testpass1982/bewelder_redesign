@@ -2,12 +2,12 @@
 - name: Add Jenkins apt repository key
   apt_key:
     url: "{{ jenkins_repo_key_url }}"
-  tags: jenkins
+  tags: never, jenkins
 
 - name: Add Jenkins apt repository
   apt_repository:
     repo: "{{ jenkins_repo_url }}"
-  tags: jenkins
+  tags: never, jenkins
 
 - name: Install packages
   apt:
@@ -15,10 +15,11 @@
     state: present
     update_cache: "yes"
   with_items:
+  - 'git'
   - 'jenkins'
   - 'openjdk-8-jdk'
-  tags: jenkins
+  tags: never, jenkins
 
 - name: Restart jenkins
   service: name=jenkins state=restarted
-  tags: never, jenkins_restart
+  tags: never, jenkins, jenkins_restart

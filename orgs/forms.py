@@ -6,7 +6,7 @@ from orgs.models import Employer, Region, City
 class EmployerForm(forms.ModelForm):
     class Meta:
         model = Employer
-        exclude = ('user',)
+        fields = '__all__'
 
     def clean(self):
         cleaned_data = super(EmployerForm, self).clean()

@@ -22,10 +22,27 @@ import random
 #     def test_bad_maths(self):
 #         self.assertEqual(1+1, 3)
 
-
 class VacancyModelTest(TestCase):
+
     def setUp(self):
-        self.employer = mixer.blend(Employer)
+        region_test_data = {
+            'name' : 'MO'
+            }
+        mo_region = Region.objects.create(**region_test_data)
+        city_test_data = {
+            'name': 'MOSCOW',
+            'region': mo_region
+            }
+        moscow = City.objects.create(**city_test_data)
+        employer_test_data = {
+            'name': 'LUKOIL',
+            'short_name': 'LUK',
+            'inn': '123456789012',
+            'city': moscow,
+            'phone': '123',
+            'email': 'test_email@test.com'
+            }
+        self.employer = Employer.objects.create(**employer_test_data)
 
     def test_saving_and_retrieving_vacancies(self):
         username1 = 'foo1@bar.com'
@@ -56,11 +73,34 @@ class VacancyModelTest(TestCase):
         self.assertEqual(first_saved_vacancy.title, 'Welder TIG')
         self.assertEqual(second_saved_vacancy.title, 'Welder MIG-MAG')
 
-
 class VacanciesListTest(TestCase):
+
     def setUp(self):
-        self.user = mixer.blend(User)
-        self.employer = mixer.blend(Employer)
+        user_test_data = {
+            'email': 'foo@bar.com',
+            'first_name': 'anatoly',
+            'last_name': 'popov',
+            'password': 'testpass'
+            }
+        region_test_data = {
+            'name' : 'MO'
+            }
+        mo_region = Region.objects.create(**region_test_data)
+        city_test_data = {
+            'name': 'MOSCOW',
+            'region': mo_region
+            }
+        moscow = City.objects.create(**city_test_data)
+        employer_test_data = {
+            'name': 'LUKOIL',
+            'short_name': 'LUK',
+            'inn': '123456789012',
+            'city': moscow,
+            'phone': '123',
+            'email': 'test_email@test.com'
+            }
+        self.user = User.objects.create(**user_test_data)
+        self.employer = Employer.objects.create(**employer_test_data)
         number_of_vacancies = 15
         for i in range(number_of_vacancies):
             Vacancy.objects.create(
@@ -91,8 +131,8 @@ class VacanciesListTest(TestCase):
         self.assertEqual(paginator.count, 15)
         self.assertEqual(paginator.num_pages, 2)
 
-
 class VacancyFormAddTest(TestCase):
+
     def setUp(self):
         self.user_test_data = {
             'email': 'foo@bar.com',
@@ -152,7 +192,6 @@ class VacancyFormAddTest(TestCase):
         self.client.post('/vacancies/new/', data=self.vacancy_test_data)
         vacancy = Vacancy.objects.first()
         self.assertEqual(vacancy.user, self.user)
-
 
 class TestVacancyUpdateForm(TestCase):
     def setUp(self):
@@ -230,7 +269,6 @@ class TestVacancyUpdateForm(TestCase):
         update_url = reverse('vacancies:vacancy_update', kwargs={'pk': user_vacancy[0].pk})
         response = self.client.post(update_url)
         self.assertTrue(response.status_code, 404)
-
 
 class TestVacancyDelete(TestCase):
     def setUp(self):

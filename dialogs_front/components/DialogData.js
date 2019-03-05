@@ -1,6 +1,6 @@
 import React from "react";
 
-const DialogListItem = ({ dialog }) => {
+const DialogData = ({ dialog }) => {
   /*
   message schema
   {
@@ -23,4 +23,4 @@ const DialogListItem = ({ dialog }) => {
   );
 };
 
-export default DialogListItem;
+export default DialogData;

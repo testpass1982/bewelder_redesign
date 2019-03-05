@@ -3,7 +3,22 @@
 {% block content %}
 
 <div class="container my-5">
-    {% include 'orgs/includes/employer_full.html' %}
+    <h3>{{ employer.short_name }}</h3>
+    <p>
+    {% if employer.logo %}
+        <img src="{{ employer.logo.url }}" alt="{{ employer.shot_name }}">
+    {% endif %}
+    </p>
+    <p>
+        Полное наименование: {{ employer.name }}<br>
+        ИНН: {{ employer.inn }}<br>
+        Город: {{ employer.city.name_with_region }}<br>
+        {% if employer.site %}
+            Сайт: <a href="http://{{ employer.site }}">{{ employer.site }}</a><br>
+        {% endif %}
+        Телефон: {{ employer.phone }}<br>
+        Эл. почта: <a href="mailto:{{ employer.email }}">{{ employer.email }}</a><br>
+    </p>
     <a href="{% url 'orgs:list' %}">
         <input type=button value="Все работодатели" class="btn btn-primary">
     </a>

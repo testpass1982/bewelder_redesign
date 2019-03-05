@@ -1,31 +1,39 @@
 import React from "react";
+import MessageListItem from "./MessageListItem";
+import AnimateThis from "./AnimateThis";
 
-const MessageList = props => {
-  /*
-  [
-    {
-      id: int,
-      user: {
-        id: int,
-        name: str
-      },
-      text: str,
-      sent_at: str,
-      dialog: int
-    }
-  ]
-  */
-  if (props.messages && props.messages.length) {
-    const messages = props.messages.map(message => (
-      <div key={message.id} className="card bg-light mb-3">
-        <h5 className="card-header">{message.user.name}</h5>
-        <div className="card-body">{message.text}</div>
-      </div>
-    ));
-    return <div>{messages}</div>;
-  } else {
-    return <div>Нет сообщений</div>;
+class MessageList extends React.Component {
+  messageList = React.createRef();
+
+  componentDidUpdate() {
+    this.scrollToBottom();
   }
-};
+
+  scrollToBottom = () => {
+    const messageList = this.messageList.current;
+    const { scrollHeight, clientHeight } = messageList;
+    const maxScrollTop = scrollHeight - clientHeight;
+    messageList.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  };
+
+  render() {
+    let messages;
+    if (this.props.messages && this.props.messages.length) {
+      messages = this.props.messages.map(message => (
+        <MessageListItem message={message} key={message.id} />
+      ));
+    }
+
+    return (
+      <div
+        className="mb-3"
+        style={{ height: "40vh", overflow: "auto" }}
+        ref={this.messageList}
+      >
+        <AnimateThis>{messages}</AnimateThis>
+      </div>
+    );
+  }
+}
 
 export default MessageList;
