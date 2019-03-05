@@ -6,9 +6,11 @@ from django.http import Http404
 
 from orgs.models import Employer
 from orgs.forms import EmployerForm
+from vacancies.models import Vacancy
 
 
 EMPLOYERS_PER_PAGE = 5
+VACANCIES_ON_SIDE_PANEL = 6
 
 
 class EmployerListView(ListView):
@@ -16,6 +18,10 @@ class EmployerListView(ListView):
     template_name = 'orgs/employer_list.html'
     context_object_name = 'employers'
     paginate_by = EMPLOYERS_PER_PAGE
+
+    @staticmethod
+    def vacancies():
+        return Vacancy.objects.all().order_by('-id')[:VACANCIES_ON_SIDE_PANEL]
 
 
 class EmployerDetailView(DetailView):

@@ -13,50 +13,31 @@
             </div>
         </div>
     </div>
-    {% for i in 'x'|rjust:'3' %}
-        <div class="row">
-            <div class="col">
+    <div class="d-flex flex-wrap">
+    {% for vacancy in view.vacancies %}
+        <div class="w-50 my-3">
+            <div class="grey">
+                {{ vacancy.created_date|date:"j F Y" }} г.
+            </div>
+            <div class="my-2">
+                <div class="vacancy">
+                    {{ vacancy.title }}
+                </div>
                 <div class="grey">
-                    28 ноября
-                </div>
-                <div class="my-2">
-                    <div class="vacancy">
-                        Сварщик РД
-                    </div>
-                    <div class="grey">
-                        г. Нижнекамск
-                    </div>
-                </div>
-                <div>
-                    <div class="salary">
-                        от 80 000 руб.
-                    </div>
-                    <div class="grey">
-                        РСУ-20
-                    </div>
+                    {{ vacancy.employer.city.name_with_region }}
                 </div>
             </div>
-            <div class="col">
+            <div>
+                <div class="salary">
+                    {% if vacancy.salary_min %}
+                    от: {{ vacancy.salary_min }} р.
+                    {% endif %}
+                </div>
                 <div class="grey">
-                    28 ноября
-                </div>
-                <div class="my-2">
-                    <div class="vacancy">
-                        Электрогазосварщик НГДО ОХНВП
-                    </div>
-                    <div class="grey">
-                        г. Нижнекамск
-                    </div>
-                </div>
-                <div>
-                    <div class="salary">
-                        от 110 000 руб.
-                    </div>
-                    <div class="grey">
-                        РСУ-20
-                    </div>
+                    {{ vacancy.employer.short_name }}
                 </div>
             </div>
         </div>
     {% endfor %}
+    </div>
 </div>
