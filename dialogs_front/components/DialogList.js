@@ -67,7 +67,7 @@ class DialogList extends React.Component {
         {dialogs.length ? (
           <div
             className="list-group"
-            style={{ height: "70vh", overflow: "auto" }}
+            // style={{ height: "70vh", overflow: "auto" }}
           >
             <AnimateThis transitionLeave>{dialogs}</AnimateThis>
           </div>

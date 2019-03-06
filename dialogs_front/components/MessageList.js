@@ -26,8 +26,8 @@ class MessageList extends React.Component {
 
     return (
       <div
-        className="mb-3"
-        style={{ height: "40vh", overflow: "auto" }}
+        className="flex-grow-1 my-3"
+        style={{ overflow: "hidden auto", minHeight: "250px" }}
         ref={this.messageList}
       >
         <AnimateThis>{messages}</AnimateThis>
