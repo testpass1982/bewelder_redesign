@@ -104,6 +104,8 @@
 
 .side-panel .vacancy-in-city .salary { font-size: 16px; }
 
+.side-panel .vacancy-in-city .vacancy-block { text-decoration: none; color: #212529; }
+
 .side-panel .side-panel-block { border-radius: 3px; margin-bottom: 12px; padding: 24px; }
 
 .side-panel .side-panel-block .h5 { font-size: 20px; font-weight: bold; }

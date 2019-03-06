@@ -1,3 +1,5 @@
+$black: rgb(33, 37, 41);
+
 .side-panel {
     .grey-bg {
         background-color: #f8f8f8;
@@ -23,6 +25,10 @@
         }
         .salary {
             font-size: 16px;
+        }
+        .vacancy-block {
+            text-decoration: none;
+            color: $black;
         }
     }
     .side-panel-block {
