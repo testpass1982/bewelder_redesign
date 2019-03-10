@@ -118,3 +118,36 @@ class DialogViewAPITestCase(APITestCase):
         # Убеждаемся, что не можем удалиться дважды
         resp = self.client.delete(self.url_dialog_detail)
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_dialog_with_creator_self(self):
+        user = mixer.blend(User)
+        self.client.force_login(user)
+
+        # Создаем переписку с самим собой
+        data = {
+            'opponent': user.pk,
+            'vacancy': None,
+            'theme': 'Предложение',
+            'text': 'Xотим вас нанять',
+        }
+        resp = self.client.post(self.url_dialog_list, data=data, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertIn('id', resp.data)
+        created_dialog = Dialog.objects.get(pk=resp.data['id'])
+        url = reverse('dialogs_api:dialog_detail', kwargs={'pk': created_dialog.pk})
+
+        # Количество участников переписки равно одному
+        self.assertEqual(created_dialog.members.count(), 1)
+
+        # Проверка отправки сообщения
+        self.assertEqual(created_dialog.message_set.count(), 1)
+        msg = {'text': 'foo bar'}
+        resp = self.client.post(url, data=msg, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(created_dialog.message_set.count(), 2)
+
+        # Проверка удаления переписки
+        resp = self.client.delete(url)
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)

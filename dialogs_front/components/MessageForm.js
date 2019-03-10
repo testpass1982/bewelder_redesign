@@ -26,7 +26,7 @@ class MessageForm extends React.Component {
         <div className="form-group">
           <textarea
             className="form-control"
-            rows="8"
+            rows="6"
             value={this.state.messageText}
             onChange={this.handleChange}
             required

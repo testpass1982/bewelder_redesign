@@ -50,3 +50,20 @@ class DialogCreateSerializerAPITestCase(APITestCase):
         self.assertEqual(dialog.theme, data['theme'])
         self.assertEqual(dialog.members.count(), 2)
         self.assertEqual(dialog.message_set.count(), 1)
+
+    def test_create_with_creator_self(self):
+        data = {
+            'opponent': self.creator.pk,
+            'vacancy': None,
+            'theme': 'Есть тема',
+            'text': 'Приходите к нам на работу',
+        }
+        serializer = DialogCreateSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+        serializer.save(creator=self.creator)
+
+        self.assertEqual(Dialog.objects.count(), 1)
+        dialog = Dialog.objects.first()
+        self.assertEqual(dialog.theme, data['theme'])
+        self.assertEqual(dialog.members.count(), 1)  # Количество участников переписки равно 1
+        self.assertEqual(dialog.message_set.count(), 1)
