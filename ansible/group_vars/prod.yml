@@ -1,3 +1,5 @@
 server_name: 'bewgb.ru'
 requirements: '{{ site_root }}/requirements.txt'
 gunicorn_bin: '/usr/local/bin/gunicorn'
+jenkins_domain: "http://ovz3.sergey-maskin.pk7kn.vps.myjino.ru:49217"
+stage_domain: "http://ovz4.sergey-maskin.n0ykp.vps.myjino.ru:49220"

@@ -12,6 +12,9 @@ class Dialog(models.Model):
     members = models.ManyToManyField(User, through='Membership')
     theme = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return 'Диалог: {}'.format(self.theme)
 
@@ -21,6 +24,10 @@ class Membership(models.Model):
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
     last_check = models.DateTimeField(null=True, blank=True)
     is_creator = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = (('user', 'dialog'),)
 
 
 class Message(models.Model):

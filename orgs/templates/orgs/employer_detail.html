@@ -3,10 +3,16 @@
 {% block content %}
 
 <div class="container my-5">
-    {% include 'orgs/includes/employer_full.html' %}
-    <a href="{% url 'orgs:list' %}">
-        <input type=button value="Все работодатели" class="btn btn-primary">
-    </a>
+    <div class="row">
+        <div class="col-lg-8">
+            {% include 'orgs/includes/employer_full.html' %}
+            <a href="{% url 'orgs:list' %}" class="btn btn-primary">Все работодатели</a>
+            <a href="{% url 'vacancies:list' %}{{ employer.pk }}/" class="btn btn-warning">Вакансии работодателя</a>
+        </div>
+        <div class="col-lg-4 side-panel">
+            {% include 'orgs/includes/side-panel.html' %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}

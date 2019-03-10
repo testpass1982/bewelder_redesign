@@ -23,20 +23,18 @@ class MessageForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="input-group">
+        <div className="form-group">
           <textarea
             className="form-control"
-            rows="8"
+            rows="6"
             value={this.state.messageText}
             onChange={this.handleChange}
             required
           />
-          <div className="input-group-append">
-            <button className="btn btn-success" type="submit">
-              Отправить
-            </button>
-          </div>
         </div>
+        <button className="btn btn-success btn-block" type="submit">
+          Отправить
+        </button>
       </form>
     );
   }

@@ -45,6 +45,12 @@ export default (state = {}, action) => {
           dialog
         };
       }
+    case types.DELETE_DIALOG:
+      if (!state.dialogSet) return { ...state };
+      let dialogSet = [...state.dialogSet].filter(
+        dialog => dialog.id != action.dialogId
+      );
+      return { ...state, dialogSet };
     default:
       return state;
   }

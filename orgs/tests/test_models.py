@@ -62,6 +62,7 @@ class EmployerModelTestCase(TestCase):
         self.employer_data['short_name'] = 'Emp. 2'
         self.employer_data['user'] = mixer.blend(User)
         employer_2 = Employer.objects.create(**self.employer_data)
+        self.assertEqual(self.employer_1.name, self.employer_1.short_name)
         self.assertNotEqual(employer_2.name, employer_2.short_name)
 
     def test_same_name_employers_another_city_creation_succeed(self):

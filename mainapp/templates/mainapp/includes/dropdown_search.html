@@ -1,4 +1,0 @@
- <div :id="id_dropdown" class="dropdown-menu" v-bind:class="{ show: isActive }">
-    <button v-if="query_list.length==0" class="dropdown-item" type="button">совпадений нет</button>
-    <button v-for="title in query_list" @click="updateQuery($event)" class="dropdown-item" type="button">[[title]]</button>
-  </div>

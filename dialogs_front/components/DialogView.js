@@ -10,15 +10,15 @@ class DialogView extends React.Component {
 
   render() {
     return (
-      <div>
-        <button
-          onClick={this.props.toDialogList}
-          className="btn btn-secondary my-3"
-        >
-          К списку сообщений
-        </button>
-        {/* <h4>Dialog view</h4>
-        <h5>{this.props.dialogId}</h5> */}
+      <div className="d-flex flex-column" style={{ maxHeight: "80vh" }}>
+        <div>
+          <button
+            onClick={this.props.toDialogList}
+            className="btn btn-secondary my-1"
+          >
+            К списку сообщений
+          </button>
+        </div>
         <MessageList />
         <MessageForm />
       </div>

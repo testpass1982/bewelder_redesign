@@ -1,5 +1,5 @@
 ---
-- name: Installing apt packages
+- name: Install apt packages for postgresql
   apt:
     name: "{{ packages }}"
   vars:
@@ -17,7 +17,6 @@
   become_user: postgres
   postgresql_db:
     name: '{{ db_name }}'
-    encoding: UTF-8
 
 - name: DB user create
   become_user: postgres

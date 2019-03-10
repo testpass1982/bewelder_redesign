@@ -1,15 +1,12 @@
 import React from "react";
-import Header from "./Header";
 import { DIALOG_CREATE, DIALOG_LIST, DIALOG_VIEW } from "../constants/status";
+import Header from "../containers/Header";
 import DialogList from "../containers/DialogList";
 import DialogCreate from "../containers/DialogCreate";
 import DialogView from "../containers/DialogView";
+import AnimateThis from "./AnimateThis";
 
 class App extends React.Component {
-  state = {
-    dialogSet: []
-  };
-
   componentWillUnmount() {
     console.log("dialogs app will unmount");
   }
@@ -31,9 +28,11 @@ class App extends React.Component {
         view = <DialogList />;
     }
     return (
-      <div className="m-3">
+      <div className="m-1" style={{ minHeight: "580px" }}>
         <Header />
-        {view}
+        <AnimateThis>
+          <div key={status}>{view}</div>
+        </AnimateThis>
       </div>
     );
   }

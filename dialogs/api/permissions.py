@@ -6,6 +6,9 @@ class IsInDialog(permissions.BasePermission):
         return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        members = obj.members.all()
-        user = request.user
-        return user in members
+        member = None
+        try:
+            member = obj.membership_set.filter(is_active=True).get(user=request.user)
+        except:
+            pass
+        return bool(member)

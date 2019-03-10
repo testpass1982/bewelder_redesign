@@ -26,6 +26,7 @@ class CustomRouter(SimpleRouter):
             mapping={
                 'get': 'retrieve',
                 'post': 'create_msg',
+                'delete': 'leave_dialog',
             },
             name='{basename}_detail',
             detail=True,

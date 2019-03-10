@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 import mainapp.views as mainapp  
-from .routers import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +28,6 @@ urlpatterns = [
     path('vacancies/', include('vacancies.urls', namespace='vacancies')),
     path('search/', include('search.urls', namespace='search')),
     path('api/messaging/', include('dialogs.api.urls', namespace='dialogs_api')),
-    path('api/vacancies/', include(router.urls)),
     path('dialogs/', include('dialogs.urls', namespace='dialogs')),
     path('', include('mainapp.urls', namespace='mainapp'))
 ]

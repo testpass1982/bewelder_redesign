@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 
-if [[ $0 != "utils/reset.bash" ]]
-then
-    echo "Try 'utils/reset.bash'"
+# Try 'utils/reset.sh' to run.
+# 'utils/reset.sh OPTION[0..6]' to run with preselected option and exit.
+
+if [[ $0 != "utils/reset.sh" ]]; then
+    echo "Try 'utils/reset.sh'"
     exit
+fi
+
+if [ -n "$1" ]; then
+    CHOICE=$1
 fi
 
 chmod +x utils/*
 
 while true
 do
-    echo "Enter 'help' for show legend"
-    read -p "Choose action > " choice
-    case "$choice" in
+    if [ -z "$1" ]; then
+        echo "Enter 'help' for show legend"
+        read -p "Choose action > " CHOICE
+    fi
+    case "$CHOICE" in
         "help" )
                 echo "0 - Make all operations"
                 echo "1 - Drop DB"
@@ -24,19 +32,23 @@ do
                 echo "Any other key to exit"
         ;;
         0 )
-            utils/postgres_db_drop.bash
-            utils/postgres_db_create.bash
-            utils/remove_migrations.bash
+            utils/postgres_db_drop.sh
+            utils/postgres_db_create.sh
+            utils/remove_migrations.sh
             python manage.py makemigrations
             python manage.py migrate
             python manage.py mommy_fill_db
+            break
         ;;
-        1 ) utils/postgres_db_drop.bash;;
-        2 ) utils/postgres_db_create.bash;;
-        3 ) utils/remove_migrations.bash;;
+        1 ) utils/postgres_db_drop.sh;;
+        2 ) utils/postgres_db_create.sh;;
+        3 ) utils/remove_migrations.sh;;
         4 ) python manage.py makemigrations;;
         5 ) python manage.py migrate;;
         6 ) python manage.py mommy_fill_db;;
         * ) break;;
     esac
+    if [ -n "$1" ]; then
+        break
+    fi
 done

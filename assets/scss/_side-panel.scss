@@ -1,3 +1,5 @@
+$black: rgb(33, 37, 41);
+
 .side-panel {
     .grey-bg {
         background-color: #f8f8f8;
@@ -13,7 +15,6 @@
         }
         .city {
             font-size: 14px;
-            color: #888;
         }
         .row {
             padding-bottom: 20px;
@@ -24,6 +25,10 @@
         }
         .salary {
             font-size: 16px;
+        }
+        .vacancy-block {
+            text-decoration: none;
+            color: $black;
         }
     }
     .side-panel-block {
@@ -37,21 +42,6 @@
         .text {
             color: #414141;
             font-size: 14px;
-        }
-        .btn-vacancy {
-            color: #fff;
-            font-size: 14px;
-            line-height: 14px;
-            font-weight: 500;
-            background-color: #4b4e65;
-            padding: 13px 26px;
-        }
-        .subscribe {
-            font-size: 12px;
-            button {
-                margin-left: 10px;
-                font-size: inherit;
-            }
         }
     }
 }

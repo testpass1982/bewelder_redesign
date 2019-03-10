@@ -30,7 +30,7 @@ class DialogView(mixins.ListModelMixin,
 
     def get_queryset(self):
         user = self.request.user
-        return Dialog.objects.filter(members=user)
+        return Dialog.objects.filter(members=user, membership__is_active=True)
 
     def get_serializer_class(self):
         return self.action_serializers.get(
@@ -58,11 +58,7 @@ class DialogView(mixins.ListModelMixin,
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
 
-        # TODO: check creator != opponent
-
         dialog = serializer.save(creator=request.user)
-
-        # dialog_details = self.action_serializers['retrieve'](dialog)
 
         return Response({'id': dialog.id}, status=status.HTTP_201_CREATED)
 
@@ -74,8 +70,17 @@ class DialogView(mixins.ListModelMixin,
         }
         """
         dialog = get_object_or_404(Dialog, pk=pk)
-        self.check_object_permissions(self.request, dialog)
+        self.check_object_permissions(request, dialog)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user, dialog=dialog)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def leave_dialog(self, request, pk=None):
+        dialog = get_object_or_404(Dialog, pk=pk)
+        self.check_object_permissions(request, dialog)
+        user = request.user
+        membership = dialog.membership_set.get(user=user)
+        membership.is_active = False
+        membership.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

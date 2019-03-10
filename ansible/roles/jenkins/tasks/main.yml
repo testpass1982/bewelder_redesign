@@ -2,23 +2,28 @@
 - name: Add Jenkins apt repository key
   apt_key:
     url: "{{ jenkins_repo_key_url }}"
-  tags: jenkins
 
 - name: Add Jenkins apt repository
   apt_repository:
     repo: "{{ jenkins_repo_url }}"
-  tags: jenkins
 
-- name: Install packages
+- name: Install apt packages for jenkins
   apt:
     name: "{{ item }}"
     state: present
     update_cache: "yes"
   with_items:
+  - 'git'
   - 'jenkins'
+  - 'sshpass'
+  - 'python3-pip'
   - 'openjdk-8-jdk'
-  tags: jenkins
+
+- name: Install ansible
+  pip:
+    name: ansible
+    executable: "pip3"
 
 - name: Restart jenkins
   service: name=jenkins state=restarted
-  tags: never, jenkins_restart
+  tags: jenkins_restart

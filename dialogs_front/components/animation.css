@@ -1,0 +1,32 @@
+.anim-container {
+    position: relative;
+}
+
+/* .anim-container > div {
+    position: absolute;
+    left: 0;
+    right: 0;
+} */
+
+.slide-appear,
+.slide-enter {
+  opacity: 0;
+  transform: translateX(25px);
+}
+.slide-appear.slide-appear-active,
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: 1.0s ease-out;
+}
+
+.slide-leave {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-leave.slide-leave-active {
+  opacity: 0;
+  transform: translateX(-25px);
+  transition: 1.0s ease-in-out;
+}

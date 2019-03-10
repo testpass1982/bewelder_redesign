@@ -41,3 +41,10 @@ test("appendMessage should create APPEND_MESSAGE action", () => {
     message: { id: 1, text: "foo bar" }
   });
 });
+
+test("deleteDialog should create DELETE_DIALOG action", () => {
+  expect(actions.deleteDialog(23)).toEqual({
+    type: types.DELETE_DIALOG,
+    dialogId: 23
+  });
+});
