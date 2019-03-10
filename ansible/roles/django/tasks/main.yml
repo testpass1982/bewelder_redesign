@@ -1,0 +1,14 @@
+---
+- name: Migrations
+  command: python3 manage.py "{{ item }}" chdir="{{ site_root }}"
+  with_items:
+  - 'makemigrations'
+  - 'migrate'
+  tags: ['migrations', 'deploy']
+
+- name: Test
+  command: python3 manage.py "{{ item }}" chdir="{{ site_root }}"
+  with_items:
+  - 'test'
+  tags: ['never', 'test']
+

@@ -18,3 +18,23 @@ server {
         proxy_pass http://unix:/tmp/gunicorn.sock;
     }
 }
+
+{% if 'prod' in group_names %}
+server {
+    listen 80;
+    server_name jenkins.{{ server_name }};
+    location / {
+        include proxy_params;
+        proxy_pass {{ jenkins_domain }};
+    }
+}
+
+server {
+    listen 80;
+    server_name stage.{{ server_name }};
+    location / {
+        include proxy_params;
+        proxy_pass {{ stage_domain }};
+    }
+}
+{% endif %}

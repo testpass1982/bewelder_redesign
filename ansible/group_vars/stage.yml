@@ -1,0 +1,3 @@
+server_name: 'http://ovz4.sergey-maskin.n0ykp.vps.myjino.ru'
+requirements: '{{ site_root }}/requirements.txt'
+gunicorn_bin: '/usr/local/bin/gunicorn'
