@@ -8,10 +8,11 @@
     <div class="row">
         <div class="col-lg-8">
             {% for employer in employers %}
-                {% include 'components/employer_short.html' %}
+                {% include 'orgs/includes/employer_short.html' %}
             {% endfor %}
         </div>
         <div class="col-lg-4 side-panel">
+            {% include 'orgs/includes/vacancy_in_city.html' %}
             {% include 'orgs/includes/side-panel.html' %}
         </div>
     </div>

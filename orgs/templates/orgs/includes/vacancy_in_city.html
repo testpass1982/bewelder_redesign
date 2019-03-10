@@ -1,0 +1,43 @@
+<div class="vacancy-in-city side-panel-block pt-0">
+    <div class="row">
+        <div class="col title">
+            Вакансии <br>
+            в вашем городе
+        </div>
+        <div class="col">
+            <div class="input-group">
+                <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-wrap">
+    {% for vacancy in view.vacancies %}
+        <a href="{% url 'vacancies:vacancy_details' vacancy.id %}" class="w-50 my-3 vacancy-block">
+            <div class="grey">
+                {{ vacancy.created_date|date:"j F Y" }} г.
+            </div>
+            <div class="my-2">
+                <div class="vacancy">
+                    {{ vacancy.title }}
+                </div>
+                <div class="grey">
+                    {{ vacancy.employer.city.name_with_region }}
+                </div>
+            </div>
+            <div>
+                <div class="salary">
+                    {% if vacancy.salary_min %}
+                    от: {{ vacancy.salary_min }} р.
+                    {% endif %}
+                </div>
+                <div class="grey">
+                    {{ vacancy.employer.short_name }}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+</div>
