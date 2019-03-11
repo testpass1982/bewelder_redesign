@@ -106,6 +106,12 @@
 
 .side-panel .vacancy-in-city .vacancy-block { text-decoration: none; color: #212529; }
 
+.side-panel .vacancy-in-city .search-result { position: absolute; display: none; background: #fff; border: 1px solid #ced4da; border-top: none; padding: 0; padding-bottom: 1rem; }
+
+.side-panel .vacancy-in-city .search-result li { list-style: none; padding: 0 1rem; }
+
+.side-panel .vacancy-in-city .search-result li:hover { background-color: #ffc107; }
+
 .side-panel .side-panel-block { border-radius: 3px; margin-bottom: 12px; padding: 24px; }
 
 .side-panel .side-panel-block .h5 { font-size: 20px; font-weight: bold; }

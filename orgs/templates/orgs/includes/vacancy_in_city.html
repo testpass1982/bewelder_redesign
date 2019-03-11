@@ -7,10 +7,11 @@
         <div class="col">
             <div class="input-group">
                 <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city">
-                <div class="input-group-append">
+                <div class="input-group-append" id="search_btn">
                     <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
                 </div>
             </div>
+            <ul class="search-result"></ul>
         </div>
     </div>
     <div class="d-flex flex-wrap">
@@ -41,3 +42,23 @@
     {% endfor %}
     </div>
 </div>
+<script>
+    const search_result = document.querySelector('.search-result');
+    const search_btn = document.querySelector('#search_btn');
+    search_result.style.display = 'none';
+
+    search_btn.addEventListener('click', e => {
+        search_result.style.display = search_result.style.display === 'none' ? 'block' : 'none';
+    });
+
+    fetch("{% url 'orgs:city_search_list' %}")
+        .then(result => result.json())
+        .then(data => {
+            data.cities.forEach(city => {
+                let li = document.createElement('li');
+                li.innerHTML = city.name;
+                li.setAttribute('data-id' , city.id);
+                search_result.appendChild(li);
+            });
+        });
+</script>
