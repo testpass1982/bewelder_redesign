@@ -197,7 +197,6 @@ class VacancyInCityTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         vacancies = json.loads(response.content)['vacancies']
-
         self.assertEqual(len(vacancies), 2)
         for vacancy in vacancies:
             self.assertEqual(vacancy['employer__city__name'], self.city.name)
