@@ -7,44 +7,21 @@
         <div class="col">
             <div class="input-group">
                 <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city">
-                <div class="input-group-append" id="search_btn">
+                <div class="input-group-append" id="search-btn">
                     <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
                 </div>
             </div>
-            <ul class="search-result"></ul>
+            <ul id="search-result"></ul>
         </div>
     </div>
-    <div class="d-flex flex-wrap">
-    {% for vacancy in view.vacancies %}
-        <a href="{% url 'vacancies:vacancy_details' vacancy.id %}" class="w-50 my-3 vacancy-block">
-            <div class="grey">
-                {{ vacancy.created_date|date:"j F Y" }} г.
-            </div>
-            <div class="my-2">
-                <div class="vacancy">
-                    {{ vacancy.title }}
-                </div>
-                <div class="grey">
-                    {{ vacancy.employer.city.name_with_region }}
-                </div>
-            </div>
-            <div>
-                <div class="salary">
-                    {% if vacancy.salary_min %}
-                    от: {{ vacancy.salary_min }} р.
-                    {% endif %}
-                </div>
-                <div class="grey">
-                    {{ vacancy.employer.short_name }}
-                </div>
-            </div>
-        </a>
-    {% endfor %}
-    </div>
+    <div id="city-vacancies" class="d-flex flex-wrap"></div>
 </div>
 <script>
-    const search_result = document.querySelector('.search-result');
-    const search_btn = document.querySelector('#search_btn');
+    const search_result = document.querySelector('#search-result');
+    const search_btn = document.querySelector('#search-btn');
+    const city_vacancies = document.querySelector('#city-vacancies');
+    const vacancy_url = '{% url "vacancies:vacancy_details" 1 %}'.slice(0, -1);
+
     search_result.style.display = 'none';
 
     search_btn.addEventListener('click', e => {
@@ -57,8 +34,51 @@
             data.cities.forEach(city => {
                 let li = document.createElement('li');
                 li.innerHTML = city.name;
-                li.setAttribute('data-id' , city.id);
+                <!--li.setAttribute('data-id' , city.id);-->
+
+                li.addEventListener('click', e => {
+                    search_result.style.display = 'none';
+                    update_vacancies_in_city(city.id);
+                });
+
                 search_result.appendChild(li);
             });
         });
+
+    update_vacancies_in_city();
+
+    function update_vacancies_in_city(city_id=false) {
+        url = `{% url 'orgs:city_vacancies_list' %}${city_id ? city_id : ''}`;
+        fetch(url)
+            .then(result => result.json())
+            .then(data => {
+                city_vacancies.innerHTML = '';
+                data.vacancies.forEach(vacancy => {
+                    let a = document.createElement('a');
+                    a.href = `${vacancy_url}${vacancy.id}`;
+                    a.classList.add('w-50', 'my-3', 'vacancy-block');
+                    a.innerHTML = `
+                        <div class="grey">
+                            ${vacancy.created_date} г.
+                        </div>
+                        <div class="my-2">
+                            <div class="vacancy">
+                                ${vacancy.title}
+                            <div class="grey">
+                                ${vacancy.employer__city__name}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="salary">
+                                от: ${vacancy.salary_min} р.
+                            </div>
+                            <div class="grey">
+                                ${vacancy.employer__short_name}
+                            </div>
+                        </div>
+                    `;
+                    city_vacancies.appendChild(a);
+                });
+            });
+    }
 </script>

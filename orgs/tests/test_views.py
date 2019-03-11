@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -7,6 +9,8 @@ from mixer.backend.django import mixer
 from orgs.models import Employer, City, Region
 from orgs.views import EMPLOYERS_PER_PAGE
 from orgs.forms import EmployerForm
+
+from vacancies.models import Vacancy
 
 
 User = get_user_model()
@@ -158,3 +162,42 @@ class EmployerDeleteTestCase(TestCase):
         self.client.force_login(user)
         response = self.client.post(reverse('orgs:delete'))
         self.assertEqual(response.status_code, 404)
+
+
+class VacancyInCityTestCase(TestCase):
+    def setUp(self):
+        self.city = mixer.blend(City)
+        self.employer = mixer.blend(Employer, city=self.city)
+        mixer.cycle(3).blend(City)
+        mixer.cycle(2).blend(Vacancy, employer=self.employer)
+        mixer.cycle(3).blend(Vacancy)
+
+    def test_get_city_search_list(self):
+        url = reverse('orgs:city_search_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        cities = json.loads(response.content)['cities']
+        self.assertEqual(len(cities), 4)
+
+        url = reverse('orgs:city_search_list', kwargs={'name': self.city.name})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        cities = json.loads(response.content)['cities']
+        self.assertEqual(len(cities), 1)
+        self.assertEqual(cities[0]['name'], self.city.name)
+
+    def test_get_city_vacancies_list(self):
+        url = reverse('orgs:city_vacancies_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        vacancies = json.loads(response.content)['vacancies']
+        self.assertEqual(len(vacancies), 5)
+
+        url = reverse('orgs:city_vacancies_list', kwargs={'city_id': self.city.id})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        vacancies = json.loads(response.content)['vacancies']
+
+        self.assertEqual(len(vacancies), 2)
+        for vacancy in vacancies:
+            self.assertEqual(vacancy['employer__city__name'], self.city.name)
