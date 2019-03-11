@@ -1,4 +1,5 @@
 $black: rgb(33, 37, 41);
+$grey: rgb(206, 212, 218);
 
 .side-panel {
     .grey-bg {
@@ -29,6 +30,22 @@ $black: rgb(33, 37, 41);
         .vacancy-block {
             text-decoration: none;
             color: $black;
+        }
+        #search-result {
+            position: absolute;
+            display: none;
+            background: #fff;
+            border: 1px solid $grey;
+            border-top: none;
+            padding: 0;
+            padding-bottom: 1rem;
+            li {
+                list-style: none;
+                padding: 0 1rem;
+            }
+            li:hover {
+                background-color: #ffc107;
+            }
         }
     }
     .side-panel-block {
