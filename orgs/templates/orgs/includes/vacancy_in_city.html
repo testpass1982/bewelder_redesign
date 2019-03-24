@@ -1,4 +1,4 @@
-<div class="vacancy-in-city side-panel-block pt-0">
+<div id="app" class="vacancy-in-city side-panel-block pt-0">
     <div class="row">
         <div class="col title">
             Вакансии <br>
@@ -6,79 +6,88 @@
         </div>
         <div class="col">
             <div class="input-group">
-                <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city">
-                <div class="input-group-append" id="search-btn">
+                <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city" :value="city">
+                <div class="input-group-append" id="search-btn" @click="toggleSearchResult()">
                     <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
                 </div>
             </div>
-            <ul id="search-result"></ul>
+            <ul id="search-result" v-if="searchResult">
+            		<li :key="city.id" v-for="city of cities" @click="getCity(city)">
+						${city.name}
+					</li>
+            </ul>
         </div>
     </div>
-    <div id="city-vacancies" class="d-flex flex-wrap"></div>
+    <div id="city-vacancies" class="d-flex flex-wrap">
+		<a :href="vacancyUrl+vacancy.id" v-for="vacancy of vacancies" class="w-50 p-1 vacancy-block">
+			<div class="grey">
+				${vacancy.created_date} г.
+			</div>
+			<div class="my-2">
+				<div class="vacancy">
+					${vacancy.title}
+				</div>
+				<div class="grey">
+					${vacancy.employer__city__name}
+				</div>
+			</div>
+			<div>
+				<div class="salary">
+					от: ${vacancy.salary_min} р.
+				</div>
+				<div class="grey">
+					${vacancy.employer__short_name}
+				</div>
+			</div>
+		</a>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-    const search_result = document.querySelector('#search-result');
-    const search_btn = document.querySelector('#search-btn');
-    const city_vacancies = document.querySelector('#city-vacancies');
-    const vacancy_url = '{% url "vacancies:vacancy_details" 1 %}'.slice(0, -1);
-
-    search_result.style.display = 'none';
-
-    search_btn.addEventListener('click', e => {
-        search_result.style.display = search_result.style.display === 'none' ? 'block' : 'none';
-    });
-
-    fetch("{% url 'orgs:city_search_list' %}")
-        .then(result => result.json())
-        .then(data => {
-            data.cities.forEach(city => {
-                let li = document.createElement('li');
-                li.innerHTML = city.name;
-                <!--li.setAttribute('data-id' , city.id);-->
-
-                li.addEventListener('click', e => {
-                    search_result.style.display = 'none';
-                    update_vacancies_in_city(city.id);
-                });
-
-                search_result.appendChild(li);
-            });
-        });
-
-    update_vacancies_in_city();
-
-    function update_vacancies_in_city(city_id=false) {
-        url = `{% url 'orgs:city_vacancies_list' %}${city_id ? city_id : ''}`;
-        fetch(url)
-            .then(result => result.json())
-            .then(data => {
-                city_vacancies.innerHTML = '';
-                data.vacancies.forEach(vacancy => {
-                    let a = document.createElement('a');
-                    a.href = `${vacancy_url}${vacancy.id}`;
-                    a.classList.add('w-50', 'my-3', 'vacancy-block');
-                    a.innerHTML = `
-                        <div class="grey">
-                            ${vacancy.created_date} г.
-                        </div>
-                        <div class="my-2">
-                            <div class="vacancy">
-                                ${vacancy.title}
-                            <div class="grey">
-                                ${vacancy.employer__city__name}
-                            </div>
-                        </div>
-                        <div>
-                            <div class="salary">
-                                от: ${vacancy.salary_min} р.
-                            </div>
-                            <div class="grey">
-                                ${vacancy.employer__short_name}
-                            </div>
-                        </div>
-                    `;
-                    city_vacancies.appendChild(a);
-                });
-            });
-    }
+const app = new Vue({
+	delimiters: ['${', '}'],
+	el: '#app',
+    data: {
+		citiesUrl: '{% url "orgs:city_search_list" %}',
+		vacanciesUrl: '{% url "orgs:city_vacancies_list" %}',
+		vacancyUrl: '{% url "vacancies:vacancy_details" 1 %}'.slice(0, -1),
+		searchResult: false,
+		city: '',
+        cities: [],
+        vacancies: [],
+    },
+	methods: {
+		getJson: function(url){
+			return fetch(url)
+				.then(result => result.json())
+				.catch(error => console.log(error));
+		},
+		toggleSearchResult: function(){
+			this.searchResult = !this.searchResult;
+		},
+		getVacancies: function(cityId=''){
+			this.getJson(`${this.vacanciesUrl}${cityId}`)
+				.then(data => {
+					this.$data.vacancies = [];
+				    for (let item of data.vacancies){
+				        this.$data.vacancies.push(item);
+				    }
+				});
+		},
+		getCity: function(city){
+			this.city = city.name;
+			this.toggleSearchResult();
+			this.getVacancies(city.id);
+		},
+	},
+	mounted() {
+		this.getJson(this.citiesUrl)
+			.then(data => {
+			    for (let item of data.cities){
+			        this.$data.cities.push(item);
+			    }
+			});
+		this.getVacancies();
+	},
+});
 </script>
