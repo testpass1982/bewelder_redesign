@@ -1,5 +1,11 @@
 ---
-- name: Installing apt packages
+- name: Uninstall apt apache2
+  apt:
+    name: apache2
+    state: absent
+  tags: nginx
+
+- name: Install apt nginx
   apt:
     name: nginx
     state: latest

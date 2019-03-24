@@ -2,11 +2,11 @@
     position: relative;
 }
 
-.anim-container > div {
+/* .anim-container > div {
     position: absolute;
     left: 0;
     right: 0;
-}
+} */
 
 .slide-appear,
 .slide-enter {

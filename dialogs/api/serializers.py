@@ -79,12 +79,14 @@ class DialogCreateSerializer(serializers.ModelSerializer):
             last_check=timezone.now(),
             is_creator=True,
         )
-        Membership.objects.create(
-            user=opponent,
-            dialog=dialog,
-            last_check=None,
-            is_creator=False,
-        )
+
+        if opponent != creator:
+            Membership.objects.create(
+                user=opponent,
+                dialog=dialog,
+                last_check=None,
+                is_creator=False,
+            )
         Message.objects.create(
             user=creator,
             dialog=dialog,

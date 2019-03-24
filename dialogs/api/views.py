@@ -58,11 +58,7 @@ class DialogView(mixins.ListModelMixin,
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
 
-        # TODO: check creator != opponent
-
         dialog = serializer.save(creator=request.user)
-
-        # dialog_details = self.action_serializers['retrieve'](dialog)
 
         return Response({'id': dialog.id}, status=status.HTTP_201_CREATED)
 
@@ -87,4 +83,4 @@ class DialogView(mixins.ListModelMixin,
         membership = dialog.membership_set.get(user=user)
         membership.is_active = False
         membership.save()
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)

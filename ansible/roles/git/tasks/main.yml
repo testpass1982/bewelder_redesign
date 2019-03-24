@@ -1,0 +1,25 @@
+---
+- name: Installing apt git
+  apt:
+    name: "git"
+    state: latest
+  tags: apt
+
+- name: Clone repo
+  git:
+    repo: "{{ repository }}"
+    dest: "{{ site_root }}"
+    update: no
+  when: "'dev' not in group_names"
+  tags: repo
+
+- name: Git pull origin {{ 'master' if ('prod' in group_names) else 'dev' }}
+  git:
+    repo: "{{ repository }}"
+    dest: "{{ site_root }}"
+    update: yes
+    force: yes
+    version: "{{ 'master' if ('prod' in group_names) else 'dev' }}"
+  tags: ['never', 'git_pull', 'deploy']
+  notify:
+  - restart gunicorn

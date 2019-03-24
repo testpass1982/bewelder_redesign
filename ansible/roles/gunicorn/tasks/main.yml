@@ -1,5 +1,5 @@
 ---
-- name: Gunicorn configuration
+- name: Systemd gunicorn configuration
   template:
     src: gunicorn.service
     dest: /etc/systemd/system/gunicorn.service

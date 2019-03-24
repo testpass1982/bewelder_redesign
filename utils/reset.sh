@@ -35,17 +35,21 @@ do
             utils/postgres_db_drop.sh
             utils/postgres_db_create.sh
             utils/remove_migrations.sh
-            python manage.py makemigrations
-            python manage.py migrate
-            python manage.py mommy_fill_db
+            python3 manage.py makemigrations
+            python3 manage.py migrate
+            python3 manage.py mommy_fill_db
+            python3 manage.py loaddata users_resume_dump.json
             break
         ;;
         1 ) utils/postgres_db_drop.sh;;
         2 ) utils/postgres_db_create.sh;;
         3 ) utils/remove_migrations.sh;;
-        4 ) python manage.py makemigrations;;
-        5 ) python manage.py migrate;;
-        6 ) python manage.py mommy_fill_db;;
+        4 ) python3 manage.py makemigrations;;
+        5 ) python3 manage.py migrate;;
+        6 )
+            python3 manage.py mommy_fill_db
+            python3 manage.py loaddata users_resume_dump.json
+        ;;
         * ) break;;
     esac
     if [ -n "$1" ]; then

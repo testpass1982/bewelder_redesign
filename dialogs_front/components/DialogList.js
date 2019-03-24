@@ -3,6 +3,7 @@ import DialogData from "./DialogData";
 import api from "../utils/api";
 import TrashButton from "./TrashButton";
 import AnimateThis from "./AnimateThis";
+import FilterForm from "./FilterForm";
 
 class DialogList extends React.Component {
   state = {
@@ -25,11 +26,15 @@ class DialogList extends React.Component {
     this.setState({ filterValue: event.target.value });
   };
 
-  render() {
+  getDialogs = () => {
     const dialogs = this.props.dialogSet
       .filter(dialog => {
-        const creator = dialog.members.find(e => e.is_creator);
-        const s = `${creator.name} ${dialog.theme}`.toLowerCase();
+        const creatorIndex = dialog.members.findIndex(e => e.is_creator);
+        const creator = dialog.members[creatorIndex];
+        const opponent = dialog.members[1 - creatorIndex];
+        const s = `${creator.name} ${opponent ? opponent.name : ""} ${
+          dialog.theme
+        }`.toLowerCase();
         return s.indexOf(this.state.filterValue.toLowerCase()) > -1;
       })
       .map(dialog => (
@@ -47,26 +52,22 @@ class DialogList extends React.Component {
           </div>
         </a>
       ));
+    return dialogs;
+  };
+
+  render() {
+    const dialogs = this.getDialogs();
 
     return (
       <div className="my-3">
-        <div className="form-group has-feedback">
-          <input
-            type="text"
-            className="form-control pr-4"
-            placeholder="Искать переписку"
-            value={this.state.filterValue}
-            onChange={this.handleFilterChange}
-          />
-          <i
-            className="fa fa-search text-success"
-            style={{ float: "right", margin: "-28px 10px" }}
-          />
-        </div>
+        <FilterForm
+          value={this.state.filterValue}
+          onFilterChange={this.handleFilterChange}
+        />
         {dialogs.length ? (
           <div
             className="list-group"
-            style={{ height: "70vh", overflow: "auto" }}
+            // style={{ height: "70vh", overflow: "auto" }}
           >
             <AnimateThis transitionLeave>{dialogs}</AnimateThis>
           </div>

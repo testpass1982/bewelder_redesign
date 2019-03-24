@@ -26,6 +26,9 @@ class Membership(models.Model):
     is_creator = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        unique_together = (('user', 'dialog'),)
+
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
