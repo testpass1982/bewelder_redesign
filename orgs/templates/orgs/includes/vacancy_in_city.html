@@ -6,15 +6,13 @@
         </div>
         <div class="col">
             <div class="input-group">
-                <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city" :value="city">
+                <input type="text" class="form-control city" placeholder="Ваш город" aria-label="Город" aria-describedby="side-panel-city" v-model.lazy="city">
                 <div class="input-group-append" id="search-btn" @click="toggleSearchResult()">
                     <span class="input-group-text" id="fast-search-position"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
                 </div>
             </div>
             <ul id="search-result" v-if="searchResult">
-            		<li :key="city.id" v-for="city of cities" @click="getCity(city)">
-						${city.name}
-					</li>
+            		<li :key="city.id" v-for="city of cities" v-text="city.name" @click="getCity(city)"></li>
             </ul>
         </div>
     </div>
@@ -54,7 +52,9 @@ const app = new Vue({
 		searchResult: false,
 		city: '',
         cities: [],
+        all_cities: [],
         vacancies: [],
+        cityWatcher: true,
     },
 	methods: {
 		getJson: function(url){
@@ -63,7 +63,11 @@ const app = new Vue({
 				.catch(error => console.log(error));
 		},
 		toggleSearchResult: function(){
-			this.searchResult = !this.searchResult;
+			if (this.cities) {
+				this.searchResult = !this.searchResult;
+			} else {
+				this.searchResult = false;
+			}
 		},
 		getVacancies: function(cityId=''){
 			this.getJson(`${this.vacanciesUrl}${cityId}`)
@@ -77,17 +81,34 @@ const app = new Vue({
 		getCity: function(city){
 			this.city = city.name;
 			this.toggleSearchResult();
+			this.cityWatcher = false;
+			this.cities = this.all_cities;
 			this.getVacancies(city.id);
 		},
+		getCityList: function(){
+			this.$data.cities = [];
+			this.getJson(this.citiesUrl+this.city)
+				.then(data => {
+					for (let item of data.cities){
+						this.$data.cities.push(item);
+					}
+				});
+		}
 	},
+	watch: {
+        city(after, before) {
+        	if (this.cityWatcher) {
+				this.getCityList();
+				this.searchResult = true;
+			} else {
+				this.cityWatcher = true;
+			}
+        }
+    },
 	mounted() {
-		this.getJson(this.citiesUrl)
-			.then(data => {
-			    for (let item of data.cities){
-			        this.$data.cities.push(item);
-			    }
-			});
+		this.getCityList();
 		this.getVacancies();
+		this.$data.all_cities = this.$data.cities;
 	},
 });
 </script>
